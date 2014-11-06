@@ -24,7 +24,7 @@
 </p>
 
 @Html.ValidationSummary()
-@using(Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-signin", role = "form", returnUrl = ViewBag.ReturnUrl }))
+@using(Html.BeginForm("Login", "Home", FormMethod.Post, new { returnUrl = ViewBag.ReturnUrl, @class = "form-signin", role = "form"}))
 {
     @Html.AntiForgeryToken()
     @Html.TextBoxFor(x => x.Username, new { @class = "form-control", required = "", autofocus = "" })

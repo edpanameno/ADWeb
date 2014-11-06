@@ -25,17 +25,13 @@ namespace ADWeb.Controllers
 
         public ActionResult Login(string returnUrl)
         {
-            if(!String.IsNullOrEmpty(returnUrl))
-            {
-                ViewBag.ReturnUrl = returnUrl;
-            }
-            
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnurl)
+        public ActionResult Login(LoginModel model, string returnUrl)
         {
             if(ModelState.IsValid)
             {
@@ -43,10 +39,10 @@ namespace ADWeb.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
 
-                    if(Url.IsLocalUrl(returnurl) && returnurl.Length > 1 && 
-                       returnurl.StartsWith("/") && !returnurl.StartsWith("//") && !returnurl.StartsWith("/\\"))
+                    if(Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && 
+                       returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
-                        return Redirect(returnurl);
+                        return Redirect(returnUrl);
                     }
                     else
                     {
