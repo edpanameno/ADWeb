@@ -1,0 +1,41 @@
+﻿@model ADWeb.ViewModels.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@section headSection {
+    <style type="text/css">
+        .validation-summary-errors {
+            text-align: center;
+        }
+        .validation-summary-errors ul li {
+            list-style: none;
+        }
+    </style>
+}
+
+
+<h3>ADWeb Login Page</h3>
+<p>
+    Use the fields below to login into the ADWeb application.  You will need to enter your active directory
+    username and password to login. If you have not been granted access to the application, please contact 
+    your system administrator so that your account can be configured to login into the ADWeb application.
+</p>
+
+@Html.ValidationSummary()
+@using(Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-signin", role = "form", returnUrl = ViewBag.ReturnUrl }))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextBoxFor(x => x.Username, new { @class = "form-control", required = "", autofocus = "" })
+    @Html.PasswordFor(x => x.Password, new { @class = "form-control", required = "", autofocus = "" })
+     
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(x => x.RememberMe, new { @checked = "checked" }) Remember Me
+        </label>
+    </div>
+        
+    <button class="btn btn-lg btn-primary btn-block">Login</button>
+}
+
