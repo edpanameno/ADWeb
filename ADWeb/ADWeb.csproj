@@ -140,7 +140,9 @@
     <Content Include="Content\js\respond.js" />
     <Content Include="Content\js\respond.min.js" />
     <Content Include="Content\js\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -157,7 +159,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\GettingStarted.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
-    <Content Include="Views\Home\Start.cshtml" />
+    <Content Include="Views\Home\Domain.cshtml" />
     <Content Include="Views\Home\MySettings.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace ADWeb.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Start");
+                return RedirectToAction("Domain");
             }
             else
             {
@@ -50,7 +50,7 @@ namespace ADWeb.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Start", "Home");
+                        return RedirectToAction("Domain", "Home");
                     }
                 }
                 else
@@ -74,7 +74,7 @@ namespace ADWeb.Controllers
         }
 
         [Authorize]
-        public ActionResult Start()
+        public ActionResult Domain()
         {
             return View();
         }
