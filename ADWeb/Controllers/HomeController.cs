@@ -77,10 +77,15 @@ namespace ADWeb.Controllers
             {
                 ADDomain domain = new ADDomain();
                 List<ADUser> users = domain.QuickSearch(model.SearchValue);
+                ViewBag.SearchValue = model.SearchValue;
 
                 return View("QuickSearchResults", users);
             }
-            return View();
+            else
+            {
+                return View();
+            }
+            
         }
 
         public ActionResult GettingStarted()

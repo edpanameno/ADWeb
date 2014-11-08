@@ -68,7 +68,7 @@ namespace ADWeb.Domain.ActiveDirectory
                 }
             }
 
-            return users;
+            return users.OrderBy(u => u.Surname).ToList();
         }
 
     }
