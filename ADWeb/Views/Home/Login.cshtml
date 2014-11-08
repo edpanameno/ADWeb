@@ -5,9 +5,12 @@
 }
 
 @section headSection {
+    
     <style type="text/css">
         .validation-summary-errors {
             text-align: center;
+            color: #900;
+            font-weight: bold;
         }
         .validation-summary-errors ul li {
             list-style: none;
@@ -29,13 +32,13 @@
     @Html.AntiForgeryToken()
     @Html.TextBoxFor(x => x.Username, new { @class = "form-control", required = "", autofocus = "" })
     @Html.PasswordFor(x => x.Password, new { @class = "form-control", required = "", autofocus = "" })
-     
+        
     <div class="checkbox">
         <label>
             @Html.CheckBoxFor(x => x.RememberMe, new { @checked = "checked" }) Remember Me
         </label>
     </div>
-        
+    <input type="hidden" name="returnUrl" value="@Request.QueryString["ReturnUrl"]" />
+    
     <button class="btn btn-lg btn-primary btn-block">Login</button>
 }
-

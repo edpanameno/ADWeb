@@ -13,14 +13,7 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
-            if(User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Domain");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public ActionResult Login(string returnUrl)
