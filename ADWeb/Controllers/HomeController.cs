@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace ADWeb.Controllers
 {
-    using System.Web.Security;
     using ADWeb.ViewModels;
+    using ADWeb.Domain.ActiveDirectory;
 
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            if(!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Domain");
-            }
-            
             return View();
         }
 
@@ -70,6 +66,20 @@ namespace ADWeb.Controllers
         [Authorize]
         public ActionResult Domain()
         {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult QuickSearch(SearchUsersModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                ADDomain domain = new ADDomain();
+                List<ADUser> users = domain.QuickSearch(model.SearchValue);
+
+                return View("QuickSearchResults", users);
+            }
             return View();
         }
 

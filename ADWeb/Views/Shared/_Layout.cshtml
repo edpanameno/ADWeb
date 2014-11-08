@@ -51,6 +51,7 @@
                         <ul class="dropdown-menu">
                             @if(User.Identity.IsAuthenticated)
                             {
+                                <li><a href="@Url.Action("Domain", "Home")"><span class="glyphicon glyphicon-home"></span> Domain</a></li>
                                 <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-user"></span> Users</a></li>
                                 <li><a href="@Url.Action("Index", "Admin")"><span class="glyphicon glyphicon-th-list"></span> Admin</a></li>
                             }

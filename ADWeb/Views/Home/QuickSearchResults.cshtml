@@ -1,0 +1,30 @@
+﻿@using ADWeb.Domain.ActiveDirectory
+@model List<ADWeb.Domain.ActiveDirectory.ADUser>
+
+@{
+    ViewBag.Title = "QuickSearchResults";
+}
+
+<h3>Quick Search Results</h3>
+<p>Below you will find the results of your quick search!</p>
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(ADUser user in Model)
+        {
+            <tr>
+                <td>@user.GivenName</td>
+                <td>@user.Surname</td>
+                <td>@user.Department</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
