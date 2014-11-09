@@ -2,6 +2,10 @@
 	padding-top: 30px;
 }
 
+.container {
+	width: 98%;
+}
+
 /* sidebar styles */
 .sidebar {
   display: none;
