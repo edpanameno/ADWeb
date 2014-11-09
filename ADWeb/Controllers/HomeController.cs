@@ -40,7 +40,7 @@ namespace ADWeb.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Domain", "Home");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 else
@@ -59,12 +59,6 @@ namespace ADWeb.Controllers
 
         [Authorize]
         public ActionResult MySettings()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult Domain()
         {
             return View();
         }

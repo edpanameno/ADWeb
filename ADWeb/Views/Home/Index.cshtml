@@ -1,32 +1,71 @@
-﻿@{
-    ViewBag.Title = "ADWeb";
+﻿@model ADWeb.ViewModels.SearchUsersModel
+
+@{
+    ViewBag.Title = "ADWeb - Home";
 }
 
-<div class="jumbotron">
-    <h3>ADWeb</h3>
-    <p class="lead">
-        Welcome to the ADWeb application! This web application will allow you to browse active directory
-        and provide functunality to search, update and create objects in your active directory.
-    </p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            To get started using ADWeb, please use the link below to login with your Active Directory username and 
-            password.
+@if(!User.Identity.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h3>ADWeb</h3>
+        <p class="lead">
+            Welcome to the ADWeb application! This web application will allow you to browse active directory
+            and provide functunality to search, update and create objects in your active directory.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Login &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get Help</h2>
-        <p>To get help or to familiarize yourself with the ADWeb application,  please click on the button below.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Get Help &raquo;</a></p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                To get started using ADWeb, please use the link below to login with your Active Directory username and 
+                password.
+            </p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Login &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get Help</h2>
+            <p>To get help or to familiarize yourself with the ADWeb application,  please click on the button below.</p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Get Help &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>About</h2>
+            <p>To get more infomration on this application, click on the button below.</p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Go to About &raquo;</a></p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>About</h2>
-        <p>To get more infomration on this application, click on the button below.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Go to About &raquo;</a></p>
+}
+else
+{
+    <h3>ADWeb Home Page</h3>
+    <p>Welcome to the home page of the ADWeb application.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">User Quick Search</div>
+                <div class="panel-body">
+                    <p>Use the field below to search for users in the domain.</p>
+                    @using(Html.BeginForm("QuickSearch", "Home", FormMethod.Post, new { @class = "form-inline", role = "form"}))
+                    {
+                        @Html.ValidationMessageFor(m => m.SearchValue)
+                        <div class="form-group">
+                            <label for="SearchValue" class="sr-only">Search Value</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.SearchValue, new { @class="form-control", autofocus="autofocus" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <button type="submit" id="btnSearch" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-search"></span> Search
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+     
+}
