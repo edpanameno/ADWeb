@@ -2,11 +2,21 @@
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
-    ViewBag.Title = "Viewing " + @Model.GivenName  + " " + @Model.Surname;
+    ViewBag.Title = "Viewing " + @Model.DisplayName;
 }
 
-<h3>Viewing User - @Model.GivenName @Model.Surname</h3>
+<h3>@Model.DisplayName</h3>
 <p>Click on the tabs below to view the information for this user.</p>
+
+@if(@TempData["user_updated_successully"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <strong>@TempData["user_update_successfully"]</strong>
+        </button>
+    </div>
+}
 
 <ul class="nav nav-tabs" role="tablist" id="userInfo">
     <li role="presentation" class="active">
@@ -23,41 +33,92 @@
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="basic-info">
         <br />
-        <p>Below you will find the basic information for @Model.GivenName @Model.Surname</p>
-        <table class="table">
-            <tr>
-                <td>Username</td>
-                <td>@Model.SamAccountName</td>
-            </tr>
-            <tr>
-                <td>First Name</td>
-                <td>@Model.GivenName</td>
-            </tr>
-            <tr>
-                <td>Last Name</td>
-                <td>@Model.Surname</td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td>@Model.Title</td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td>@Model.EmailAddress</td>
-            </tr>
-            <tr>
-                <td>Department</td>
-                <td>@Model.Department</td>
-            </tr>
-            <tr>
-                <td>Phone #</td>
-                <td>@Model.PhoneNumber</td>
-            </tr>
-            <tr>
-                <td>Company</td>
-                <td>@Model.Company</td>
-            </tr>
-        </table>
+        @using(Html.BeginForm("UpdateUser", "Users", FormMethod.Post, new { @class="form-horizontal", role="form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="UserName" class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.SamAccountName, new { disabled="disabled", @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="FirstName" class="col-sm-2 control-label">First Name</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.GivenName, new { @class="form-control", autofocus="autofocus" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="MiddleName" class="col-sm-2 control-label">Middle Name</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.MiddleName, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="LastName" class="col-sm-2 control-label">Last Name</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Surname, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="Displayname" class="col-sm-2 control-label">Display Name</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.DisplayName, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="Email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="Title" class="col-sm-2 control-label">Title</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Title, new { @class="form-control" })
+                </div>
+            </div>
+                        
+            <div class="form-group">
+                <label for="Department" class="col-sm-2 control-label">Department</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Department, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="PhoneNumber" class="col-sm-2 control-label">Phone #</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="Company" class="col-sm-2 control-label">Company</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Company, new { @class="form-control" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="Notes" class="col-sm-2 control-label">Notes</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Notes, new { @class="form-control input-lg" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </div>
+            </div>
+        }
     </div>
     <div role="tabpanel" class="tab-pane" id="user-groups">
         <p>Below you will find the groups that this user belongs to.</p>

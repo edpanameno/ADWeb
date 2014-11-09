@@ -48,6 +48,24 @@ namespace ADWeb.Domain.ActiveDirectory
             }
         }
 
+        public void UpdateUser(ADUser updatedUser)
+        {
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(ADUser user = ADUser.FindByIdentity(context, updatedUser.SamAccountName))
+                {
+                    if(user != null)
+                    {
+                        user.GivenName = updatedUser.GivenName;
+                        user.Surname = updatedUser.Surname;
+                        user.DisplayName = updatedUser.DisplayName;
+
+                        user.Save();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Searches users using the display name value of all users in 
         /// the domain.

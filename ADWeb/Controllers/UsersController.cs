@@ -21,5 +21,23 @@ namespace ADWeb.Controllers
             ADUser user = domain.GetUserByID(userId);
             return View(user);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUser(ADUser userId)
+        {
+            if(ModelState.IsValid)
+            {
+                ADDomain domain = new ADDomain();
+                domain.UpdateUser(userId);
+
+                ADUser user = domain.GetUserByID(userId);
+
+                TempData["user_update_successull"] = userId + " has been successfully updated";
+                return RedirectToAction("ViewUser", user);
+            }
+
+            return View();
+        }
     }
 }
