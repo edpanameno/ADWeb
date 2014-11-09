@@ -1,6 +1,7 @@
 ﻿@model ADWeb.Domain.ActiveDirectory.ADUser
 
 @{
+    Layout = "~/Views/Shared/_Users.cshtml";
     ViewBag.Title = "Viewing " + @Model.GivenName  + " " + @Model.Surname;
 }
 
