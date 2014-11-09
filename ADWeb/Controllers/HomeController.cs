@@ -78,14 +78,10 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 List<ADUser> users = domain.QuickSearch(model.SearchValue);
                 ViewBag.SearchValue = model.SearchValue;
-
                 return View("QuickSearchResults", users);
             }
-            else
-            {
-                return View();
-            }
             
+            return View(model);
         }
 
         public ActionResult GettingStarted()
@@ -100,8 +96,6 @@ namespace ADWeb.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
     }
