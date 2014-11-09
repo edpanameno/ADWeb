@@ -7,7 +7,6 @@ using System.DirectoryServices.AccountManagement;
 
 namespace ADWeb.Domain.ActiveDirectory
 {
-
     [DirectoryObjectClass("user")]
     [DirectoryRdnPrefix("CN")]
     public class ADUser : UserPrincipal

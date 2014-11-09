@@ -23,7 +23,7 @@ namespace ADWeb
                       "~/Content/js/bootstrap.js",
                       "~/Content/js/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/custom.css"));
 

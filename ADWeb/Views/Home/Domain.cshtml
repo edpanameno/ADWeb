@@ -15,9 +15,10 @@
                 <p>Use the field below to search for users in the domain.</p>
                 @using(Html.BeginForm("QuickSearch", "Home", FormMethod.Post, new { @class = "form-inline", role = "form"}))
                 {
+                    @Html.ValidationMessageFor(m => m.SearchValue)
                     <div class="form-group">
                         <label for="SearchValue" class="sr-only">Search Value</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             @Html.TextBoxFor(m => m.SearchValue, new { @class="form-control", autofocus="autofocus" })
                         </div>
                     </div>
