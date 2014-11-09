@@ -7,10 +7,13 @@ using System.DirectoryServices.AccountManagement;
 
 namespace ADWeb.Domain.ActiveDirectory
 {
+
     [DirectoryObjectClass("user")]
     [DirectoryRdnPrefix("CN")]
     public class ADUser : UserPrincipal
     {
+        public List<string> UserGroups { get; set; }
+
         public ADUser(PrincipalContext context) : base(context) {}
         [DirectoryProperty("company")]
         public string Company
@@ -114,6 +117,23 @@ namespace ADWeb.Domain.ActiveDirectory
             set
             {
                 ExtensionSet("info", value);
+            }
+        }
+
+        /// <summary>
+        /// This method is used to get the list of groups that this
+        /// UserPrincipal object belongs to. We need to call this 
+        /// method so that we can store the list of groups in a 
+        /// List<string> object because the PrincipalContext gets
+        /// disposed of otherwise and we cannot grab this d
+        /// </summary>
+        public void GetUserGroups()
+        {
+            UserGroups = new List<string>();
+
+            foreach(var group in GetAuthorizationGroups())
+            {
+                UserGroups.Add(group.Name);
             }
         }
 

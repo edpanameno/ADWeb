@@ -38,6 +38,16 @@ namespace ADWeb.Domain.ActiveDirectory
             ServicePassword = WebConfigurationManager.AppSettings["service_password"];
         }
 
+        public ADUser GetUserByID(string userId)
+        {
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser user = ADUser.FindByIdentity(context, userId);
+                user.GetUserGroups();
+                return user;
+            }
+        }
+
         /// <summary>
         /// Searches users using the display name value of all users in 
         /// the domain.
@@ -69,6 +79,33 @@ namespace ADWeb.Domain.ActiveDirectory
             }
 
             return users.OrderBy(u => u.Surname).ToList();
+        }
+
+        /// <summary>
+        /// Gets all the users in the domain.
+        /// </summary>
+        /// <returns></returns>
+        public List<ADUser> GetAllUsers()
+        {
+            List<ADUser> users = new List<ADUser>();
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser userFilter = new ADUser(context);
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                {
+                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = searcher.FindAll().ToList();
+
+                    foreach(Principal user in searchResults)
+                    {
+                        ADUser usr = user as ADUser;
+                        users.Add(usr);
+                    }
+                }
+            }
+
+            return users;
         }
 
     }

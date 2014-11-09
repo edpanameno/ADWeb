@@ -116,6 +116,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -166,8 +167,9 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Home\Domain.cshtml" />
     <Content Include="Views\Home\MySettings.cshtml" />
-    <Content Include="Views\Home\QuickSearch.cshtml" />
     <Content Include="Views\Home\QuickSearchResults.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\ViewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

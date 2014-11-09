@@ -24,11 +24,11 @@
         @foreach(ADUser user in Model)
         {
             <tr>
-                <td>@user.SamAccountName</td>
-                <td>@user.GivenName</td>
-                <td>@user.Surname</td>
-                <td>@user.Title</td>
-                <td>@user.Department</td>
+                <td>@Html.ActionLink(@user.SamAccountName, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
+                <td>@Html.ActionLink(@user.GivenName, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
+                <td>@Html.ActionLink(@user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
+                <td>@Html.ActionLink(@user.Title, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
+                <td>@Html.ActionLink(@user.Department, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
             </tr>
         }
     </tbody>

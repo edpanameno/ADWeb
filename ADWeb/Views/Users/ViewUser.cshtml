@@ -1,0 +1,86 @@
+﻿@model ADWeb.Domain.ActiveDirectory.ADUser
+
+@{
+    ViewBag.Title = "Viewing " + @Model.GivenName  + " " + @Model.Surname;
+}
+
+<h3>Viewing User - @Model.GivenName @Model.Surname</h3>
+<p>Click on the tabs below to view the information for this user.</p>
+
+<ul class="nav nav-tabs" role="tablist" id="userInfo">
+    <li role="presentation" class="active">
+        <a href="#basic-info" role="tab" data-toggle="tab">Basic Info</a>
+    </li>
+    <li role="presentation">
+        <a href="#user-groups" role="tab" data-toggle="tab">User Groups</a>
+    </li>
+    <li role="presentation">
+        <a href="#user-history" role="tab" data-toggle="tab">User History</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="basic-info">
+        <br />
+        <p>Below you will find the basic information for @Model.GivenName @Model.Surname</p>
+        <table class="table">
+            <tr>
+                <td>Username</td>
+                <td>@Model.SamAccountName</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>@Model.GivenName</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>@Model.Surname</td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td>@Model.Title</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>@Model.EmailAddress</td>
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>@Model.Department</td>
+            </tr>
+            <tr>
+                <td>Phone #</td>
+                <td>@Model.PhoneNumber</td>
+            </tr>
+            <tr>
+                <td>Company</td>
+                <td>@Model.Company</td>
+            </tr>
+        </table>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="user-groups">
+        <p>User groups will show up below.</p>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <td>Select</td>
+                    <td>Name</td>
+                </tr>
+            </thead>
+            @foreach(var group in Model.UserGroups)
+            {
+                <tr>
+                    <td>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" /> 
+                        </label>
+                    </td>
+                    <td>@group</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="user-history">
+        <p>The history of the user will be stored here ... stay tuned!</p>
+    </div>
+</div>
