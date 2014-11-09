@@ -1,25 +1,7 @@
-﻿@using ADWeb.Domain.ActiveDirectory
-@model List<ADWeb.Domain.ActiveDirectory.ADUser>
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_Users.cshtml";
     ViewBag.Title = "Users Home";
 }
 
 <h3>Users Home</h3>
 <p>Home page of the users section of the ADWeb application.</p>
-
-<table class="table table-condensed table-bordered table-hover">
-    <tr>
-        <td>Active Users</td>
-        <td>@Model.Where(u => u.Enabled == true).Count().ToString()</td>
-    </tr>
-    <tr>
-        <td>Disabled Users</td>
-        <td>@Model.Where(u => u.Enabled == false).Count().ToString()</td>
-    </tr>
-    <tr>
-        <td>Total</td>
-        <td>@Model.Count.ToString()</td>
-    </tr>
-</table>

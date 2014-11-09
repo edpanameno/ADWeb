@@ -9,6 +9,10 @@ body {
   font-size: 14px;
 }
 
+.container {
+	width: 95%;
+}
+
 #footer {
   position: absolute;
   bottom: 0;

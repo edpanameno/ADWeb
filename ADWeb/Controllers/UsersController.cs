@@ -12,10 +12,7 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
-            ADDomain domain = new ADDomain();
-            List<ADUser> users = domain.GetAllUsers();
-
-            return View(users);
+            return View();
         }
 
         public ActionResult ViewUser(string userId)
