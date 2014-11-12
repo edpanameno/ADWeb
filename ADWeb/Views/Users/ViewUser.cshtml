@@ -1,4 +1,4 @@
-﻿@model ADWeb.ViewModels.UserViewModel
+﻿@model ADWeb.Domain.ViewModels.UserViewModel
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
@@ -8,15 +8,17 @@
 <h3>@Model.DisplayName</h3>
 <p>Click on the tabs below to view the information for this user.</p>
 
-@if(@TempData["user_updated_successully"] != null)
+@if(@TempData["user_updated_successfully"] != null)
 {
-    <div class="alert alert-info">
+    <div class="alert alert-info alert-dismissable" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
-            <strong>@TempData["user_update_successfully"]</strong>
+            <span class="sr-only">Close</span>
+            <strong>@TempData["user_updated_successfully"]</strong>
         </button>
     </div>
 }
+
 
 <ul class="nav nav-tabs" role="tablist" id="userInfo">
     <li role="presentation" class="active">

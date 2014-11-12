@@ -10,6 +10,8 @@ using System.Web.Configuration;
 
 namespace ADWeb.Domain.ActiveDirectory
 {
+
+    using ADWeb.Domain.ViewModels;
     /// <summary>
     /// Fields that can be used when searching for users. 
     /// </summary>
@@ -90,7 +92,7 @@ namespace ADWeb.Domain.ActiveDirectory
             return groups;
         }
 
-        public void UpdateUser(ADUser updatedUser)
+        public void UpdateUser(UserViewModel updatedUser)
         {
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
@@ -99,8 +101,15 @@ namespace ADWeb.Domain.ActiveDirectory
                     if(user != null)
                     {
                         user.GivenName = updatedUser.GivenName;
+                        user.MiddleName = updatedUser.MiddleName;
                         user.Surname = updatedUser.Surname;
                         user.DisplayName = updatedUser.DisplayName;
+                        user.EmailAddress = updatedUser.EmailAddress;
+                        user.Title = updatedUser.Title;
+                        user.Department = updatedUser.Department;
+                        user.PhoneNumber = updatedUser.PhoneNumber;
+                        user.Company = updatedUser.Company;
+                        user.Notes = updatedUser.Notes;
 
                         user.Save();
                     }

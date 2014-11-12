@@ -4,11 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ADWeb.Domain.ActiveDirectory;
+using ADWeb.Domain.ViewModels;
 
 namespace ADWeb.Controllers
 {
-    using ADWeb.ViewModels;
-
     [Authorize]
     public class UsersController : Controller
     {
@@ -48,31 +47,15 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUser(UserViewModel user)
+        public ActionResult UpdateUser(UserViewModel userId)
         {
             if(ModelState.IsValid)
             {
                 ADDomain domain = new ADDomain();
-                ADUser usr = domain.GetUserByID(user.SamAccountName);
+                domain.UpdateUser(userId);
 
-                // Update the user with the information that has been entered
-                // in the form
-                usr.GivenName = user.GivenName;
-                usr.MiddleName = user.MiddleName;
-                usr.Surname = user.Surname;
-                usr.DisplayName = user.DisplayName;
-                usr.EmailAddress = user.EmailAddress;
-                usr.Title = user.Title;
-                usr.Department = user.Department;
-                usr.PhoneNumber = user.PhoneNumber;
-                usr.Company = user.Company;
-                usr.Notes = user.Notes;
-
-                domain.UpdateUser(usr);
-
-
-                TempData["user_update_successull"] = usr.SamAccountName + " has been successfully updated";
-                return RedirectToAction("ViewUser", user.SamAccountName);
+                TempData["user_updated_successfully"] = userId.SamAccountName + " has been successfully updated";
+                return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
             }
 
             return View();

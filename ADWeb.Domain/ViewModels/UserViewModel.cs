@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ADWeb.ViewModels
+namespace ADWeb.Domain.ViewModels
 {
     /// <summary>
     /// This class will be used to view and edit the basic information
