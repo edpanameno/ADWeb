@@ -129,6 +129,7 @@ code {
 }
 
 .input-validation-error {
+	font-weight: bold;
     color: #b94a48;
     border-color: #b94a48;
 }

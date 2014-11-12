@@ -43,6 +43,6 @@ namespace ADWeb.ViewModels
         /// <summary>
         /// The group(s) that a user belongs to in the domain.
         /// </summary>
-        public List<string> UserGroups { get; set; }
+        public Dictionary<string, string> UserGroups { get; set; }
     }
 }

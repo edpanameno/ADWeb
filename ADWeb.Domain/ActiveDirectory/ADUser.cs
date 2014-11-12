@@ -119,23 +119,6 @@ namespace ADWeb.Domain.ActiveDirectory
             }
         }
 
-        /// <summary>
-        /// This method is used to get the list of groups that this
-        /// UserPrincipal object belongs to. We need to call this 
-        /// method so that we can store the list of groups in a 
-        /// List<string> object because the PrincipalContext gets
-        /// disposed of otherwise and we cannot grab this d
-        /// </summary>
-        public void GetUserGroups()
-        {
-            UserGroups = new List<string>();
-
-            foreach(var group in GetAuthorizationGroups())
-            {
-                UserGroups.Add(group.Name);
-            }
-        }
-
         // The new keyword here hides the static method FindByIdentity of 
         // the UserPrincipal class.
         public static new ADUser FindByIdentity(PrincipalContext context, string identityValue)

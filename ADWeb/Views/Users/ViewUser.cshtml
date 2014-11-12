@@ -131,13 +131,28 @@
         }
     </div>
     <div role="tabpanel" class="tab-pane" id="user-groups">
-        <p>Below you will find the groups that this user belongs to.</p>
-        <ul>
-            @* @foreach(var group in Model.UserGroups)
-            {
-                <li>@group</li>
-            }*@
-        </ul>
+        <p>Below you will find the groups that this user belongs to. </p>
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var group in Model.UserGroups)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(@group.Key, "ViewGroup", "Groups", new { groupId = @group.Key }, null)
+                        </td>
+                        <td>
+                            @group.Value
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="user-history">
         <p>The history of the user will be stored here ... stay tuned!</p>

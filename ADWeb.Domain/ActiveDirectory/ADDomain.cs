@@ -42,10 +42,52 @@ namespace ADWeb.Domain.ActiveDirectory
         {
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
+                // This object is not being disposed of because it will
+                // given me an error message if I do so. I am thinking 
+                // that this could cause issues later on so I need to 
+                // make sure that the object is disposed of correctly
+                // when being used.
                 ADUser user = ADUser.FindByIdentity(context, userId);
-                //user.GetUserGroups();
                 return user;
             }
+        }
+
+        /// <summary>
+        /// Returns the list of groups that the user belongs to. This method returns
+        /// a Dictionary<string,string> where the key is the name of the group and the
+        /// value is the description of each group.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Dictionary<string, string> GetUserGroupsByUserId(string userId)
+        {
+            Dictionary<string, string> groups = new Dictionary<string, string>();
+
+            // This seems a bit over excessive when we could have used the 
+            // existing non-disposed of object. But for now, I am going to 
+            // be using this and will create a ticket to come back and 
+            // address what I beleive will be an issue with this application
+            // (connecting to resources when using an existing one would 
+            // suffice as well).
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(ADUser user = ADUser.FindByIdentity(context, userId))
+                {
+                    foreach(var grp in user.GetAuthorizationGroups())
+                    {
+                        // We don't want to show the Users and Domain Users groups
+                        // to the users of the application.
+                        if(grp.Name == "Users" || grp.Name == "Domain Users")
+                        {
+                            continue;
+                        }
+                        
+                        groups.Add(grp.Name, grp.Description);
+                    }
+                }
+            }
+
+            return groups;
         }
 
         public void UpdateUser(ADUser updatedUser)
@@ -125,6 +167,5 @@ namespace ADWeb.Domain.ActiveDirectory
 
             return users;
         }
-
     }
 }

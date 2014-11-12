@@ -36,7 +36,10 @@ namespace ADWeb.Controllers
                 viewModel.PhoneNumber = user.PhoneNumber;
                 viewModel.Company = user.Company;
                 viewModel.Notes = user.Notes;
+                
+                viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
 
+                user.Dispose();
                 return View(viewModel);
             }
 

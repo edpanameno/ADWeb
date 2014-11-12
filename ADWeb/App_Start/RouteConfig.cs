@@ -14,6 +14,12 @@ namespace ADWeb
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
             routes.MapRoute(
+                name: "GroupsSection",
+                url: "Groups/{action}/{groupId}",
+                defaults: new { controller = "Groups", action = "Index", groupId = UrlParameter.Optional }
+            );
+            
+            routes.MapRoute(
                 name: "UsersSection",
                 url: "Users/{action}/{userId}",
                 defaults: new { controller = "Users", action = "Index", userId = UrlParameter.Optional }
