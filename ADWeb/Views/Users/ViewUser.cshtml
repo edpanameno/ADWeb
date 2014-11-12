@@ -43,7 +43,7 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <label for="UserName" class="col-sm-2 control-label">Username</label>
+                <label for="SamAccountName" class="col-sm-2 control-label">Username</label>
                 <div class="col-sm-4">
                     @Html.TextBoxFor(m => m.SamAccountName, new { disabled="disabled", @class="form-control" })
                     <span class="help-block">To rename the account click @Html.ActionLink("here", "RenameUser", "Users", new { userId = Model.SamAccountName}).</span>
@@ -125,6 +125,8 @@
                     @Html.TextBoxFor(m => m.Notes, new { @class="form-control input-lg" })
                 </div>
             </div>
+            
+            @Html.HiddenFor(m => m.SamAccountName)
             
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-6" >

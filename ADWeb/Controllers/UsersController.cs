@@ -48,17 +48,31 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUser(ADUser userId)
+        public ActionResult UpdateUser(UserViewModel user)
         {
             if(ModelState.IsValid)
             {
                 ADDomain domain = new ADDomain();
-                domain.UpdateUser(userId);
+                ADUser usr = domain.GetUserByID(user.SamAccountName);
 
-                ADUser user = domain.GetUserByID(userId.SamAccountName);
+                // Update the user with the information that has been entered
+                // in the form
+                usr.GivenName = user.GivenName;
+                usr.MiddleName = user.MiddleName;
+                usr.Surname = user.Surname;
+                usr.DisplayName = user.DisplayName;
+                usr.EmailAddress = user.EmailAddress;
+                usr.Title = user.Title;
+                usr.Department = user.Department;
+                usr.PhoneNumber = user.PhoneNumber;
+                usr.Company = user.Company;
+                usr.Notes = user.Notes;
 
-                TempData["user_update_successull"] = userId + " has been successfully updated";
-                return RedirectToAction("ViewUser", user);
+                domain.UpdateUser(usr);
+
+
+                TempData["user_update_successull"] = usr.SamAccountName + " has been successfully updated";
+                return RedirectToAction("ViewUser", user.SamAccountName);
             }
 
             return View();
