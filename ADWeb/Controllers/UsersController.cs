@@ -7,6 +7,8 @@ using ADWeb.Domain.ActiveDirectory;
 
 namespace ADWeb.Controllers
 {
+    using ADWeb.ViewModels;
+
     [Authorize]
     public class UsersController : Controller
     {
@@ -19,7 +21,26 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             ADUser user = domain.GetUserByID(userId);
-            return View(user);
+            
+            if(user != null)
+            {
+                UserViewModel viewModel = new UserViewModel();
+                viewModel.SamAccountName = user.SamAccountName;
+                viewModel.GivenName = user.GivenName;
+                viewModel.MiddleName = user.MiddleName;
+                viewModel.Surname = user.Surname;
+                viewModel.DisplayName = user.DisplayName;
+                viewModel.EmailAddress = user.EmailAddress;
+                viewModel.Title = user.Title;
+                viewModel.Department = user.Department;
+                viewModel.PhoneNumber = user.PhoneNumber;
+                viewModel.Company = user.Company;
+                viewModel.Notes = user.Notes;
+
+                return View(viewModel);
+            }
+
+            return View();
         }
 
         [HttpPost]
@@ -31,7 +52,7 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 domain.UpdateUser(userId);
 
-                ADUser user = domain.GetUserByID(userId);
+                ADUser user = domain.GetUserByID(userId.SamAccountName);
 
                 TempData["user_update_successull"] = userId + " has been successfully updated";
                 return RedirectToAction("ViewUser", user);

@@ -1,4 +1,4 @@
-﻿@model ADWeb.Domain.ActiveDirectory.ADUser
+﻿@model ADWeb.ViewModels.UserViewModel
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
@@ -30,9 +30,15 @@
     </li>
 </ul>
 
+@section headSection {
+    <style type="text/css">
+    </style>
+}
+
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="basic-info">
-        <br />
+        <p>Use the fields below to view and edit the information for this user. Note: All fields marked with an astericks(*) are required fields.</p>
+        @Html.ValidationSummary()
         @using(Html.BeginForm("UpdateUser", "Users", FormMethod.Post, new { @class="form-horizontal", role="form" }))
         {
             @Html.AntiForgeryToken()
@@ -44,9 +50,10 @@
             </div>
             
             <div class="form-group">
-                <label for="FirstName" class="col-sm-2 control-label">First Name</label>
+                <label for="FirstName" class="col-sm-2 control-label">First Name*</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.GivenName, new { @class="form-control", autofocus="autofocus" })
+                    @Html.ValidationMessageFor(m => m.GivenName)
                 </div>
             </div>
             
@@ -58,16 +65,18 @@
             </div>
             
             <div class="form-group">
-                <label for="LastName" class="col-sm-2 control-label">Last Name</label>
+                <label for="LastName" class="col-sm-2 control-label">Last Name*</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Surname, new { @class="form-control" })
+                    @Html.ValidationMessageFor(m => m.Surname)
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="Displayname" class="col-sm-2 control-label">Display Name</label>
+                <label for="Displayname" class="col-sm-2 control-label">Display Name*</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.DisplayName, new { @class="form-control" })
+                    @Html.ValidationMessageFor(m => m.DisplayName)
                 </div>
             </div>
             
@@ -82,6 +91,7 @@
                 <label for="Title" class="col-sm-2 control-label">Title</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Title, new { @class="form-control" })
+                    @Html.ValidationMessageFor(m => m.Title)
                 </div>
             </div>
                         
@@ -123,11 +133,10 @@
     <div role="tabpanel" class="tab-pane" id="user-groups">
         <p>Below you will find the groups that this user belongs to.</p>
         <ul>
-            @foreach(var group in Model.UserGroups)
+            @* @foreach(var group in Model.UserGroups)
             {
                 <li>@group</li>
-            }
-
+            }*@
         </ul>
     </div>
     <div role="tabpanel" class="tab-pane" id="user-history">

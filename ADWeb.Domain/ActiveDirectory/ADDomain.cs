@@ -43,7 +43,7 @@ namespace ADWeb.Domain.ActiveDirectory
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser user = ADUser.FindByIdentity(context, userId);
-                user.GetUserGroups();
+                //user.GetUserGroups();
                 return user;
             }
         }
