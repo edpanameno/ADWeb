@@ -5,8 +5,8 @@
     ViewBag.Title = "Viewing " + Model.DisplayName;
 }
 
-<h3>Viewing User - @Model.DisplayName</h3>
-<p>Click on the tabs below to view the information for this user. <span class="pull-right">Last changed on @Model.WhenChanged.</span></p>
+<h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
+<p>Click on the tabs below to view the information for this user. <span class="pull-right">Last Updated on @Model.WhenChanged.</span></p>
 
 @if(@TempData["user_updated_successfully"] != null)
 {
@@ -46,7 +46,7 @@
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <label for="SamAccountName" class="col-sm-2 control-label">Username</label>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     @Html.TextBoxFor(m => m.SamAccountName, new { disabled="disabled", @class="form-control" })
                     <span class="help-block">To rename the account click @Html.ActionLink("here", "RenameUser", "Users", new { userId = Model.SamAccountName}).</span>
                 </div>
@@ -54,7 +54,7 @@
             
             <div class="form-group">
                 <label for="FirstName" class="col-sm-2 control-label">First Name*</label>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     @Html.TextBoxFor(m => m.GivenName, new { @class="form-control", autofocus="autofocus" })
                     @Html.ValidationMessageFor(m => m.GivenName)
                 </div>
@@ -62,14 +62,14 @@
             
             <div class="form-group">
                 <label for="MiddleName" class="col-sm-2 control-label">Middle Name</label>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     @Html.TextBoxFor(m => m.MiddleName, new { @class="form-control" })
                 </div>
             </div>
             
             <div class="form-group">
                 <label for="LastName" class="col-sm-2 control-label">Last Name*</label>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     @Html.TextBoxFor(m => m.Surname, new { @class="form-control" })
                     @Html.ValidationMessageFor(m => m.Surname)
                 </div>
@@ -77,7 +77,7 @@
             
             <div class="form-group">
                 <label for="Displayname" class="col-sm-2 control-label">Display Name*</label>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     @Html.TextBoxFor(m => m.DisplayName, new { @class="form-control" })
                     @Html.ValidationMessageFor(m => m.DisplayName)
                 </div>
@@ -88,6 +88,13 @@
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })
                     @Html.ValidationMessageFor(m => m.EmailAddress)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="PhoneNumber" class="col-sm-2 control-label">Phone #</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class="form-control" })
                 </div>
             </div>
             
@@ -106,14 +113,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label for="PhoneNumber" class="col-sm-2 control-label">Phone #</label>
-                <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class="form-control" })
-                </div>
-            </div>
-            
-            <div class="form-group">
+                        <div class="form-group">
                 <label for="Company" class="col-sm-2 control-label">Company*</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Company, new { @class="form-control" })
