@@ -119,6 +119,27 @@ namespace ADWeb.Domain.ActiveDirectory
             }
         }
 
+        [DirectoryProperty("whenChanged")]
+        public DateTime WhenChanged
+        {
+            get
+            {
+                /*if(ExtensionGet("whenChanged").Length != 1)
+                {
+                    return null;
+                }
+                else
+                {*/
+                    return (DateTime)ExtensionGet("whenChanged")[0];
+                //}
+            }
+
+            set
+            {
+                ExtensionSet("info", value);
+            }
+
+        }
         // The new keyword here hides the static method FindByIdentity of 
         // the UserPrincipal class.
         public static new ADUser FindByIdentity(PrincipalContext context, string identityValue)

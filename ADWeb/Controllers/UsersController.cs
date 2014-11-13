@@ -35,6 +35,7 @@ namespace ADWeb.Controllers
                 viewModel.PhoneNumber = user.PhoneNumber;
                 viewModel.Company = user.Company;
                 viewModel.Notes = user.Notes;
+                viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
                 
                 viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
 

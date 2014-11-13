@@ -40,6 +40,8 @@ namespace ADWeb.Domain.ViewModels
         public string Company { get; set; }
         public string Notes { get; set; }
 
+        public DateTime WhenChanged { get; set; }
+
         /// <summary>
         /// The group(s) that a user belongs to in the domain.
         /// </summary>
