@@ -5,6 +5,9 @@
     ViewBag.Title = "Viewing " + @Model.DisplayName;
 }
 
+<h3>@Model.DisplayName</h3>
+<p>Click on the tabs below to view the information for this user.</p>
+
 @if(@TempData["user_updated_successfully"] != null)
 {
     <div class="alert alert-info alert-dismissable fade in" role="alert">
@@ -15,9 +18,6 @@
         <strong>@TempData["user_updated_successfully"]</strong>
     </div>
 }
-
-<h3>@Model.DisplayName</h3>
-<p>Click on the tabs below to view the information for this user.</p>
 
 <ul class="nav nav-tabs" role="tablist" id="userInfo">
     <li role="presentation" class="active">
