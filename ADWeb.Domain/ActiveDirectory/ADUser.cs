@@ -11,7 +11,21 @@ namespace ADWeb.Domain.ActiveDirectory
     [DirectoryRdnPrefix("CN")]
     public class ADUser : UserPrincipal
     {
+        private MyAdvancedFilters myAdvancedFilters;
         public List<string> UserGroups { get; set; }
+
+        public MyAdvancedFilters MyAdvancedFilters 
+        {
+            get
+            {
+                if(myAdvancedFilters == null)
+                {
+                    myAdvancedFilters = new MyAdvancedFilters(this);
+                }
+                
+                return myAdvancedFilters;
+            }
+        }
 
         public ADUser(PrincipalContext context) : base(context) {}
         [DirectoryProperty("company")]

@@ -1,7 +1,26 @@
-﻿@{
+﻿@model List<ADWeb.Domain.ActiveDirectory.ADUser>
+
+@{
     Layout = "~/Views/Shared/_Users.cshtml";
     ViewBag.Title = "Users Home";
 }
 
 <h3>Users Home</h3>
 <p>Home page of the users section of the ADWeb application.</p>
+
+<h4>Users changed in the last 7 days</h4>
+<table class="table table-bordered table-condensed table-hover">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>When Changed</td>
+        </tr>
+    </thead>
+    @foreach(var user in @Model)
+    {
+        <tr>
+            <td>@user.SamAccountName</td>
+            <td>@user.WhenChanged</td>
+        </tr>
+    }
+</table>

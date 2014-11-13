@@ -55,6 +55,36 @@ namespace ADWeb.Domain.ActiveDirectory
         }
 
         /// <summary>
+        /// Gets a list of users that were updated in the the last specified
+        /// days when they were last changed.
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public List<ADUser> LastUpdatedUsers(int days = 7)
+        {
+            List<ADUser> users = new List<ADUser>();
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser userFilter = new ADUser(context);
+                userFilter.MyAdvancedFilters.WhenChangedInLastDays(days, MatchType.Equals);
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                {
+                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = searcher.FindAll().ToList();
+
+                    foreach(Principal user in searchResults)
+                    {
+                        ADUser usr = user as ADUser;
+                        users.Add(usr);
+                    }
+                }
+            }
+
+            return users;
+        }
+
+        /// <summary>
         /// Returns the list of groups that the user belongs to. This method returns
         /// a Dictionary<string,string> where the key is the name of the group and the
         /// value is the description of each group.

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ActiveDirectory\ADDomain.cs" />
     <Compile Include="ActiveDirectory\ADUser.cs" />
+    <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\SearchUsersModel.cs" />

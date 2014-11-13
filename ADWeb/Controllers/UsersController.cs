@@ -13,7 +13,9 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.LastUpdatedUsers(1);
+            return View(users);
         }
 
         public ActionResult ViewUser(string userId)

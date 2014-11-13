@@ -113,7 +113,7 @@
                 </div>
             </div>
             
-                        <div class="form-group">
+            <div class="form-group">
                 <label for="Company" class="col-sm-2 control-label">Company*</label>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Company, new { @class="form-control" })
@@ -124,7 +124,7 @@
             <div class="form-group">
                 <label for="Notes" class="col-sm-2 control-label">Notes</label>
                 <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.Notes, new { @class="form-control input-lg" })
+                    @Html.TextAreaFor(m => m.Notes, new { @class="form-control", rows="8", cols="10" })
                 </div>
             </div>
             
