@@ -18,7 +18,7 @@ namespace ADWeb.Domain.ActiveDirectory
         /// <param name="days"></param>
         public void WhenChangedInLastDays(int days, MatchType matchType)
         {
-            AdvancedFilterSet("LogonCount", days, typeof(int), matchType);
+            AdvancedFilterSet("whenChanged", DateTime.Today.AddDays(days), typeof(DateTime), matchType);
         }
     }
 }
