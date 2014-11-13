@@ -170,6 +170,7 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\ViewUser.cshtml" />
     <Content Include="Views\Shared\_Users.cshtml" />
+    <None Include="Properties\PublishProfiles\LocalDeploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

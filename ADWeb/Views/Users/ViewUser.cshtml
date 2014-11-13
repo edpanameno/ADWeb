@@ -5,20 +5,19 @@
     ViewBag.Title = "Viewing " + @Model.DisplayName;
 }
 
-<h3>@Model.DisplayName</h3>
-<p>Click on the tabs below to view the information for this user.</p>
-
 @if(@TempData["user_updated_successfully"] != null)
 {
-    <div class="alert alert-info alert-dismissable" role="alert">
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
-            <strong>@TempData["user_updated_successfully"]</strong>
         </button>
+        <strong>@TempData["user_updated_successfully"]</strong>
     </div>
 }
 
+<h3>@Model.DisplayName</h3>
+<p>Click on the tabs below to view the information for this user.</p>
 
 <ul class="nav nav-tabs" role="tablist" id="userInfo">
     <li role="presentation" class="active">
