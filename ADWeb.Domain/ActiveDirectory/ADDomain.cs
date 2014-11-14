@@ -10,8 +10,8 @@ using System.Web.Configuration;
 
 namespace ADWeb.Domain.ActiveDirectory
 {
-
     using ADWeb.Domain.ViewModels;
+
     /// <summary>
     /// Fields that can be used when searching for users. 
     /// </summary>
@@ -20,7 +20,9 @@ namespace ADWeb.Domain.ActiveDirectory
         DisplayName = 1,
         FirstName,
         LastName,
-        Department
+        Department,
+        Title,
+        Mail
     }
 
     /// <summary>
@@ -55,8 +57,8 @@ namespace ADWeb.Domain.ActiveDirectory
         }
 
         /// <summary>
-        /// Gets a list of users that were updated in the the last specified
-        /// days when they were last changed.
+        /// Gets a list of the users who were changed in during the last number of days
+        /// specified.
         /// </summary>
         /// <param name="days"></param>
         /// <returns></returns>
