@@ -52,7 +52,7 @@
                             @if(User.Identity.IsAuthenticated)
                             {
                                 <li><a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                                <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-user"></span> Users Home</a></li>
+                                <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-list"></span> Users Home</a></li>
                                 <li><a href="@Url.Action("CreateUser", "Users")"><span class="glyphicon glyphicon-user"></span> Create User</a></li>
                                 <li><a href="@Url.Action("Search", "Users")"><span class="glyphicon glyphicon-search"></span> Search User</a></li>
                             }

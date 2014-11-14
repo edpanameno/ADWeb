@@ -35,7 +35,7 @@ namespace ADWeb.Domain.ActiveDirectory
             {
                 if(ExtensionGet("company").Length != 1)
                 {
-                    return string.Empty;
+                    return "n/a";
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace ADWeb.Domain.ActiveDirectory
             {
                 if(ExtensionGet("department").Length != 1)
                 {
-                    return string.Empty;
+                    return "n/a";
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace ADWeb.Domain.ActiveDirectory
             {
                 if(ExtensionGet("title").Length != 1)
                 {
-                    return string.Empty;
+                    return "n/a";
                 }
                 else
                 {

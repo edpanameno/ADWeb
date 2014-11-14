@@ -76,6 +76,14 @@ namespace ADWeb.Domain.ActiveDirectory
                     foreach(Principal user in searchResults)
                     {
                         ADUser usr = user as ADUser;
+
+                        // We are filtering out users who don't have a first name
+                        // Though this has the issue of filtering out accounts
+                        if(String.IsNullOrEmpty(usr.GivenName))
+                        {
+                            continue;
+                        }
+
                         users.Add(usr);
                     }
                 }
