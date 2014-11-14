@@ -60,13 +60,13 @@ namespace ADWeb.Domain.ActiveDirectory
         /// </summary>
         /// <param name="days"></param>
         /// <returns></returns>
-        public List<ADUser> LastUpdatedUsers(int days = -7)
+        public List<ADUser> LastUpdatedUsers(DateTime day)
         {
             List<ADUser> users = new List<ADUser>();
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser userFilter = new ADUser(context);
-                userFilter.MyAdvancedFilters.WhenChangedInLastDays(days, MatchType.GreaterThanOrEquals);
+                userFilter.MyAdvancedFilters.WhenChangedInLastDays(day, MatchType.GreaterThan);
 
                 using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
                 {
@@ -81,7 +81,7 @@ namespace ADWeb.Domain.ActiveDirectory
                 }
             }
 
-            return users;
+            return users.OrderByDescending(u => u.WhenChanged).ToList();
         }
 
         /// <summary>

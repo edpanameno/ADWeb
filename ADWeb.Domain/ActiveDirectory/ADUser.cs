@@ -126,7 +126,6 @@ namespace ADWeb.Domain.ActiveDirectory
                     return (string)ExtensionGet("info")[0];
                 }
             }
-
             set
             {
                 ExtensionSet("info", value);

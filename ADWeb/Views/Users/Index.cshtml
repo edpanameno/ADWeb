@@ -7,20 +7,24 @@
 
 <h3>Users Home</h3>
 <p>Home page of the users section of the ADWeb application.</p>
+<h4>@Model.Count.ToString() users changed in the last 7 days</h4>
 
-<h4>Users changed in the last 7 days</h4>
 <table class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
-            <td>Name</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Title</td>
             <td>When Changed</td>
         </tr>
     </thead>
     @foreach(var user in @Model)
     {
         <tr>
-            <td>@user.SamAccountName</td>
-            <td>@user.WhenChanged</td>
+            <td>@user.GivenName</td>
+            <td>@user.Surname</td>
+            <td>@user.Title</td>
+            <td>@user.WhenChanged.ToLocalTime()</td>
         </tr>
     }
 </table>

@@ -11,6 +11,8 @@
 @Html.ActionLink("Back to Home", "Index", "Home")
 </span>
 
+<p>7 Days ago: @DateTime.Now.AddDays(-7).ToString()</p>
+
 <table class="table table-condensed table-bordered table-hover">
     <thead>
         <tr>

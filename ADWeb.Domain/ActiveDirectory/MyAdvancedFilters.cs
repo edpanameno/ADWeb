@@ -12,13 +12,18 @@ namespace ADWeb.Domain.ActiveDirectory
         public MyAdvancedFilters(ADUser principal) : base(principal) { }
 
         /// <summary>
-        /// This is used to get the users who were changed in the last
-        /// number of 'days' specified.
+        /// Gets the list of users who were changes within the specified
+        /// date range.
         /// </summary>
         /// <param name="days"></param>
-        public void WhenChangedInLastDays(int days, MatchType matchType)
+        public void WhenChangedInLastDays(DateTime date, MatchType matchType)
         {
-            AdvancedFilterSet("whenChanged", DateTime.Today.AddDays(days), typeof(DateTime), matchType);
+            // Dates in Active Directory are stored in a Generalized Time
+            // Format. For this filter to work, we must convert the date that
+            // we are passing to this method to this format. Note: the Z indicates
+            // no time differential.
+            var formattedDateTime = date.ToString("yyyyMMddHHmmss.0Z");
+            AdvancedFilterSet("whenChanged", formattedDateTime, typeof(string), matchType);
         }
     }
 }
