@@ -6,8 +6,10 @@
 }
 
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
-<p>Click on the tabs below to view the information for this user. <span class="pull-right">Last Updated on @Model.WhenChanged.</span></p>
-<span class="pull-right">Created on @Model.WhenCreated</span>
+<p>Click on the tabs below to view the information for this user.</p>
+<div class="pull-right">
+    <p class="pull-right">Last Updated on @Model.WhenChanged.</p>
+</div>
 
 @if(@TempData["user_updated_successfully"] != null)
 {
@@ -163,6 +165,6 @@
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="user-history">
-        <p>The history of the user will be stored here ... stay tuned!</p>
+        <p>User Created on @Model.WhenChanged</p>
     </div>
 </div>
