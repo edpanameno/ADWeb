@@ -41,6 +41,7 @@ namespace ADWeb.Domain.ViewModels
         public string Notes { get; set; }
 
         public DateTime WhenChanged { get; set; }
+        public DateTime WhenCreated { get; set; }
 
         /// <summary>
         /// The group(s) that a user belongs to in the domain.

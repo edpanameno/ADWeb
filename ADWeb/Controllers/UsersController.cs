@@ -38,6 +38,7 @@ namespace ADWeb.Controllers
                 viewModel.Company = user.Company;
                 viewModel.Notes = user.Notes;
                 viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
+                viewModel.WhenCreated = user.WhenCreated.ToLocalTime();
                 
                 viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
 

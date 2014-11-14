@@ -7,6 +7,7 @@
 
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
 <p>Click on the tabs below to view the information for this user. <span class="pull-right">Last Updated on @Model.WhenChanged.</span></p>
+<span class="pull-right">Created on @Model.WhenCreated</span>
 
 @if(@TempData["user_updated_successfully"] != null)
 {
