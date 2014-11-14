@@ -183,9 +183,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ADWeb.Domain\ADWeb.Core.csproj">
+    <ProjectReference Include="..\ADWeb.Domain\ADWeb.Domain.csproj">
       <Project>{06e4a03e-307d-4e5b-b27d-75bf75e090bb}</Project>
-      <Name>ADWeb.Core</Name>
+      <Name>ADWeb.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADWeb", "ADWeb\ADWeb.csproj", "{AEF033E3-465D-44FE-BAC7-36DD08FAA4D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADWeb.Core", "ADWeb.Domain\ADWeb.Core.csproj", "{06E4A03E-307D-4E5B-B27D-75BF75E090BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADWeb.Domain", "ADWeb.Domain\ADWeb.Domain.csproj", "{06E4A03E-307D-4E5B-B27D-75BF75E090BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
