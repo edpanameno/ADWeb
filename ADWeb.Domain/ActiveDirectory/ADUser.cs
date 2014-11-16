@@ -149,7 +149,31 @@ namespace ADWeb.Domain.ActiveDirectory
                 return (DateTime)ExtensionGet("whenCreated")[0];
             }
         }
-        
+
+        [DirectoryProperty("RealLastLogon")]
+        public DateTime? RealLastLoginDate
+        {
+            get
+            {
+                if(ExtensionGet("LastLogon").Length > 0)
+                {
+                    var lastLogonDate = ExtensionGet("LastLogon")[0];
+                    var lastLogonDateType = lastLogonDate.GetType();
+
+                    var highPart = (Int32)lastLogonDateType.InvokeMember("HighPart", System.Reflection.BindingFlags.GetProperty, null, lastLogonDate, null);
+                    var lowPart = (Int32)lastLogonDateType.InvokeMember("LowPart", System.Reflection.BindingFlags.GetProperty | System.Reflection.BindingFlags.Public, null, lastLogonDate, null);
+
+                    var longDate = ((Int64)highPart << 32 | (UInt32)lowPart);
+
+                    return longDate > 0 ? (DateTime?)DateTime.FromFileTime(longDate) : null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         // The new keyword here hides the static method FindByIdentity of 
         // the UserPrincipal class.
         public static new ADUser FindByIdentity(PrincipalContext context, string identityValue)
