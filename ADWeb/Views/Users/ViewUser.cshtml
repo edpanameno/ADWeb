@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
-    ViewBag.Title = "Viewing " + Model.DisplayName;
+    ViewBag.Title = Model.DisplayName;
 }
 
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
@@ -46,9 +46,9 @@
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <label for="SamAccountName" class="col-sm-2 control-label">Username</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     @Html.TextBoxFor(m => m.SamAccountName, new { @readonly="readonly", @class="form-control" })
-                    <span class="help-block">To rename the account click @Html.ActionLink("here", "RenameUser", "Users", new { userId = Model.SamAccountName}).</span>
+                    <span class="help-block">To rename the account click @Html.ActionLink("here", "RenameUser", "Users", new { userId = Model.SamAccountName}, null).</span>
                 </div>
             </div>
             

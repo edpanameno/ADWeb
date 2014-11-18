@@ -64,5 +64,10 @@ namespace ADWeb.Controllers
 
             return View();
         }
+    
+        public ActionResult RenameUser(string userId)
+        {
+            return View();
+        }
     }
 }
