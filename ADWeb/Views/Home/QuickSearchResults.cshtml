@@ -1,5 +1,5 @@
-﻿@using ADWeb.Domain.ActiveDirectory
-@model List<ADWeb.Domain.ActiveDirectory.ADUser>
+﻿@using ADWeb.Core.ActiveDirectory
+@model List<ADWeb.Core.ActiveDirectory.ADUser>
 
 @{
     ViewBag.Title = "ADWeb - Quick Search Results";
@@ -10,8 +10,6 @@
 <span style="font-size: 12pt" class="pull-right">
 @Html.ActionLink("Back to Home", "Index", "Home")
 </span>
-
-<p>7 Days ago: @DateTime.Now.AddDays(-7).ToString()</p>
 
 <table class="table table-condensed table-bordered table-hover">
     <thead>

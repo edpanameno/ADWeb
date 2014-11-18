@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 
-namespace ADWeb.Domain.ActiveDirectory
+namespace ADWeb.Core.ActiveDirectory
 {
     [DirectoryObjectClass("user")]
     [DirectoryRdnPrefix("CN")]

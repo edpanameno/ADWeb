@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ADWeb.Domain.ViewModels
+namespace ADWeb.Core.ViewModels
 {
     public class LoginModel
     {

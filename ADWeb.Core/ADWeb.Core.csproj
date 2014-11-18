@@ -7,8 +7,8 @@
     <ProjectGuid>{06E4A03E-307D-4E5B-B27D-75BF75E090BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ADWeb.Domain</RootNamespace>
-    <AssemblyName>ADWeb.Domain</AssemblyName>
+    <RootNamespace>ADWeb.Core</RootNamespace>
+    <AssemblyName>ADWeb.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

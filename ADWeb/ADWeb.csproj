@@ -180,12 +180,14 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ADWeb.Domain\ADWeb.Domain.csproj">
+    <ProjectReference Include="..\ADWeb.Core\ADWeb.Core.csproj">
       <Project>{06e4a03e-307d-4e5b-b27d-75bf75e090bb}</Project>
-      <Name>ADWeb.Domain</Name>
+      <Name>ADWeb.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

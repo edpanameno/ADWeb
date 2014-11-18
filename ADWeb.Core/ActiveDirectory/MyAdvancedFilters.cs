@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADWeb.Domain.ActiveDirectory
+namespace ADWeb.Core.ActiveDirectory
 {
     public class MyAdvancedFilters : AdvancedFilters
     {

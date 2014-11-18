@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using ADWeb.Domain.ActiveDirectory;
+using ADWeb.Core.ActiveDirectory;
 
-namespace ADWeb.Domain.ViewModels
+namespace ADWeb.Core.ViewModels
 {
     public class SearchUsersModel
     {

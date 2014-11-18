@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ADWeb.Domain.ActiveDirectory;
-using ADWeb.Domain.ViewModels;
+using ADWeb.Core.ActiveDirectory;
+using ADWeb.Core.ViewModels;
 
 namespace ADWeb.Controllers
 {

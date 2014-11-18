@@ -7,8 +7,8 @@ using System.Web.Security;
 
 namespace ADWeb.Controllers
 {
-    using ADWeb.Domain.ViewModels;
-    using ADWeb.Domain.ActiveDirectory;
+    using ADWeb.Core.ViewModels;
+    using ADWeb.Core.ActiveDirectory;
 
     public class HomeController : Controller
     {

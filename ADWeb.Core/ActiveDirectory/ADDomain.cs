@@ -8,9 +8,9 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Configuration;
 
-namespace ADWeb.Domain.ActiveDirectory
+namespace ADWeb.Core.ActiveDirectory
 {
-    using ADWeb.Domain.ViewModels;
+    using ADWeb.Core.ViewModels;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
