@@ -6,10 +6,7 @@
 }
 
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
-<p>Click on the tabs below to view the information for this user.</p>
-<div class="pull-right">
-    <p class="pull-right">Last Updated on @Model.WhenChanged.</p>
-</div>
+<p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged</span></p>
 
 @if(@TempData["user_updated_successfully"] != null)
 {
@@ -18,7 +15,7 @@
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
         </button>
-        <strong>@TempData["user_updated_successfully"]</strong>
+        <span>@TempData["user_updated_successfully"]</span>
     </div>
 }
 
