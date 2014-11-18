@@ -58,7 +58,7 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 domain.UpdateUser(userId);
 
-                TempData["user_updated_successfully"] = "The account '" + userId.SamAccountName + "' has been successfully updated!";
+                TempData["user_updated_successfully"] = userId.GivenName + "'s account has been successfully updated!";
                 return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
             }
 

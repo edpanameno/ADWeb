@@ -2,11 +2,11 @@
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
-    ViewBag.Title = Model.DisplayName;
+    ViewBag.Title = Model.GivenName + " " + Model.Surname;
 }
 
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
-<p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged</span></p>
+<p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged.ToString("g")</span></p>
 
 @if(@TempData["user_updated_successfully"] != null)
 {
@@ -39,6 +39,7 @@
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="basic-info">
         <p>Use the fields below to view and edit the information for this user. Note: When updating this users, all fields that are marked with an asterisk (*) are required fields.</p>
+        
 
         @Html.ValidationSummary()
         @using(Html.BeginForm("UpdateUser", "Users", FormMethod.Post, new { @class="form-horizontal", role="form" }))
