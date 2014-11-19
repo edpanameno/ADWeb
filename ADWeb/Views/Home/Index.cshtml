@@ -1,4 +1,5 @@
-﻿@model ADWeb.Core.ViewModels.SearchUsersModel
+﻿@using ADWeb.Core.ActiveDirectory
+@model ADWeb.Core.ViewModels.SearchUsersModel
 
 @{
     ViewBag.Title = "ADWeb - Home";
@@ -41,7 +42,32 @@ else
     <p>Welcome to the home page of the ADWeb application.</p>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Last 10 users updated in the last 7 days
+                </div>
+                <div class="panel-body">
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Title</th>
+                            </tr>
+                        </thead>
+                        @foreach(var user in (List<ADUser>)ViewBag.UsersChanged)
+                        {
+                            <tr>
+                                <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
+                                <td>@Html.ActionLink(@user.Title + " " + @user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
+                            </tr>
+                        }
+                    </table>
+                    @Html.ActionLink("View More ...", "Index", "Users", null, new { @class = "pull-right", title="View List of Users that were recently updated"} )
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
             <div class="panel panel-primary">
                 <div class="panel-heading">User Quick Search</div>
                 <div class="panel-body">

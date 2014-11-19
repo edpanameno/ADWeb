@@ -14,6 +14,10 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.LastUpdatedUsers(DateTime.Now.AddDays(-7)).Take(10).ToList();
+            ViewBag.UsersChanged = users;
+
             return View();
         }
 
