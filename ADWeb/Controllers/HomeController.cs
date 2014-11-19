@@ -63,8 +63,8 @@ namespace ADWeb.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult QuickSearch(SearchUsersModel model)
         {
             if(ModelState.IsValid)
@@ -72,7 +72,8 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 List<ADUser> users = domain.QuickSearch(model.SearchValue);
                 ViewBag.SearchValue = model.SearchValue;
-                return View("QuickSearchResults", users);
+                
+                return View("SearchResults", users);
             }
             
             return View(model);

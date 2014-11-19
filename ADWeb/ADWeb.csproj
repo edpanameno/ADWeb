@@ -166,7 +166,7 @@
     <Content Include="Views\Home\GettingStarted.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Home\MySettings.cshtml" />
-    <Content Include="Views\Home\QuickSearchResults.cshtml" />
+    <Content Include="Views\Home\SearchResults.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\ViewUser.cshtml" />
     <Content Include="Views\Shared\_Users.cshtml" />
