@@ -12,13 +12,19 @@ namespace ADWeb
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+            // Routes are tried in sequence until a match is found. The most
+            // specific routes must be done first for you to get the desired
+            // results.
+
             routes.MapRoute(
                 name: "GroupsSection",
                 url: "Groups/{action}/{groupId}",
                 defaults: new { controller = "Groups", action = "Index", groupId = UrlParameter.Optional }
             );
             
+            // Using static URL Segments. In the example below, the static segment
+            // is 'Users'
             routes.MapRoute(
                 name: "UsersSection",
                 url: "Users/{action}/{userId}",
