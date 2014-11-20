@@ -1,0 +1,87 @@
+﻿@model ADWeb.Core.ViewModels.CreateUserVM
+
+@{
+    ViewBag.Title = "Create User";
+    Layout = "~/Views/Shared/_Users.cshtml";
+}
+
+<h3>Create New Domain User</h3>
+<p>Use the fields below to create a new user in the domain. Note: All fields marked with an asterisk(*) are required fields.</p>
+
+@using(Html.BeginForm("CreateUser", "Users", FormMethod.Post, new { @class="form-horizontal", role="form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="GivenName" class="col-sm-2 control-label">First Name*</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.FirstName, new { @class="form-control", placeholder="Enter First Name", autofocus="autofocus" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="MiddleName" class="col-sm-2 control-label">Middle Name</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.MiddleName, new { @class="form-control", placeholder="Enter Middle Name" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="Surname" class="col-sm-2 control-label">Last Name*</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.LastName, new { @class="form-control", placeholder="Enter Last Name" })
+            @Html.ValidationMessageFor(m => m.LastName)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="Title" class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Title, new { @class="form-control", placeholder="Enter Title" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="Title" class="col-sm-2 control-label">Department</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Department, new { @class="form-control", placeholder="Enter Department" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="PhoneNumber" class="col-sm-2 control-label">Phone Number</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class="form-control", placeholder="Enter Phone number" })
+        </div>
+    </div>
+     
+    <div class="form-group">
+        <label for="SamAccountName" class="col-sm-2 control-label">Username*</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Username, new { @class="form-control", placeholder="Enter Username" })
+            @Html.ValidationMessageFor(m => m.Username)
+        </div>
+    </div>
+    
+     <div class="form-group">
+        <label for="Password" class="col-sm-2 control-label">Password*</label>
+        <div class="col-sm-5">
+            @Html.PasswordFor(m => m.Password, new { @class="form-control", placeholder="Enter Password" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+     
+    <div class="form-group">
+        <label for="ConfirmPassword" class="col-sm-2 control-label">Confirm Password*</label>
+        <div class="col-sm-5">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class="form-control", placeholder="Confirm Password" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+    </div>
+            
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6" >
+            <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
+    </div>
+}

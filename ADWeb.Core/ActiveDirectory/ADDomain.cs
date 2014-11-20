@@ -34,12 +34,39 @@ namespace ADWeb.Core.ActiveDirectory
         public string ServerName { get; set; }
         public string ServiceUser { get; set; }
         public string ServicePassword { get; set; }
+        public string TempUsers { get; set; }
 
         public ADDomain()
         {
             ServerName = WebConfigurationManager.AppSettings["server_name"];
             ServiceUser = WebConfigurationManager.AppSettings["service_user"];
             ServicePassword = WebConfigurationManager.AppSettings["service_password"];
+            TempUsers = WebConfigurationManager.AppSettings["temp_users"];
+        }
+
+        public void CreateUser(CreateUserVM user)
+        {
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, TempUsers, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(ADUser newUser = new ADUser(context))
+                {
+                    newUser.SamAccountName = user.Username;
+                    newUser.GivenName = user.FirstName;
+                    newUser.MiddleName = user.MiddleName;
+                    newUser.Surname = user.LastName;
+                    newUser.EmailAddress = user.EmailAddress;
+                    newUser.PhoneNumber = user.PhoneNumber;
+                    newUser.Title = user.Title;
+                    newUser.Department = user.Department;
+                    newUser.Notes = "created by adweb on " + DateTime.Now.ToString();
+                    newUser.DisplayName = user.LastName + ", " + user.FirstName;
+                    newUser.UserPrincipalName = user.Username + "@test.local";
+                    newUser.Enabled = true;
+
+                    newUser.SetPassword(user.Password);
+                    newUser.Save();
+                }
+            }
         }
 
         public ADUser GetUserByID(string userId)

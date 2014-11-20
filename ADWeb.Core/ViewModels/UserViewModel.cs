@@ -14,7 +14,7 @@ namespace ADWeb.Core.ViewModels
     {
         [Display(Name="Username")]
         public string SamAccountName { get; set; }
-        
+
         [Display(Name="First name")] 
         [Required(ErrorMessage="First name is required.")]
         public string GivenName { get; set; }

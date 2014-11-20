@@ -59,7 +59,7 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 domain.UpdateUser(userId);
 
-                TempData["user_updated_successfully"] = userId.GivenName + "'s account has been successfully updated!";
+                TempData["user_updated_successfully"] = userId.GivenName + " " + userId.Surname + "'s account has been successfully updated!";
                 return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
             }
 
@@ -68,6 +68,27 @@ namespace ADWeb.Controllers
     
         public ActionResult RenameUser(string userId)
         {
+            return View();
+        }
+    
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateUser(CreateUserVM userId)
+        {
+            if(ModelState.IsValid)
+            {
+                ADDomain domain = new ADDomain();
+                domain.CreateUser(userId);
+
+                TempData["user_created"] = userId.FirstName + " " + userId.LastName + " has been created successfully!";
+                return RedirectToAction("ViewUser", new { userId = userId.Username });
+            }
+            
             return View();
         }
     }
