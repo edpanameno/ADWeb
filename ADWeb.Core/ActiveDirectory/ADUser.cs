@@ -150,6 +150,15 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        [DirectoryProperty("logonCount")]
+        public int LogonCount
+        {
+            get
+            {
+                return (int)ExtensionGet("logonCount")[0];
+            }
+        }
+
         [DirectoryProperty("RealLastLogon")]
         public DateTime? RealLastLoginDate
         {

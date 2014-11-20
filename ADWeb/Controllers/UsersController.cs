@@ -39,6 +39,7 @@ namespace ADWeb.Controllers
                 viewModel.Notes = user.Notes;
                 viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
                 viewModel.WhenCreated = user.WhenCreated.ToLocalTime();
+                viewModel.LogonCount = user.LogonCount.ToString();
                 
                 viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
 
