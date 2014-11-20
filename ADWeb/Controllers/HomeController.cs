@@ -14,15 +14,18 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
-            ADDomain domain = new ADDomain();
+            if(User.Identity.IsAuthenticated)
+            {
+                ADDomain domain = new ADDomain();
 
-            // We only take the first 10 users who have been updated
-            // in the last 7 days to not overwhelm the user who logs into
-            // the application. A link to the Users/Index page is provided 
-            // so that the user can look at more of the users that have been
-            // changed.
-            List<ADUser> users = domain.LastUpdatedUsers(DateTime.Now.AddDays(-7)).Take(10).ToList();
-            ViewBag.UsersChanged = users;
+                // We only take the first 10 users who have been updated
+                // in the last 7 days to not overwhelm the user who logs into
+                // the application. A link to the Users/Index page is provided 
+                // so that the user can look at more of the users that have been
+                // changed.
+                List<ADUser> users = domain.LastUpdatedUsers(DateTime.Now.AddDays(-7)).Take(10).ToList();
+                ViewBag.UsersChanged = users;
+            }
 
             return View();
         }
