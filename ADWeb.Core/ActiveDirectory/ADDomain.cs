@@ -35,6 +35,7 @@ namespace ADWeb.Core.ActiveDirectory
         public string ServiceUser { get; set; }
         public string ServicePassword { get; set; }
         public string TempUsers { get; set; }
+        public string UPNSuffix { get; set; }
 
         public ADDomain()
         {
@@ -42,6 +43,7 @@ namespace ADWeb.Core.ActiveDirectory
             ServiceUser = WebConfigurationManager.AppSettings["service_user"];
             ServicePassword = WebConfigurationManager.AppSettings["service_password"];
             TempUsers = WebConfigurationManager.AppSettings["temp_users"];
+            UPNSuffix = WebConfigurationManager.AppSettings["upn_suffix"];
         }
 
         public void CreateUser(CreateUserVM user)
@@ -60,7 +62,7 @@ namespace ADWeb.Core.ActiveDirectory
                     newUser.Department = user.Department;
                     newUser.Notes = "created by adweb on " + DateTime.Now.ToString();
                     newUser.DisplayName = user.LastName + ", " + user.FirstName;
-                    newUser.UserPrincipalName = user.Username + "@test.local";
+                    newUser.UserPrincipalName = user.Username + UPNSuffix;
                     newUser.Enabled = true;
 
                     newUser.SetPassword(user.Password);

@@ -22,7 +22,7 @@ namespace ADWeb
             // what's after the period is an extension. This would result in a 404
             // error message.
             routes.AppendTrailingSlash = true;
-
+            
             routes.MapRoute(
                 name: "GroupsSection",
                 url: "Groups/{action}/{groupId}",
