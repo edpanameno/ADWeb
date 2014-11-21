@@ -59,7 +59,7 @@ else
                         {
                             <tr>
                                 <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
-                                <td>@Html.ActionLink(@user.Title + " " + @user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
+                                <td>@Html.ActionLink(@user.Title != string.Empty ? @user.Title : "n/a", "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
                             </tr>
                         }
                     </table>
