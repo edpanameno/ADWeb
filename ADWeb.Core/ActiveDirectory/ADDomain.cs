@@ -86,6 +86,45 @@ namespace ADWeb.Core.ActiveDirectory
         }
 
         /// <summary>
+        /// This method gets a list of users that were created in the last number of days
+        /// specified in the parameter of this method.
+        /// </summary>
+        /// <param name="day">The number of days to go back on and check to see what users
+        /// were created during this time frame.</param>
+        /// <returns></returns>
+        public List<ADUser> UsersCreatedWithinLastNumberOfDays(DateTime day)
+        {
+            List<ADUser> users = new List<ADUser>();
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser userFilter = new ADUser(context);
+                userFilter.MyAdvancedFilters.CreatedInTheLastDays(day, MatchType.GreaterThanOrEquals);
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                {
+                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = searcher.FindAll().ToList();
+
+                    foreach(Principal user in searchResults)
+                    {
+                        ADUser usr = user as ADUser;
+
+                        // We are filtering out users who don't have a first name
+                        // Though this has the issue of filtering out accounts
+                        if(String.IsNullOrEmpty(usr.GivenName))
+                        {
+                            continue;
+                        }
+
+                        users.Add(usr);
+                    }
+                }
+            }
+
+            return users.OrderByDescending(u => u.WhenChanged).ToList();
+        }
+
+        /// <summary>
         /// Gets a list of the users who were changed in during the last number of days
         /// specified.
         /// </summary>
