@@ -22,11 +22,11 @@
     @foreach(var user in @Model)
     {
         <tr>
-            <td>@Html.ActionLink(@user.SamAccountName, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
-            <td>@Html.ActionLink(@user.GivenName, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
-            <td>@Html.ActionLink(@user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
-            <td>@Html.ActionLink(@user.Title != string.Empty ? @user.Title : "n/a", "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
-            <td>@Html.ActionLink(@user.WhenChanged.ToLocalTime().ToString(), "ViewUser", "Users", new { userId = @user.SamAccountName}, null)</td>
+            <td>@Html.ActionLink(@user.SamAccountName, "ViewUser", new { userId = @user.SamAccountName })</td>
+            <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName })</td>
+            <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName })</td>
+            <td>@Html.ActionLink(@user.Title != string.Empty ? @user.Title : "n/a", "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.WhenChanged.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName })</td>
         </tr>
     }
 </table>
