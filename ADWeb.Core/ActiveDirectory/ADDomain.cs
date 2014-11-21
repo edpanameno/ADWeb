@@ -26,6 +26,16 @@ namespace ADWeb.Core.ActiveDirectory
     }
 
     /// <summary>
+    /// Specifies what advanced search filter to use when 
+    /// searching for users in the domain.
+    /// </summary>
+    public enum AdvancedSearchFilter
+    {
+        DateCreated,
+        WhenChanged
+    }
+
+    /// <summary>
     /// This class will contain the methods that can be used to create and edit
     /// objects in active directory.
     /// </summary>
@@ -86,57 +96,30 @@ namespace ADWeb.Core.ActiveDirectory
         }
 
         /// <summary>
-        /// This method gets a list of users that were created in the last number of days
-        /// specified in the parameter of this method.
+        /// This method retrieves the list of users using the specified SearchFilter durin
+        /// the last number of days from the date that this is called on.
         /// </summary>
         /// <param name="day">The number of days to go back on and check to see what users
         /// were created during this time frame.</param>
         /// <returns></returns>
-        public List<ADUser> UsersCreatedWithinLastNumberOfDays(DateTime day)
+        public List<ADUser> GetUsersByCriteria(AdvancedSearchFilter filter, DateTime day)
         {
             List<ADUser> users = new List<ADUser>();
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser userFilter = new ADUser(context);
-                userFilter.MyAdvancedFilters.CreatedInTheLastDays(day, MatchType.GreaterThanOrEquals);
 
-                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                switch(filter)
                 {
-                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
-                    var searchResults = searcher.FindAll().ToList();
-
-                    foreach(Principal user in searchResults)
-                    {
-                        ADUser usr = user as ADUser;
-
-                        // We are filtering out users who don't have a first name
-                        // Though this has the issue of filtering out accounts
-                        if(String.IsNullOrEmpty(usr.GivenName))
-                        {
-                            continue;
-                        }
-
-                        users.Add(usr);
-                    }
+                    case AdvancedSearchFilter.DateCreated:
+                        userFilter.MyAdvancedFilters.CreatedInTheLastDays(day, MatchType.GreaterThanOrEquals);
+                        break;
+                    case AdvancedSearchFilter.WhenChanged:
+                        userFilter.MyAdvancedFilters.WhenChangedInLastDays(day, MatchType.GreaterThanOrEquals);
+                        break;
+                    default:
+                        break;
                 }
-            }
-
-            return users.OrderByDescending(u => u.WhenChanged).ToList();
-        }
-
-        /// <summary>
-        /// Gets a list of the users who were changed in during the last number of days
-        /// specified.
-        /// </summary>
-        /// <param name="days"></param>
-        /// <returns></returns>
-        public List<ADUser> LastUpdatedUsers(DateTime day)
-        {
-            List<ADUser> users = new List<ADUser>();
-            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
-            {
-                ADUser userFilter = new ADUser(context);
-                userFilter.MyAdvancedFilters.WhenChangedInLastDays(day, MatchType.GreaterThan);
 
                 using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
                 {
