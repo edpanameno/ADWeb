@@ -108,37 +108,38 @@ namespace ADWeb.Core.ActiveDirectory
             List<ADUser> users = new List<ADUser>();
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
-                ADUser userFilter = new ADUser(context);
-
-                switch(filter)
+                using(ADUser userFilter = new ADUser(context))
                 {
-                    case AdvancedSearchFilter.DateCreated:
-                        userFilter.MyAdvancedFilters.CreatedInTheLastDays(day, MatchType.GreaterThanOrEquals);
-                        break;
-                    case AdvancedSearchFilter.WhenChanged:
-                        userFilter.MyAdvancedFilters.WhenChangedInLastDays(day, MatchType.GreaterThanOrEquals);
-                        break;
-                    default:
-                        break;
-                }
-
-                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
-                {
-                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
-                    var searchResults = searcher.FindAll().ToList();
-
-                    foreach(Principal user in searchResults)
+                    switch(filter)
                     {
-                        ADUser usr = user as ADUser;
+                        case AdvancedSearchFilter.DateCreated:
+                            userFilter.MyAdvancedFilters.CreatedInTheLastDays(day, MatchType.GreaterThanOrEquals);
+                            break;
+                        case AdvancedSearchFilter.WhenChanged:
+                            userFilter.MyAdvancedFilters.WhenChangedInLastDays(day, MatchType.GreaterThanOrEquals);
+                            break;
+                        default:
+                            break;
+                    }
 
-                        // We are filtering out users who don't have a first name
-                        // Though this has the issue of filtering out accounts
-                        if(String.IsNullOrEmpty(usr.GivenName))
+                    using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                    {
+                        ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                        var searchResults = searcher.FindAll().ToList();
+
+                        foreach(Principal user in searchResults)
                         {
-                            continue;
-                        }
+                            ADUser usr = user as ADUser;
 
-                        users.Add(usr);
+                            // We are filtering out users who don't have a first name
+                            // Though this has the issue of filtering out accounts
+                            if(String.IsNullOrEmpty(usr.GivenName))
+                            {
+                                continue;
+                            }
+
+                            users.Add(usr);
+                        }
                     }
                 }
             }
