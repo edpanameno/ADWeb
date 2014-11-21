@@ -27,7 +27,8 @@ namespace ADWeb.Core.ActiveDirectory
 
     /// <summary>
     /// Specifies what advanced search filter to use when 
-    /// searching for users in the domain.
+    /// searching for users in the domain using the MyAdvanedFilters
+    /// class.
     /// </summary>
     public enum AdvancedSearchFilter
     {
