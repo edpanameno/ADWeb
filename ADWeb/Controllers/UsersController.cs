@@ -85,7 +85,7 @@ namespace ADWeb.Controllers
                 ADDomain domain = new ADDomain();
                 domain.CreateUser(userId);
 
-                TempData["user_created"] = userId.FirstName + " " + userId.LastName + " has been created successfully!";
+                TempData["user_created_successfully"] = userId.FirstName + " " + userId.LastName + " has been created successfully!";
                 return RedirectToAction("ViewUser", new { userId = userId.Username });
             }
             

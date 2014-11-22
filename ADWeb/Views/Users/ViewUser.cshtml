@@ -8,6 +8,17 @@
 <h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
 <p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged.ToString("g")</span></p>
 
+@if(@TempData["user_created_successfully"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["user_created_successfully"]</span>
+    </div>
+}
+
 @if(@TempData["user_updated_successfully"] != null)
 {
     <div class="alert alert-info alert-dismissable fade in" role="alert">
