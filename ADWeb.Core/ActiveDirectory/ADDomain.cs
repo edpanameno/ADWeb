@@ -224,11 +224,11 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 ADUser userFilter = new ADUser(context)
                 {
-                    DisplayName = "*" + searchString + "*",
-                    SamAccountName = "*" + searchString + "*",
+                    DisplayName = "*" + searchString + "*"
+                    /*SamAccountName = "*" + searchString + "*",
                     EmailAddress = "*" + searchString + "*",
                     Description = "*" + searchString + "*",
-                    Notes = "*" + searchString + "*"
+                    Notes = "*" + searchString + "*"*/
                 };
 
                 using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
