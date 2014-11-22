@@ -17,7 +17,7 @@ namespace ADWeb
             // specific routes must be done first for you to get the desired
             // results.
 
-            // This address Issue #24. When viewing a user who has a userid with a
+            // This addresses Issue #24. When viewing a user who has a userid with a
             // dot in it, we would get an error because asp.net mvc would think that
             // what's after the period is an extension. This would result in a 404
             // error message.
