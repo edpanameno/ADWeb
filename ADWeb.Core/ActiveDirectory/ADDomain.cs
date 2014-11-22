@@ -37,8 +37,8 @@ namespace ADWeb.Core.ActiveDirectory
     }
 
     /// <summary>
-    /// This class will contain the methods that can be used to create and edit
-    /// objects in active directory.
+    /// This class will contain the methods that can be used to create, edit
+    /// and retrieve objects from active directory
     /// </summary>
     public class ADDomain
     {
