@@ -18,7 +18,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ADWeb - User", "Index", null, new { @class="navbar-brand"})
+                @Html.ActionLink("ADWeb - Users", "Index", null, new { @class="navbar-brand"})
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -55,6 +55,8 @@
                                 <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-list"></span> Users Home</a></li>
                                 <li><a href="@Url.Action("CreateUser", "Users")"><span class="glyphicon glyphicon-user"></span> Create User</a></li>
                                 <li><a href="@Url.Action("Search", "Users")"><span class="glyphicon glyphicon-search"></span> Search User</a></li>
+                                <li class="nav-divider"></li>
+                                <li><a href="@Url.Action("Index", "Groups")"><span class="glyphicon glyphicon-book"></span> Groups</a></li>
                             }
                             
                             <li><a href="@Url.Action("Help", "Home")"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
@@ -73,6 +75,9 @@
                     <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-home"></span> Users Home</a></li>
                     <li><a href="@Url.Action("CreateUser", "Users")"><span class="glyphicon glyphicon-user"></span> Create User</a></li>
                     <li><a href="@Url.Action("Search", "Users")"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+                    <li class="nav-divider"></li>
+                    <li><a href="@Url.Action("Index", "Groups")"><span class="glyphicon glyphicon-book"></span> Groups</a></li>
+                    <li class="nav-divider"></li>
                     <li><a href="@Url.Action("Help", "Home")">Help</a></li>
                     <li><a href="@Url.Action("About", "Home")">About</a></li>
                 </ul>

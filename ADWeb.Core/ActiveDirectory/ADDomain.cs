@@ -273,5 +273,39 @@ namespace ADWeb.Core.ActiveDirectory
 
             return users;
         }
+    
+        public ADGroup GetGroupByName(string groupName)
+        {
+
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName);
+                ADGroup group = new ADGroup();
+                
+                if(adGroup != null)
+                {
+                    group.GroupName = adGroup.Name;
+                    group.Members = new Dictionary<string, string>();
+
+                    foreach(var usr in adGroup.Members)
+                    {
+                        if(!String.IsNullOrEmpty(usr.DisplayName))
+                        {
+                            group.Members.Add(usr.SamAccountName, usr.DisplayName);
+                        }
+                        else
+                        {
+                            group.Members.Add(usr.SamAccountName, usr.SamAccountName + " (display name empty)");
+                        }
+                    }
+
+                    return group;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
