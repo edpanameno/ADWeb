@@ -276,34 +276,36 @@ namespace ADWeb.Core.ActiveDirectory
     
         public ADGroup GetGroupByName(string groupName)
         {
+            ADGroup group = new ADGroup();
 
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
-                GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName);
-                ADGroup group = new ADGroup();
-                
-                if(adGroup != null)
+                using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName))
                 {
                     group.GroupName = adGroup.Name;
                     group.Members = new Dictionary<string, string>();
 
-                    foreach(var usr in adGroup.Members)
+                    using(var searchResults = adGroup.GetMembers(true))
                     {
-                        if(!String.IsNullOrEmpty(usr.DisplayName))
+                        /*foreach(ADUser usr in users.OfType<ADUser>())
                         {
-                            group.Members.Add(usr.SamAccountName, usr.DisplayName);
-                        }
-                        else
+                            group.Members.Add(usr.SamAccountName, usr.GivenName + " " + usr.Surname + " - " + usr.Department);
+                        }*/
+                        
+                        foreach(var usr in searchResults)
                         {
-                            group.Members.Add(usr.SamAccountName, usr.SamAccountName + " (display name empty)");
+                            if(!String.IsNullOrEmpty(usr.DisplayName))
+                            {
+                                group.Members.Add(usr.SamAccountName, usr.DisplayName);
+                            }
+                            else
+                            {
+                                group.Members.Add(usr.SamAccountName, usr.SamAccountName + " (display name empty)");
+                            }
                         }
                     }
 
                     return group;
-                }
-                else
-                {
-                    return null;
                 }
             }
         }

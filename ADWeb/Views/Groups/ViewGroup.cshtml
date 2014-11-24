@@ -1,0 +1,24 @@
+﻿@model ADWeb.Core.ActiveDirectory.ADGroup 
+
+@{
+    ViewBag.Title = "ViewGroup";
+    Layout = "~/Views/Shared/_Groups.cshtml";
+}
+
+<h2>@Model.GroupName (Members: @Model.Members.Count.ToString())</h2>
+<p>Below you will find the members of this group.</p>
+<table class="table table-bordered table-hover" width="50%">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model.Members)
+        {
+            <tr>
+                <td>@Html.ActionLink(@user.Value, "ViewUser", "Users", new { userId = @user.Key }, null)</td>
+            </tr>
+        }
+    </tbody>
+</table>
