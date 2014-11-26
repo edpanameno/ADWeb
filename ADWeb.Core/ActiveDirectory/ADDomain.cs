@@ -285,13 +285,8 @@ namespace ADWeb.Core.ActiveDirectory
                     group.GroupName = adGroup.Name;
                     group.Members = new Dictionary<string, string>();
 
-                    using(var searchResults = adGroup.GetMembers(true))
+                    using(var searchResults = adGroup.GetMembers())
                     {
-                        /*foreach(ADUser usr in users.OfType<ADUser>())
-                        {
-                            group.Members.Add(usr.SamAccountName, usr.GivenName + " " + usr.Surname + " - " + usr.Department);
-                        }*/
-                        
                         foreach(var usr in searchResults)
                         {
                             if(!String.IsNullOrEmpty(usr.DisplayName))
