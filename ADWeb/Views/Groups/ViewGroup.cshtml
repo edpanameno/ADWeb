@@ -5,9 +5,17 @@
     Layout = "~/Views/Shared/_Groups.cshtml";
 }
 
+@section headSection {
+    <style type="text/css">
+        .table-nonfluid {
+            width: 50%;
+        }
+    </style>
+}
+
 <h2>@Model.GroupName (Members: @Model.Members.Count.ToString())</h2>
 <p>Below you will find the members of this group.</p>
-<table class="table table-bordered table-hover">
+<table class="table table-nonfluid table-bordered table-hover">
     <thead>
         <tr>
             <th>First Name</th>
