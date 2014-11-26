@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ADWeb.Core.ActiveDirectory
 {
+    /// <summary>
+    /// Used to display user information for groups
+    /// </summary>
     public class ADUserQuickView
     {
         public string UserName { get; set; }
@@ -21,6 +24,6 @@ namespace ADWeb.Core.ActiveDirectory
     public class ADGroup 
     {
         public string GroupName { get; set; }
-        public Dictionary<string, string> Members { get; set; }
+        public List<ADUserQuickView> Members { get; set; }
     }
 }

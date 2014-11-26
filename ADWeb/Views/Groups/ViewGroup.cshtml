@@ -7,17 +7,19 @@
 
 <h2>@Model.GroupName (Members: @Model.Members.Count.ToString())</h2>
 <p>Below you will find the members of this group.</p>
-<table class="table table-bordered table-hover" width="50%">
+<table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var user in Model.Members)
         {
             <tr>
-                <td>@Html.ActionLink(@user.Value, "ViewUser", "Users", new { userId = @user.Key }, null)</td>
+                <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
+                <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
             </tr>
         }
     </tbody>

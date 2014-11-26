@@ -283,20 +283,21 @@ namespace ADWeb.Core.ActiveDirectory
                 using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName))
                 {
                     group.GroupName = adGroup.Name;
-                    group.Members = new Dictionary<string, string>();
+                    group.Members = new List<ADUserQuickView>();
 
-                    using(var searchResults = adGroup.GetMembers())
+                    // We use the OfType<T> method to be able to get more information about
+                    // the members of this group. This will give us 
+                    var searchResults = adGroup.GetMembers().OfType<UserPrincipal>();
+                    
+                    foreach(var user in searchResults)
                     {
-                        foreach(var usr in searchResults)
+                        if(!String.IsNullOrEmpty(user.DisplayName))
                         {
-                            if(!String.IsNullOrEmpty(usr.DisplayName))
-                            {
-                                group.Members.Add(usr.SamAccountName, usr.DisplayName);
-                            }
-                            else
-                            {
-                                group.Members.Add(usr.SamAccountName, usr.SamAccountName + " (display name empty)");
-                            }
+                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.GivenName, LastName = user.Surname } );
+                        }
+                        else
+                        {
+                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.SamAccountName + " (username)", LastName = user.SamAccountName + "(username)" });
                         }
                     }
 
