@@ -2,10 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
-    ViewBag.Title = Model.GivenName + " " + Model.MiddleName + " " + Model.Surname;
+    ViewBag.Title = Model.GivenName + " " + Model.Initial + " " + Model.Surname;
 }
 
-<h2>@Model.GivenName @Model.MiddleName @Model.Surname</h2>
+<h2>@Model.GivenName @Model.Initial @Model.Surname</h2>
 <p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged.ToString("g")</span></p>
 
 @if(@TempData["user_created_successfully"] != null)
@@ -45,7 +45,8 @@
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="basic-info">
-        <p>Use the fields below to view and edit the information for this user. Note: When updating this users, all fields that are marked with an asterisk (*) are required fields.</p>
+        <p>Use the fields below to view and edit the information for this user. 
+        Note: When updating this users, all fields that are marked with an asterisk (*) are required fields.</p>
         @Html.ValidationSummary()
         @using(Html.BeginForm("UpdateUser", "Users", FormMethod.Post, new { @class="form-horizontal", role="form" }))
         {
@@ -67,9 +68,9 @@
             </div>
             
             <div class="form-group">
-                <label for="MiddleName" class="col-sm-2 control-label">Middle Name</label>
+                <label for="MiddleName" class="col-sm-2 control-label">Middle Initial</label>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(m => m.MiddleName, new { @class="form-control" })
+                    @Html.TextBoxFor(m => m.Initial, new { @class="form-control" })
                 </div>
             </div>
             

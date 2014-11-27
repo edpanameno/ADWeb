@@ -28,6 +28,27 @@ namespace ADWeb.Core.ActiveDirectory
         }
 
         public ADUser(PrincipalContext context) : base(context) {}
+        
+        [DirectoryProperty("initials")]
+        public string Initials
+        {
+            get
+            {
+                if(ExtensionGet("initials").Length != 1)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (string)ExtensionGet("initials")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("initials", value);
+            }
+        }
+
         [DirectoryProperty("company")]
         public string Company
         {

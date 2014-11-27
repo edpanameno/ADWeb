@@ -65,14 +65,14 @@ namespace ADWeb.Core.ActiveDirectory
                 {
                     newUser.SamAccountName = user.Username;
                     newUser.GivenName = user.FirstName;
-                    newUser.MiddleName = user.MiddleName;
+                    newUser.Initials = user.Initials;
                     newUser.Surname = user.LastName;
                     newUser.EmailAddress = user.EmailAddress;
                     newUser.PhoneNumber = user.PhoneNumber;
                     newUser.Title = user.Title;
                     newUser.Department = user.Department;
-                    newUser.Notes = "created by adweb on " + DateTime.Now.ToString();
-                    newUser.DisplayName = user.LastName + ", " + user.FirstName;
+                    newUser.Notes = "created by ADWeb on " + DateTime.Now.ToString();
+                    newUser.DisplayName = user.LastName + ", " + user.FirstName + " " + user.Initials;
                     newUser.UserPrincipalName = user.Username + UPNSuffix;
                     newUser.Enabled = true;
 
@@ -194,7 +194,7 @@ namespace ADWeb.Core.ActiveDirectory
                     if(user != null)
                     {
                         user.GivenName = updatedUser.GivenName;
-                        user.MiddleName = updatedUser.MiddleName;
+                        user.Initials = updatedUser.Initial;
                         user.Surname = updatedUser.Surname;
                         user.DisplayName = updatedUser.DisplayName;
                         user.EmailAddress = updatedUser.EmailAddress;

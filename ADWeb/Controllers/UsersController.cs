@@ -28,7 +28,7 @@ namespace ADWeb.Controllers
                 UserViewModel viewModel = new UserViewModel();
                 viewModel.SamAccountName = user.SamAccountName;
                 viewModel.GivenName = user.GivenName;
-                viewModel.MiddleName = user.MiddleName;
+                viewModel.Initial = user.Initials;
                 viewModel.Surname = user.Surname;
                 viewModel.DisplayName = user.DisplayName;
                 viewModel.EmailAddress = user.EmailAddress;

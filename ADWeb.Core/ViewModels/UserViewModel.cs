@@ -19,6 +19,7 @@ namespace ADWeb.Core.ViewModels
         [Required(ErrorMessage="First name is required.")]
         public string GivenName { get; set; }
         public string MiddleName { get; set; }
+        public string Initial { get; set; }
         
         [Display(Name="Last name")] 
         [Required(ErrorMessage="Last name is required.")]

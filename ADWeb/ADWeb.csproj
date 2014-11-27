@@ -146,6 +146,7 @@
     <Content Include="Content\js\respond.js" />
     <Content Include="Content\js\respond.min.js" />
     <Content Include="Content\js\_references.js" />
+    <Content Include="user.ico" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
