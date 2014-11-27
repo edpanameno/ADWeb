@@ -35,6 +35,7 @@ namespace ADWeb.Core.ViewModels
         public string MiddleName { get; set; }
         
         [Display(Name="Initials")] 
+        [StringLength(2, ErrorMessage="Initials can only be one character long")]
         public string Initials { get; set; }
         
         [Display(Name="Last name")] 

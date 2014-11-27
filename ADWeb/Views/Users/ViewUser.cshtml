@@ -71,6 +71,7 @@
                 <label for="MiddleName" class="col-sm-2 control-label">Middle Initial</label>
                 <div class="col-sm-5">
                     @Html.TextBoxFor(m => m.Initial, new { @class="form-control" })
+                    @Html.ValidationMessageFor(m => m.Initial)
                 </div>
             </div>
             

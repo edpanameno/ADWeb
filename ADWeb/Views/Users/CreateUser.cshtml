@@ -23,6 +23,7 @@
         <label for="MiddleName" class="col-sm-2 control-label">Middle Initial</label>
         <div class="col-sm-5">
             @Html.TextBoxFor(m => m.Initials, new { @class="form-control", placeholder="Enter Middle Inital" })
+            @Html.ValidationMessageFor(m => m.Initials)
         </div>
     </div>
     

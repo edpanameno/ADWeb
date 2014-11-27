@@ -19,6 +19,9 @@ namespace ADWeb.Core.ViewModels
         [Required(ErrorMessage="First name is required.")]
         public string GivenName { get; set; }
         public string MiddleName { get; set; }
+        
+        [Display(Name="Initials")]
+        [StringLength(2, ErrorMessage="The initial can only be one character long.")]
         public string Initial { get; set; }
         
         [Display(Name="Last name")] 
