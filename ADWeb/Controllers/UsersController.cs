@@ -106,9 +106,33 @@ namespace ADWeb.Controllers
         public ActionResult RecentlyCreated()
         {
             ADDomain domain = new ADDomain();
+            List<SelectListItem> days = new List<SelectListItem>();
+            
+            for(int i = 1; i <= 31; i++)
+            {
+                if(i == 14)
+                {
+                    days.Add(new SelectListItem() { Text = i.ToString() + " Days", Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    days.Add(new SelectListItem() { Text = i.ToString() + " Days", Value = i.ToString() });
+                }
+            }
+
+            ViewBag.days = days;
             List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-14));
             
             return View(users);
+        }
+
+        public PartialViewResult RefreshRecentlyCreated(int days = 7)
+        {
+            int formattedDays = days * (-1);
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(formattedDays)).ToList();
+            
+            return PartialView("_FilteredUsers", users);
         }
     }
 }

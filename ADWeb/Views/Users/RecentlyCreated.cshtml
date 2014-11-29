@@ -3,27 +3,46 @@
 @{
     ViewBag.Title = "Users - Recently Created";
     Layout = "~/Views/Shared/_Users.cshtml";
+    AjaxOptions ajaxOptions = new AjaxOptions()
+    {
+        UpdateTargetId = "filtered-users"
+    };
 }
 
 <h3>Recently Created Users</h3>
 <p>Below you will find the list of users that have been recently created in the domain.</p>
 
-<table class="table table-bordered table-condensed table-hover">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Title</th>
-            <th>Department</th>
-        </tr>
-    </thead>
-    @foreach(var user in @Model)
-    {
-        <tr>
-            <td>@user.GivenName</td>
-            <td>@user.Surname</td>
-            <td>@user.Title</td>
-            <td>@user.Department</td>
-        </tr>
-    }
-</table>
+@using(Ajax.BeginForm("RefreshRecentlyCreated", "Users", null, ajaxOptions, new { @class="form-inline", role="role" }))
+{
+      <div class="form-group">
+        <label for="days">Created in the last Days</label>
+        @Html.DropDownList("days", null, new { @class = "form-control" }) 
+   </div>
+   <div class="form-group">
+       <button type="submit" class="btn btn-primary">Refresh</button>
+   </div>
+}
+<br />
+<div id="filtered-users">
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        @foreach(var user in @Model)
+        {
+            <tr>
+                <td>@user.GivenName</td>
+                <td>@user.Surname</td>
+                <td>@user.Title</td>
+                <td>@user.Department</td>
+                <td>@user.WhenCreated</td>
+            </tr>
+        }
+    </table>
+</div>
