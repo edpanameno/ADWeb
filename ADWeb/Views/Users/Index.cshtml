@@ -1,32 +1,66 @@
-﻿@model List<ADWeb.Core.ActiveDirectory.ADUser>
+﻿@model ADWeb.Core.ViewModels.ViewUsersVM
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
     ViewBag.Title = "Users Home";
 }
 
-<h3>Users Home</h3>
-<p>Home page of the users section of the ADWeb application.</p>
-<h4>@Model.Count.ToString() users changed in the last 7 days</h4>
+<h3>Domain Users</h3>
+<p>Welcome to the Home page for the Domain Users! Below you will be able to do a search as well as see the most recently created and updated
+    users in the domain.</p>
 
-<table class="table table-bordered table-condensed table-hover">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Title</th>
-            <th>When Changed</th>
-        </tr>
-    </thead>
-    @foreach(var user in @Model)
-    {
-        <tr>
-            <td>@Html.ActionLink(@user.SamAccountName, "ViewUser", new { userId = @user.SamAccountName })</td>
-            <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName })</td>
-            <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName })</td>
-            <td>@Html.ActionLink(@user.Title != string.Empty ? @user.Title : "n/a", "ViewUser", new { userId = @user.SamAccountName})</td>
-            <td>@Html.ActionLink(@user.WhenChanged.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName })</td>
-        </tr>
-    }
-</table>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Last 10 users <b><u>created</u></b> in the last 7 days.
+            </div>
+            <div class="panel-body">
+                <p>Below you will find the list of users that have been created in the last 7 days.</p>
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    @foreach(var user in @Model.RecentlyCreated)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", new { userId = @user.SamAccountName })</td>
+                            <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName })</td>
+                        </tr>
+                    }
+                </table>
+                @Html.ActionLink("View More ...", "RecentlyCreated", "Users", null, new { @class = "pull-right", title="View List of users that were recently created"} )
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Last 10 users that were <b><u>updated</u></b> in the last 7 days.
+            </div>
+            <div class="panel-body">
+                <p>Below you will find the list of users that have been updated in the last 7 days.</p>
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    @foreach(var user in @Model.RecentlyUpdated)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", new { userId = @user.SamAccountName })</td>
+                            <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName })</td>
+                        </tr>
+                    }
+                </table>
+                @Html.ActionLink("View More ...", "RecentlyUpdated", "Users", null, new { @class = "pull-right", title="View List of users that were recently created"} )
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
+
+@{
+    ViewBag.Title = "Users - Recently Updated";
+    Layout = "~/Views/Shared/_Users.cshtml";
+}
+
+<h3>Recently Updated Users</h3>
+<p>Below you will find the list of users that have been recently upated in the domain.</p>
+
+<table class="table table-bordered table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    @foreach(var user in @Model)
+    {
+        <tr>
+            <td>@user.GivenName</td>
+            <td>@user.Surname</td>
+            <td>@user.Title</td>
+            <td>@user.Department</td>
+        </tr>
+    }
+</table>
+

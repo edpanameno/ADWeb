@@ -14,7 +14,10 @@ namespace ADWeb.Controllers
         public ActionResult Index()
         {
             ADDomain domain = new ADDomain();
-            List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-7));
+            ViewUsersVM users = new ViewUsersVM();
+            users.RecentlyUpdated = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-7)).Take(10).ToList();
+            users.RecentlyCreated = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7)).Take(10).ToList();
+
             return View(users);
         }
 
@@ -90,6 +93,22 @@ namespace ADWeb.Controllers
             }
             
             return View();
+        }
+
+        public ActionResult RecentlyUpdated()
+        {
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-14));
+            
+            return View(users);
+        }
+
+        public ActionResult RecentlyCreated()
+        {
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-14));
+            
+            return View(users);
         }
     }
 }
