@@ -107,11 +107,13 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             List<SelectListItem> days = new List<SelectListItem>();
-            
+
             for(int i = 1; i <= 31; i++)
             {
                 if(i == 14)
                 {
+                    // We are selecting the default number of days to 
+                    // look for users recently created.
                     days.Add(new SelectListItem() { Text = i.ToString() + " days", Value = i.ToString(), Selected = true });
                 }
                 else

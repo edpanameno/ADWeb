@@ -8,8 +8,17 @@
     // using ajax. 
     AjaxOptions ajaxOptions = new AjaxOptions()
     {
-        UpdateTargetId = "filtered-users"
+        UpdateTargetId = "filtered-users",
+        LoadingElementId = "loading",
+        LoadingElementDuration = 500
     };
+}
+
+@section headSection {
+    <script type="text/javascript">
+        $(function () {
+        });
+    </script>
 }
 
 <h3>Recently Created Users</h3>
@@ -30,6 +39,9 @@
 }
 <br />
 <br />
+<div id="loading" style="display: none">
+    <p style="color: #900"><b>Loading Records ...</b></p>
+</div>
 <div id="filtered-users">
     <table class="table table-bordered table-condensed table-hover">
         <thead>
