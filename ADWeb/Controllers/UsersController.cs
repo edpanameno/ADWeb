@@ -126,6 +126,8 @@ namespace ADWeb.Controllers
             return View(users);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public PartialViewResult RefreshRecentlyCreated(int days = 7)
         {
             int formattedDays = days * (-1);

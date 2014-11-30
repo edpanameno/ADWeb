@@ -19,6 +19,7 @@
 
 @using(Ajax.BeginForm("RefreshRecentlyCreated", "Users", null, ajaxOptions, new { @class="form-inline pull-right", role="role" }))
 {
+    @Html.AntiForgeryToken()
       <div class="form-group">
         <label for="days">Users Created in the last days </label>
         @Html.DropDownList("days", null, new { @class = "form-control" }) 
