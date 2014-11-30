@@ -10,9 +10,11 @@
 }
 
 <h3>Recently Created Users</h3>
-<p>Below you will find the list of users that have been recently created in the domain.</p>
+<p>Below you will find the list of users that have been recently created in the domain. By default, only users that were created in the
+    last 14 days (2 weeks) are shown. If you want to show the users created during a different time span, click on the drop down list you
+    see below and hit the 'Refresh' button.</p>
 
-@using(Ajax.BeginForm("RefreshRecentlyCreated", "Users", null, ajaxOptions, new { @class="form-inline", role="role" }))
+@using(Ajax.BeginForm("RefreshRecentlyCreated", "Users", null, ajaxOptions, new { @class="form-inline pull-right", role="role" }))
 {
       <div class="form-group">
         <label for="days">Users Created in the last days </label>
@@ -23,7 +25,7 @@
    </div>
 }
 <br />
-
+<br />
 <div id="filtered-users">
     <table class="table table-bordered table-condensed table-hover">
         <thead>
@@ -42,7 +44,7 @@
                 <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
                 <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
                 <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
-                <td>@Html.ActionLink(@user.WhenCreated.ToShortDateString(), "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.WhenCreated.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName})</td>
             </tr>
         }
     </table>
