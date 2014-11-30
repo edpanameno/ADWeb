@@ -112,11 +112,11 @@ namespace ADWeb.Controllers
             {
                 if(i == 14)
                 {
-                    days.Add(new SelectListItem() { Text = i.ToString() + " Days", Value = i.ToString(), Selected = true });
+                    days.Add(new SelectListItem() { Text = i.ToString() + " days", Value = i.ToString(), Selected = true });
                 }
                 else
                 {
-                    days.Add(new SelectListItem() { Text = i.ToString() + " Days", Value = i.ToString() });
+                    days.Add(new SelectListItem() { Text = i.ToString() + " days", Value = i.ToString() });
                 }
             }
 
