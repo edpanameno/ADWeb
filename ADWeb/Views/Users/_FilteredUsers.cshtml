@@ -13,11 +13,11 @@
     @foreach(var user in @Model)
     {
         <tr>
-            <td>@user.GivenName</td>
-            <td>@user.Surname</td>
-            <td>@user.Title</td>
-            <td>@user.Department</td>
-            <td>@user.WhenCreated</td>
+            <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
+            <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.WhenCreated.ToShortDateString(), "ViewUser", new { userId = @user.SamAccountName})</td>
         </tr>
     }
 </table>

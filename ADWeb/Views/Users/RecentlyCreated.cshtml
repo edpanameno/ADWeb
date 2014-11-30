@@ -15,14 +15,15 @@
 @using(Ajax.BeginForm("RefreshRecentlyCreated", "Users", null, ajaxOptions, new { @class="form-inline", role="role" }))
 {
       <div class="form-group">
-        <label for="days">Created in the last Days</label>
+        <label for="days">Users Created in the last days </label>
         @Html.DropDownList("days", null, new { @class = "form-control" }) 
    </div>
    <div class="form-group">
-       <button type="submit" class="btn btn-primary">Refresh</button>
+       <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
    </div>
 }
 <br />
+
 <div id="filtered-users">
     <table class="table table-bordered table-condensed table-hover">
         <thead>
@@ -37,11 +38,11 @@
         @foreach(var user in @Model)
         {
             <tr>
-                <td>@user.GivenName</td>
-                <td>@user.Surname</td>
-                <td>@user.Title</td>
-                <td>@user.Department</td>
-                <td>@user.WhenCreated</td>
+                <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
+                <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.WhenCreated.ToShortDateString(), "ViewUser", new { userId = @user.SamAccountName})</td>
             </tr>
         }
     </table>

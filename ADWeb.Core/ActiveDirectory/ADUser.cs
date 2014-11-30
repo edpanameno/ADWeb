@@ -56,7 +56,7 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 if(ExtensionGet("company").Length != 1)
                 {
-                    return string.Empty;
+                    return "No Company Entered";
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 if(ExtensionGet("department").Length != 1)
                 {
-                    return string.Empty;
+                    return "No Department Entered";
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 if(ExtensionGet("title").Length != 1)
                 {
-                    return string.Empty;
+                    return "No Title Entered";
                 }
                 else
                 {

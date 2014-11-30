@@ -131,6 +131,8 @@ namespace ADWeb.Controllers
             int formattedDays = days * (-1);
             ADDomain domain = new ADDomain();
             List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(formattedDays)).ToList();
+
+            users.OrderBy(u => u.WhenCreated);
             
             return PartialView("_FilteredUsers", users);
         }
