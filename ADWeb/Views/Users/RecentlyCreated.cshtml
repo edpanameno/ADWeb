@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Users - Recently Created";
     Layout = "~/Views/Shared/_Users.cshtml";
+    
+    // These are the options that will be used to submit the request
+    // using ajax. 
     AjaxOptions ajaxOptions = new AjaxOptions()
     {
         UpdateTargetId = "filtered-users"
