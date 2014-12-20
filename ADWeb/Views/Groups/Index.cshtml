@@ -6,22 +6,24 @@
     Layout = "~/Views/Shared/_Groups.cshtml";
 }
 
-<div class="col-md-8">
 <h3>Domain Groups</h3>
 <p>Below you will find information about the groups stored in the domain.</p>
-    <table class="table table-bordered table-condensed">
-        <thead>
-            <tr>
-                <th>Group name</th>
-                <th style="text-align: center">User Count</th>
-            </tr>
-        </thead>
-        @foreach(var group in @Model)
-        {
-            <tr>
-                <td>@Html.ActionLink(@group.GroupName, "ViewGroup", new { groupId = @group.GroupName }, new { title = @group.Description })</td>
-                <td style="text-align: center">@Html.ActionLink(@group.MemberCount.ToString(), "ViewGroup", new {groupId = @group.GroupName})</td>
-            </tr>
-        }
-    </table>
-</div>
+<p><b>Tip:</b> Hover of the group name to view the description of the group.</p>
+<button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil"></span> Create New Group</button>
+<br />
+<br />
+<table class="table table-bordered table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Group name</th>
+            <th style="text-align: center">User Count</th>
+        </tr>
+    </thead>
+    @foreach(var group in @Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(@group.GroupName, "ViewGroup", new { groupId = @group.GroupName }, new { title = @group.Description })</td>
+            <td style="text-align: center">@Html.ActionLink(@group.MemberCount.ToString(), "ViewGroup", new {groupId = @group.GroupName})</td>
+        </tr>
+    }
+</table>
