@@ -316,7 +316,7 @@ namespace ADWeb.Core.ActiveDirectory
 
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
-                GroupPrincipal groupFilter = new GroupPrincipal(context) { IsSecurityGroup = true };
+                GroupPrincipal groupFilter = new GroupPrincipal(context);
 
                 using(PrincipalSearcher searcher = new PrincipalSearcher(groupFilter))
                 {
@@ -325,13 +325,18 @@ namespace ADWeb.Core.ActiveDirectory
                     foreach(Principal grp in results)
                     {
                         GroupPrincipal group = grp as GroupPrincipal;
+                        
+                        if(group.Name == "Domain Users")
+                        {
+                            continue;
+                        }
+
                         groups.Add(new ADGroup { GroupName = group.Name, MemberCount = group.Members.Count });
-                        //groups.Add(group.Name + " has " + group.Members.Count + " users");
                     }
                 }
             }
 
-            return groups;
+            return groups.OrderBy(g => g.GroupName).ToList();
         }
     }
 }
