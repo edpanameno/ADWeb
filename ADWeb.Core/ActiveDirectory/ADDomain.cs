@@ -47,6 +47,7 @@ namespace ADWeb.Core.ActiveDirectory
         public string ServicePassword { get; set; }
         public string TempUsers { get; set; }
         public string UPNSuffix { get; set; }
+        public string GroupsOU { get; set; }
 
         public ADDomain()
         {
@@ -55,6 +56,7 @@ namespace ADWeb.Core.ActiveDirectory
             ServicePassword = WebConfigurationManager.AppSettings["service_password"];
             TempUsers = WebConfigurationManager.AppSettings["temp_users"];
             UPNSuffix = WebConfigurationManager.AppSettings["upn_suffix"];
+            GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];
         }
 
         public void CreateUser(CreateUserVM user)
@@ -314,7 +316,7 @@ namespace ADWeb.Core.ActiveDirectory
         {
             List<ADGroup> groups = new List<ADGroup>();
 
-            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, GroupsOU, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 GroupPrincipal groupFilter = new GroupPrincipal(context);
 
@@ -325,13 +327,7 @@ namespace ADWeb.Core.ActiveDirectory
                     foreach(Principal grp in results)
                     {
                         GroupPrincipal group = grp as GroupPrincipal;
-                        
-                        if(group.Name == "Domain Users")
-                        {
-                            continue;
-                        }
-
-                        groups.Add(new ADGroup { GroupName = group.Name, MemberCount = group.Members.Count });
+                        groups.Add(new ADGroup { GroupName = group.Name, MemberCount = group.Members.Count, DN = group.DistinguishedName, Description = group.Description });
                     }
                 }
             }

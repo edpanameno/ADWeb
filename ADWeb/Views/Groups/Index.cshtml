@@ -19,7 +19,7 @@
         @foreach(var group in @Model)
         {
             <tr>
-                <td>@Html.ActionLink(@group.GroupName, "ViewGroup", new {groupId = @group.GroupName})</td>
+                <td>@Html.ActionLink(@group.GroupName, "ViewGroup", new { groupId = @group.GroupName }, new { title = @group.Description })</td>
                 <td style="text-align: center">@Html.ActionLink(@group.MemberCount.ToString(), "ViewGroup", new {groupId = @group.GroupName})</td>
             </tr>
         }
