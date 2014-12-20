@@ -305,5 +305,33 @@ namespace ADWeb.Core.ActiveDirectory
                 }
             }
         }
+
+        /// <summary>
+        /// Gets all of the active groups in the domain
+        /// </summary>
+        /// <returns></returns>
+        public List<ADGroup> GetAllActiveGroups()
+        {
+            List<ADGroup> groups = new List<ADGroup>();
+
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                GroupPrincipal groupFilter = new GroupPrincipal(context) { IsSecurityGroup = true };
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(groupFilter))
+                {
+                    var results = searcher.FindAll().ToList();
+
+                    foreach(Principal grp in results)
+                    {
+                        GroupPrincipal group = grp as GroupPrincipal;
+                        groups.Add(new ADGroup { GroupName = group.Name, MemberCount = group.Members.Count });
+                        //groups.Add(group.Name + " has " + group.Members.Count + " users");
+                    }
+                }
+            }
+
+            return groups;
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace ADWeb.Core.ActiveDirectory
     public class ADGroup 
     {
         public string GroupName { get; set; }
+        public int MemberCount { get; set; }
         public List<ADUserQuickView> Members { get; set; }
     }
 }

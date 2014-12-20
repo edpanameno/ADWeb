@@ -1,7 +1,25 @@
-﻿@{
+﻿@using ADWeb.Core.ActiveDirectory
+@model IEnumerable<ADGroup>
+
+@{
     ViewBag.Title = "Groups - Home";
     Layout = "~/Views/Shared/_Groups.cshtml";
 }
 
 <h3>Domain Groups</h3>
 <p>Below you will find information about the groups stored in the domain.</p>
+<table class="table table-bordered table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>Group name</th>
+            <th>User Count</th>
+        </tr>
+    </thead>
+    @foreach(var group in @Model)
+    {
+        <tr>
+            <td>@group.GroupName</td>
+            <td>@group.MemberCount</td>
+        </tr>
+    }
+</table>

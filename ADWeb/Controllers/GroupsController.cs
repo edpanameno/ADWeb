@@ -13,7 +13,10 @@ namespace ADWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            ADDomain domain = new ADDomain();
+            List<ADGroup> groups = domain.GetAllActiveGroups();
+
+            return View(groups);
         }
 
         public ActionResult ViewGroup(string groupId)
