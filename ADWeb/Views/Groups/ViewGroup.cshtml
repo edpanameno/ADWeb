@@ -13,22 +13,41 @@
     </style>
 }
 
-<h2>@Model.GroupName (Members: @Model.Members.Count.ToString())</h2>
-<p>Below you will find the members of this group.</p>
-<table class="table table-nonfluid table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var user in Model.Members)
-        {
+@if(@TempData["group_created_successfully"] != null)
+{
+    <br />
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["group_created_successfully"]</span>
+    </div>
+}
+    
+<h3>@Model.GroupName</h3>
+@if(Model.Members.Count > 0)
+{
+    <p>Below you will find the <b>@Model.Members.Count.ToString()</b> members of this group.</p>
+    <table class="table table-nonfluid table-bordered table-hover">
+        <thead>
             <tr>
-                <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
-                <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
+                <th>First Name</th>
+                <th>Last Name</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach(var user in Model.Members)
+            {
+                <tr>
+                    <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
+                    <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>This group currently has no users.</p>
+}

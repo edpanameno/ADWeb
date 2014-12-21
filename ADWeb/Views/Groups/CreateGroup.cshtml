@@ -1,0 +1,35 @@
+﻿@model ADWeb.Core.ViewModels.CreateGroupVM
+
+@{
+    ViewBag.Title = "Create New Group";
+    Layout = "~/Views/Shared/_Groups.cshtml";
+}
+
+<h3>Create New Group</h3>
+<p>Use the fields below to create a new group in the domain. Note: All fields marked with an asterisks are required.</p>
+<br />
+@using(Html.BeginForm("CreateGroup", "Group", FormMethod.Post, new { @class="form-horizontal", role="form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="GroupName" class="col-sm-2 control-label">Group Name*</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.GroupName, new { @class="form-control", placeholder="Enter Group Name", autofocus="autofocus" })
+            @Html.ValidationMessageFor(m => m.GroupName)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="GroupNotes" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-8">
+            @Html.TextAreaFor(m => m.Description, new { rows="8", cols="12", @class="form-control", placeholder="Enter Group Description", autofocus="autofocus" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6" >
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Create Group</button>
+        </div>
+    </div>
+}
+

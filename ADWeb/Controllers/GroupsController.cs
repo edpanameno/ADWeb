@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ADWeb.Core.ActiveDirectory;
+using ADWeb.Core.ViewModels;
 
 namespace ADWeb.Controllers
 {
@@ -25,6 +26,27 @@ namespace ADWeb.Controllers
             ADGroup group = domain.GetGroupByName(groupId);
 
             return View(group);
+        }
+
+        public ActionResult CreateGroup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateGroup(CreateGroupVM groupId)
+        {
+            if(ModelState.IsValid)
+            {
+                ADDomain domain = new ADDomain();
+                domain.CreateGroup(groupId);
+                
+                TempData["group_created_successfully"] = groupId.GroupName + " has been created successfully!";
+                return RedirectToAction("ViewGroup", new { groupId = groupId.GroupName });
+            }
+
+            return View();
         }
     }
 }

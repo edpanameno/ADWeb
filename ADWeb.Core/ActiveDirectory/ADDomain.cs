@@ -84,6 +84,21 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        public void CreateGroup(CreateGroupVM group)
+        {
+            // By default, all groups will go into the GroupsOU
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, GroupsOU, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(GroupPrincipal newGroup = new GroupPrincipal(context))
+                {
+                    newGroup.Name = group.GroupName;
+                    newGroup.SamAccountName = group.GroupName;
+                    newGroup.Description = group.Description;
+                    newGroup.Save();
+                }
+            }
+        }
+
         public ADUser GetUserByID(string userId)
         {
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
