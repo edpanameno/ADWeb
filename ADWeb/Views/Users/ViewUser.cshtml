@@ -6,7 +6,7 @@
 }
 
 <h2>@Model.GivenName @Model.Initial @Model.Surname</h2>
-<p>Click on the tabs below to view the information for this user. <span class="pull-right">last updated @Model.WhenChanged.ToString("g")</span></p>
+<p>Click on the tabs below to view the information for this user.</p>
 
 @if(@TempData["user_created_successfully"] != null)
 {
@@ -174,6 +174,6 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="user-history">
         <p>User Created on @Model.WhenCreated</p>
+        <p>last updated @Model.WhenChanged.ToString("g")</p>
         <p>Logon Count: <b>@Model.LogonCount</b></p>
-    </div>
 </div>
