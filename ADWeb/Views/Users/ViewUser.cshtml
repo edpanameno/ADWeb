@@ -173,7 +173,19 @@
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="user-history">
-        <p>User Created on @Model.WhenCreated</p>
-        <p>last updated @Model.WhenChanged.ToString("g")</p>
-        <p>Logon Count: <b>@Model.LogonCount</b></p>
-</div>
+        <p>Below you will find some the stats/history of this user.</p>
+        <table style="width: 400px" class="table table-bordered table-condensed">
+            <tr>
+                <td>Created on</td>
+                <td style="text-align: right">@Model.WhenCreated</td>
+            </tr>
+            <tr>
+                <td>Last Updated on</td>
+                <td style="text-align: right">@Model.WhenChanged</td>
+            </tr>
+            <tr>
+                <td>Logon Count</td>
+                <td style="text-align: right">@Model.LogonCount</td>
+            </tr>
+        </table>
+    </div>
