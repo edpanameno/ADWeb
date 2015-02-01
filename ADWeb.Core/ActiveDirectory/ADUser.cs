@@ -28,7 +28,68 @@ namespace ADWeb.Core.ActiveDirectory
         }
 
         public ADUser(PrincipalContext context) : base(context) {}
-        
+
+        [DirectoryProperty("givenName")]
+        public new string GivenName
+        {
+            get
+            {
+                if(ExtensionGet("givenName").Length != 1)
+                {
+                    return "No First Name Entered";
+                }
+                else
+                {
+                    return (string)ExtensionGet("givenName")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("givenName", value);
+            }
+        }
+
+        [DirectoryProperty("surname")]
+        public new string Surname
+        {
+            get
+            {
+                if(ExtensionGet("sn").Length != 1)
+                {
+                    return "No Last Name Entered";
+                }
+                else
+                {
+                    return (string)ExtensionGet("sn")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("sn", value);
+            }
+        }
+
+        [DirectoryProperty("middleName")]
+        public new string MiddleName
+        {
+            get
+            {
+                if(ExtensionGet("middleName").Length != 1)
+                {
+                    return "No Middle Name Entered";
+                }
+                else
+                {
+                    return (string)ExtensionGet("middleName")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("middleName", value);
+            }
+
+        }
+
         [DirectoryProperty("initials")]
         public string Initials
         {
