@@ -310,11 +310,11 @@ namespace ADWeb.Core.ActiveDirectory
                     {
                         if(!String.IsNullOrEmpty(user.DisplayName))
                         {
-                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.GivenName, LastName = user.Surname } );
+                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.GivenName, LastName = user.Surname, IsEnabled = user.Enabled } );
                         }
                         else
                         {
-                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.SamAccountName + " (username)", LastName = user.SamAccountName + "(username)" });
+                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.SamAccountName + " (username)", LastName = user.SamAccountName + "(username)", IsEnabled = user.Enabled });
                         }
                     }
 

@@ -16,6 +16,7 @@ namespace ADWeb.Core.ActiveDirectory
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Department { get; set; }
+        public bool? IsEnabled { get; set; }
     }
 
     /// <summary>
