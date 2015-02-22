@@ -175,10 +175,28 @@
     <div role="tabpanel" class="tab-pane" id="user-history">
         <p>Below you will find some the stats/history of this user.</p>
         <table style="width: 400px" class="table table-bordered table-condensed">
-            <tr>
-                <td>Created on</td>
-                <td style="text-align: right">@Model.WhenCreated</td>
-            </tr>
+            @if(Model.DBInfo.HasDBInfo)
+            {
+                <tr>
+                    <td>Created By</td>
+                    <td style="text-align: right">@Model.DBInfo.Createdby</td>
+                </tr>
+                <tr>
+                    <td>Created on</td>
+                    <td style="text-align: right">@Model.DBInfo.WhenCreated</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>Created By</td>
+                    <td style="text-align: right; color: #900">No Information</td>
+                </tr>
+                <tr>
+                    <td>Created on</td>
+                    <td style="text-align: right; color: #900">No DB Info</td>
+                </tr>
+            }
             <tr>
                 <td>Last Updated on</td>
                 <td style="text-align: right">@Model.WhenChanged</td>

@@ -12,6 +12,11 @@ namespace ADWeb.Core.ViewModels
     /// </summary>
     public class UserViewModel
     {
+        public UserViewModel()
+        {
+            DBInfo = new UserDBInfo();
+        }
+
         [Display(Name="Username")]
         public string SamAccountName { get; set; }
 
@@ -52,5 +57,26 @@ namespace ADWeb.Core.ViewModels
         /// The group(s) that a user belongs to in the domain.
         /// </summary>
         public Dictionary<string, string> UserGroups { get; set; }
+
+        public UserDBInfo DBInfo { get; set; }
+    }
+
+    /// <summary>
+    /// This class will be used to store information about the user
+    /// that is stored in the database.
+    /// </summary>
+    public class UserDBInfo
+    {
+        /// <summary>
+        /// This property will be used to check to see if a user has
+        /// any information stored in the database. This will indicate
+        /// if the user was created using the application as opposed to 
+        /// users in an existing domain that were created outside of the
+        /// application and thus would not have been logged into the 
+        /// database
+        /// </summary>
+        public bool HasDBInfo { get; set; }
+        public string Createdby { get; set; }
+        public DateTime WhenCreated { get; set; }
     }
 }

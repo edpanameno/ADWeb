@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ADWeb.Core.ActiveDirectory;
-using ADWeb.Core.ViewModels;
 
 namespace ADWeb.Controllers
 {
+    using ADWeb.Core.Concrete;
+    using ADWeb.Core.Entities;
+    using ADWeb.Core.ViewModels;
+    using ADWeb.Core.ActiveDirectory;
+
     [Authorize]
     public class UsersController : Controller
     {
@@ -40,9 +43,29 @@ namespace ADWeb.Controllers
                 viewModel.PhoneNumber = user.PhoneNumber;
                 viewModel.Company = user.Company;
                 viewModel.Notes = user.Notes;
+                
+                // The WhenChanged property comes straight from Active Directory
+                // I may have to come back to this and use data from the database
+                // to get the date when an account was last changed. The reason for
+                // this is because if a user logins, this value is updated to reflect
+                // this and it's not really a change in my mind. Any changes that are
+                // done on a user account (thru the application) should be the real 
+                // indicators when an account was changed (and also indicate what type
+                // of change happened).
                 viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
-                viewModel.WhenCreated = user.WhenCreated.ToLocalTime();
                 viewModel.LogonCount = user.LogonCount.ToString();
+
+                using(var db = new ADWebDB())
+                {
+                    var userDbInfo = db.DomainUsers.Where(u => u.UserName == userId).FirstOrDefault();
+
+                    if(userDbInfo != null)
+                    {
+                        viewModel.DBInfo.HasDBInfo = true;
+                        viewModel.DBInfo.Createdby = userDbInfo.CreatedBy;
+                        viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
+                    }
+                }
                 
                 viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
 
@@ -87,6 +110,23 @@ namespace ADWeb.Controllers
             {
                 ADDomain domain = new ADDomain();
                 domain.CreateUser(userId);
+
+                // Insert the account to the Database. Note: we are only
+                // interested in basic information 
+                DomainUser user = new DomainUser();
+                user.DateCreated = DateTime.Now;
+                user.CreatedBy = User.Identity.Name;
+                user.Enabled = true;
+                user.UserName = userId.Username;
+                user.FirstName = userId.FirstName;
+                user.MiddleName = userId.MiddleName;
+                user.LastName = userId.LastName;
+
+                using(var db = new ADWebDB())
+                {
+                    db.DomainUsers.Add(user);
+                    db.SaveChanges();
+                }
 
                 TempData["user_created_successfully"] = userId.FirstName + " " + userId.LastName + " has been created successfully!";
                 return RedirectToAction("ViewUser", new { userId = userId.Username });
