@@ -67,7 +67,7 @@ namespace ADWeb.Core.ActiveDirectory
                 {
                     newUser.SamAccountName = user.Username;
                     newUser.GivenName = user.FirstName;
-                    newUser.Initials = user.Initials;
+                    newUser.MiddleName = user.MiddleName;
                     newUser.Surname = user.LastName;
                     newUser.EmailAddress = user.EmailAddress;
                     newUser.PhoneNumber = user.PhoneNumber;
@@ -211,7 +211,7 @@ namespace ADWeb.Core.ActiveDirectory
                     if(user != null)
                     {
                         user.GivenName = updatedUser.GivenName;
-                        user.Initials = updatedUser.Initial;
+                        user.MiddleName = updatedUser.MiddleName;
                         user.Surname = updatedUser.Surname;
                         user.DisplayName = updatedUser.DisplayName;
                         user.EmailAddress = updatedUser.EmailAddress;

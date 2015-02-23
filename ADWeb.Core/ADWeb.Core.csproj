@@ -57,6 +57,12 @@
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="Concrete\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />
+    <Compile Include="Entities\UserUpdateHistory.cs" />
+    <Compile Include="Migrations\201502222355581_DB-Init.cs" />
+    <Compile Include="Migrations\201502222355581_DB-Init.Designer.cs">
+      <DependentUpon>201502222355581_DB-Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
     <Compile Include="ViewModels\CreateUserVM.cs" />
@@ -71,6 +77,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201502222355581_DB-Init.resx">
+      <DependentUpon>201502222355581_DB-Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

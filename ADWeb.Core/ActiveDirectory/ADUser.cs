@@ -49,6 +49,26 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        [DirectoryProperty("mail")]
+        public new string EmailAddress
+        {
+            get
+            {
+                if(ExtensionGet("mail").Length != 1)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (string)ExtensionGet("mail")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("mail", value);
+            }
+        }
+
         [DirectoryProperty("surname")]
         public new string Surname
         {
@@ -76,7 +96,7 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 if(ExtensionGet("middleName").Length != 1)
                 {
-                    return "No Middle Name Entered";
+                    return string.Empty;
                 }
                 else
                 {

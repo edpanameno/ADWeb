@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using ADWeb.Core.Entities;
 
 namespace ADWeb.Core.ViewModels
 {
@@ -15,6 +16,7 @@ namespace ADWeb.Core.ViewModels
         public UserViewModel()
         {
             DBInfo = new UserDBInfo();
+            UserHistory = new List<UserUpdateHistory>();
         }
 
         [Display(Name="Username")]
@@ -59,6 +61,7 @@ namespace ADWeb.Core.ViewModels
         public Dictionary<string, string> UserGroups { get; set; }
 
         public UserDBInfo DBInfo { get; set; }
+        public List<UserUpdateHistory> UserHistory { get; set; }
     }
 
     /// <summary>

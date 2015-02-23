@@ -5,6 +5,14 @@
     ViewBag.Title = Model.GivenName + " " + Model.Initial + " " + Model.Surname;
 }
 
+@section headSection {
+    <style type="text/css">
+        .update-details {
+            padding-left: 20px;
+        }
+    </style>
+}
+
 <h2>@Model.GivenName @Model.Initial @Model.Surname</h2>
 <p>Click on the tabs below to view the information for this user.</p>
 
@@ -68,10 +76,10 @@
             </div>
             
             <div class="form-group">
-                <label for="MiddleName" class="col-sm-2 control-label">Middle Initial</label>
+                <label for="MiddleName" class="col-sm-2 control-label">Middle Name</label>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(m => m.Initial, new { @class="form-control" })
-                    @Html.ValidationMessageFor(m => m.Initial)
+                    @Html.TextBoxFor(m => m.MiddleName, new { @class="form-control" })
+                    @Html.ValidationMessageFor(m => m.MiddleName)
                 </div>
             </div>
             
@@ -181,22 +189,18 @@
                     <td>Created By</td>
                     <td style="text-align: right">@Model.DBInfo.Createdby</td>
                 </tr>
-                <tr>
-                    <td>Created on</td>
-                    <td style="text-align: right">@Model.DBInfo.WhenCreated</td>
-                </tr>
             }
             else
             {
                 <tr>
                     <td>Created By</td>
-                    <td style="text-align: right; color: #900">No Information</td>
-                </tr>
-                <tr>
-                    <td>Created on</td>
-                    <td style="text-align: right; color: #900">No DB Info</td>
+                    <td style="text-align: right; color: #900">No Information Available</td>
                 </tr>
             }
+            <tr>
+                <td>Created on</td>
+                <td style="text-align: right">@Model.WhenCreated</td>
+            </tr>
             <tr>
                 <td>Last Updated on</td>
                 <td style="text-align: right">@Model.WhenChanged</td>
@@ -206,4 +210,27 @@
                 <td style="text-align: right">@Model.LogonCount</td>
             </tr>
         </table>
+
+        @if(Model.UserHistory.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Update #</th>
+                        <th>Update Type</th>
+                        <th>Update By</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                @foreach(var entry in Model.UserHistory)
+                {
+                    <tr>
+                        <td>@entry.UserUpdateHistoryID</td>
+                        <td>@entry.UpdateType</td>
+                        <td>@entry.UpdatedBy</td>
+                        <td>@(new HtmlString(entry.UpdateHistory))</td>
+                    </tr>
+                }
+            </table>
+        }
     </div>
