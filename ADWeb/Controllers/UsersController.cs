@@ -182,10 +182,8 @@ namespace ADWeb.Controllers
                     using(var db = new ADWebDB())
                     {
                         UserUpdateHistory userChange = new UserUpdateHistory();
-                        userChange.DomainUser = new DomainUser();
-                        
                         userChange.UpdatedBy = User.Identity.Name;
-                        userChange.DomainUser.Username = userId.SamAccountName;
+                        userChange.Username = userId.SamAccountName;
                         userChange.UpdateType = UserUpdateType.UserInfo;
                         userChange.DateUpdated = DateTime.Now;
                         userChange.Notes = msg.ToString();

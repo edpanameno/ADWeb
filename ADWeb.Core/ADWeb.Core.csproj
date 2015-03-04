@@ -62,6 +62,14 @@
     <Compile Include="Migrations\201503040551212_InitDB.Designer.cs">
       <DependentUpon>201503040551212_InitDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503040620153_New-DomainUserKey.cs" />
+    <Compile Include="Migrations\201503040620153_New-DomainUserKey.Designer.cs">
+      <DependentUpon>201503040620153_New-DomainUserKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503040621240_New-UserUpdateHistoryKey.cs" />
+    <Compile Include="Migrations\201503040621240_New-UserUpdateHistoryKey.Designer.cs">
+      <DependentUpon>201503040621240_New-UserUpdateHistoryKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
@@ -81,6 +89,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503040551212_InitDB.resx">
       <DependentUpon>201503040551212_InitDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503040620153_New-DomainUserKey.resx">
+      <DependentUpon>201503040620153_New-DomainUserKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503040621240_New-UserUpdateHistoryKey.resx">
+      <DependentUpon>201503040621240_New-UserUpdateHistoryKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
