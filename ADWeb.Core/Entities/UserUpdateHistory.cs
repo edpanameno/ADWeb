@@ -13,6 +13,7 @@ namespace ADWeb.Core.Entities
         AddedToGroup,
         RemovedFromGroup,
         Disabled,
+        ReEnabled,
         ResetPassword,
         UnlockedAccount,
         RenamedUserName
@@ -21,10 +22,13 @@ namespace ADWeb.Core.Entities
     public class UserUpdateHistory
     {
         public int UserUpdateHistoryID { get; set; }
-        public string UserName { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime DateUpdated { get; set; }
         public UserUpdateType UpdateType { get; set; }
-        public string UpdateHistory { get; set; }
+        public string Notes { get; set; }
+        
+        [ForeignKey("DomainUser")]
+        public int DomainUserID { get; set; }
+        public virtual DomainUser DomainUser { get; set; }
     }
 }

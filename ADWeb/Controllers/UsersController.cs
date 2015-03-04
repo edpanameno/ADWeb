@@ -63,7 +63,7 @@ namespace ADWeb.Controllers
 
                 using(var db = new ADWebDB())
                 {
-                    var userDbInfo = db.DomainUsers.Where(u => u.UserName == userId).FirstOrDefault();
+                    var userDbInfo = db.DomainUsers.Where(u => u.Username == userId).FirstOrDefault();
 
                     if(userDbInfo != null)
                     {
@@ -72,7 +72,7 @@ namespace ADWeb.Controllers
                         viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
                     }
 
-                    var userHistory = db.UserUpdateHistory.Where(u => u.UserName == userId).OrderByDescending(u => u.DateUpdated).ToList();
+                    var userHistory = db.UserUpdateHistory.Where(u => u.DomainUser.Username == userId).OrderByDescending(u => u.DateUpdated).ToList();
                     if(userHistory != null)
                     {
                         viewModel.UserHistory = userHistory;
@@ -183,11 +183,11 @@ namespace ADWeb.Controllers
                     using(var db = new ADWebDB())
                     {
                         UserUpdateHistory userChange = new UserUpdateHistory();
-                        userChange.UserName = userId.SamAccountName;
+                        userChange.DomainUser.Username = userId.SamAccountName;
                         userChange.UpdatedBy = User.Identity.Name;
                         userChange.UpdateType = UserUpdateType.UserInfo;
                         userChange.DateUpdated = DateTime.Now;
-                        userChange.UpdateHistory = msg.ToString();
+                        userChange.Notes = msg.ToString();
 
                         db.UserUpdateHistory.Add(userChange);
                         db.SaveChanges();
@@ -225,11 +225,7 @@ namespace ADWeb.Controllers
                 DomainUser user = new DomainUser();
                 user.DateCreated = DateTime.Now;
                 user.CreatedBy = User.Identity.Name;
-                user.Enabled = true;
-                user.UserName = userId.Username;
-                user.FirstName = userId.FirstName;
-                user.MiddleName = userId.MiddleName;
-                user.LastName = userId.LastName;
+                user.Username = userId.Username;
 
                 using(var db = new ADWebDB())
                 {

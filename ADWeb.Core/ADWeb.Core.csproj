@@ -58,9 +58,9 @@
     <Compile Include="Concrete\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
-    <Compile Include="Migrations\201502230240115_Init-DB.cs" />
-    <Compile Include="Migrations\201502230240115_Init-DB.Designer.cs">
-      <DependentUpon>201502230240115_Init-DB.cs</DependentUpon>
+    <Compile Include="Migrations\201503040441464_InitDB.cs" />
+    <Compile Include="Migrations\201503040441464_InitDB.Designer.cs">
+      <DependentUpon>201503040441464_InitDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,8 +79,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201502230240115_Init-DB.resx">
-      <DependentUpon>201502230240115_Init-DB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201503040441464_InitDB.resx">
+      <DependentUpon>201503040441464_InitDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
