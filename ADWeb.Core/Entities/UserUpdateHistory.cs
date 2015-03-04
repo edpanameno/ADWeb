@@ -27,7 +27,6 @@ namespace ADWeb.Core.Entities
         public UserUpdateType UpdateType { get; set; }
         public string Notes { get; set; }
         
-        [ForeignKey("DomainUser")]
         public int DomainUserID { get; set; }
         public virtual DomainUser DomainUser { get; set; }
     }

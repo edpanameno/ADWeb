@@ -9,7 +9,6 @@ namespace ADWeb.Core.Entities
 {
     public class DomainUser
     {
-        [Key]
         public int DomainUserID { get; set; }
         public string Username { get; set; }
         public string CreatedBy { get; set; }

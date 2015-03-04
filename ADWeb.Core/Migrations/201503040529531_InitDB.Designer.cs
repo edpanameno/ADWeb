@@ -13,7 +13,7 @@ namespace ADWeb.Core.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201503040441464_InitDB"; }
+            get { return "201503040529531_InitDB"; }
         }
         
         string IMigrationMetadata.Source
