@@ -179,12 +179,13 @@ namespace ADWeb.Controllers
                 // following if statement checks for this.
                 if(userInfoUpdate)
                 {
-                    // Now we will add an entry for this user in the database
                     using(var db = new ADWebDB())
                     {
                         UserUpdateHistory userChange = new UserUpdateHistory();
-                        userChange.DomainUser.Username = userId.SamAccountName;
+                        userChange.DomainUser = new DomainUser();
+                        
                         userChange.UpdatedBy = User.Identity.Name;
+                        userChange.DomainUser.Username = userId.SamAccountName;
                         userChange.UpdateType = UserUpdateType.UserInfo;
                         userChange.DateUpdated = DateTime.Now;
                         userChange.Notes = msg.ToString();

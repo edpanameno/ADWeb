@@ -4,10 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ADWeb.Core.Concrete
 {
-    using System.Data.Entity.ModelConfiguration.Conventions;
     using ADWeb.Core.Entities;
 
     public class ADWebDB : DbContext
@@ -20,8 +20,6 @@ namespace ADWeb.Core.Concrete
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
-            //modelBuilder.Entity<DomainUser>().HasKey(u => u.DomainUserID);
         }
     }
 }
