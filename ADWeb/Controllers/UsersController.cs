@@ -67,12 +67,41 @@ namespace ADWeb.Controllers
 
                     if(userDbInfo != null)
                     {
-                        viewModel.DBInfo.HasDBInfo = true;
                         viewModel.DBInfo.Createdby = domain.GetUserByID(userDbInfo.CreatedBy).DisplayName;
                         viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
                     }
+                    else
+                    {
+                        // The user exists in active directory but does not
+                        // have an entry in the DomainUsers table. We'll add 
+                        // an entry so that the application doesn't complain that
+                        // this is needed to get update history of all users in 
+                        // the domain (including those that were not created thru
+                        // this application).
+                        DomainUser newUser = new DomainUser();
+                        newUser.CreatedBy = User.Identity.Name;
+                        newUser.Username = user.SamAccountName;
+                        newUser.DateCreated = DateTime.Now;
 
-                    var userHistory = db.UserUpdateHistory.Where(u => u.DomainUser.Username == userId).OrderByDescending(u => u.DateUpdated).ToList();
+                        /*UserUpdateHistory newUserHistory = new UserUpdateHistory();
+                        newUserHistory.UpdatedBy = User.Identity.Name;
+                        newUserHistory.Username = user.SamAccountName;
+                        newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
+                        newUserHistory.DateUpdated = DateTime.Now;
+                        newUserHistory.Notes = "<li>New User Added to table.</li>";*/
+                        
+                        db.DomainUsers.Add(newUser);
+                        //db.UserUpdateHistory.Add(newUserHistory);
+                        db.SaveChanges();
+                        
+                        viewModel.DBInfo.Createdby = domain.GetUserByID(newUser.CreatedBy).DisplayName;
+                        viewModel.DBInfo.WhenCreated = newUser.DateCreated;
+                    }
+
+                    var userHistory = db.UserUpdateHistory
+                                        .Where(u => u.DomainUser.Username == userId)
+                                        .OrderByDescending(u => u.DateUpdated).ToList();
+                    
                     if(userHistory != null)
                     {
                         viewModel.UserHistory = userHistory;

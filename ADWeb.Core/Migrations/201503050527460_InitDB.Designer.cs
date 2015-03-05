@@ -7,13 +7,13 @@ namespace ADWeb.Core.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.2-31219")]
-    public sealed partial class NewUserUpdateHistoryKey : IMigrationMetadata
+    public sealed partial class InitDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(NewUserUpdateHistoryKey));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201503040621240_New-UserUpdateHistoryKey"; }
+            get { return "201503050527460_InitDB"; }
         }
         
         string IMigrationMetadata.Source

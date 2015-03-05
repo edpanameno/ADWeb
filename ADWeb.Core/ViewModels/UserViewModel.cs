@@ -70,15 +70,6 @@ namespace ADWeb.Core.ViewModels
     /// </summary>
     public class UserDBInfo
     {
-        /// <summary>
-        /// This property will be used to check to see if a user has
-        /// any information stored in the database. This will indicate
-        /// if the user was created using the application as opposed to 
-        /// users in an existing domain that were created outside of the
-        /// application and thus would not have been logged into the 
-        /// database
-        /// </summary>
-        public bool HasDBInfo { get; set; }
         public string Createdby { get; set; }
         public DateTime WhenCreated { get; set; }
     }
