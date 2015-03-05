@@ -81,17 +81,17 @@ namespace ADWeb.Controllers
                         DomainUser newUser = new DomainUser();
                         newUser.CreatedBy = User.Identity.Name;
                         newUser.Username = user.SamAccountName;
-                        newUser.DateCreated = DateTime.Now;
+                        newUser.DateCreated = user.WhenCreated;
 
-                        /*UserUpdateHistory newUserHistory = new UserUpdateHistory();
+                        UserUpdateHistory newUserHistory = new UserUpdateHistory();
                         newUserHistory.UpdatedBy = User.Identity.Name;
                         newUserHistory.Username = user.SamAccountName;
                         newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
                         newUserHistory.DateUpdated = DateTime.Now;
-                        newUserHistory.Notes = "<li>New User Added to table.</li>";*/
+                        newUserHistory.Notes = "<li>New User Added to table.</li>";
                         
                         db.DomainUsers.Add(newUser);
-                        //db.UserUpdateHistory.Add(newUserHistory);
+                        db.UserUpdateHistory.Add(newUserHistory);
                         db.SaveChanges();
                         
                         viewModel.DBInfo.Createdby = domain.GetUserByID(newUser.CreatedBy).DisplayName;

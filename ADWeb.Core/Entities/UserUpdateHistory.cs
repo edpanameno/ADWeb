@@ -32,7 +32,6 @@ namespace ADWeb.Core.Entities
     {
         public UserUpdateHistory()
         {
-            DomainUser = new DomainUser();
         }
 
         public int UserUpdateHistoryID { get; set; }
