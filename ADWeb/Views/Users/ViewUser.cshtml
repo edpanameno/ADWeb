@@ -206,7 +206,7 @@
             <table class="table table-bordered table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th>Update #</th>
+                        <th>Date Created</th>
                         <th>Update Type</th>
                         <th>Update By</th>
                         <th>Details</th>
@@ -215,7 +215,7 @@
                 @foreach(var entry in Model.UserHistory)
                 {
                     <tr>
-                        <td>@entry.UserUpdateHistoryID</td>
+                        <td>@entry.DateUpdated.ToShortDateString()</td>
                         <td>@entry.UpdateType</td>
                         <td>@entry.UpdatedBy</td>
                         <td>@(new HtmlString(entry.Notes))</td>

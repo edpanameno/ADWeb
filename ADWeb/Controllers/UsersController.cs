@@ -171,8 +171,11 @@ namespace ADWeb.Controllers
                 
                 if(!currentUser.PhoneNumber.Equals(userId.PhoneNumber))
                 {
-                    userInfoUpdate = true;
-                    msg.Append("<li>Phone Number Changed from '" + currentUser.PhoneNumber + "' to '" + userId.PhoneNumber + "'</li>");
+                    if(!String.IsNullOrEmpty(userId.PhoneNumber))
+                    {
+                        userInfoUpdate = true;
+                        msg.Append("<li>Phone Number Changed from '" + currentUser.PhoneNumber + "' to '" + userId.PhoneNumber + "'</li>");
+                    }
                 }
                 
                 if(!currentUser.Title.Equals(userId.Title))
@@ -195,8 +198,11 @@ namespace ADWeb.Controllers
                 
                 if(!currentUser.Notes.Equals(userId.Notes))
                 {
-                    userInfoUpdate = true;
-                    msg.Append("<li>Notes Changed from '" + currentUser.Notes + "' to '" + userId.Notes + "'</li>");
+                    if(!String.IsNullOrEmpty(userId.Notes))
+                    {
+                        userInfoUpdate = true;
+                        msg.Append("<li>Notes Changed from '" + currentUser.Notes + "' to '" + userId.Notes + "'</li>");
+                    }
                 }
 
                 msg.Append("</ul>");
@@ -205,7 +211,7 @@ namespace ADWeb.Controllers
                 // There is a possiblity that a user may accidentally hit the update
                 // button but nothing has changed in the user's information. If this
                 // happens, we don't want anything to be written to the database. The
-                // following if statement checks for this.
+                // following if statement checks for this scenario.
                 if(userInfoUpdate)
                 {
                     using(var db = new ADWebDB())
@@ -220,9 +226,12 @@ namespace ADWeb.Controllers
                         db.UserUpdateHistory.Add(userChange);
                         db.SaveChanges();
                     }
+                    
+                    TempData["user_updated_successfully"] = userId.GivenName + " " + userId.Surname + "'s account has been successfully updated!";
                 }
 
-                TempData["user_updated_successfully"] = userId.GivenName + " " + userId.Surname + "'s account has been successfully updated!";
+                TempData["user_updated_successfully"] = "No updates for: " + userId.GivenName + " " + userId.Surname + "'s account.";
+                
                 return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
             }
 
