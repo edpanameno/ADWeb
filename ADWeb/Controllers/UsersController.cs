@@ -88,7 +88,7 @@ namespace ADWeb.Controllers
                         newUserHistory.Username = user.SamAccountName;
                         newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
                         newUserHistory.DateUpdated = DateTime.Now;
-                        newUserHistory.Notes = "<li>New User Added to table.</li>";
+                        newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table.</li></ul>";
                         
                         db.DomainUsers.Add(newUser);
                         db.UserUpdateHistory.Add(newUserHistory);
