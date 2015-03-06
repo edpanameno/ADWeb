@@ -153,8 +153,11 @@ namespace ADWeb.Controllers
 
                 if(!currentUser.MiddleName.Equals(userId.MiddleName))
                 {
-                    userInfoUpdate = true;
-                    msg.Append("<li>Middle Name Changed from '" + currentUser.MiddleName + "' to '" + userId.MiddleName + "'</li>");
+                    if(!String.IsNullOrEmpty(userId.MiddleName))
+                    {
+                        userInfoUpdate = true;
+                        msg.Append("<li>Middle Name Changed from '" + currentUser.MiddleName + "' to '" + userId.MiddleName + "'</li>");
+                    }
                 }
 
                 if(!currentUser.DisplayName.Equals(userId.DisplayName))
