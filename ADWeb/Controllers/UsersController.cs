@@ -231,7 +231,7 @@ namespace ADWeb.Controllers
                 }
                 else
                 {
-                    TempData["user_updated_successfully"] = "No updates for: " + userId.GivenName + " " + userId.Surname + "'s account.";
+                    TempData["user_updated_successfully"] = "No updates were done for " + userId.GivenName + " " + userId.Surname + "'s account.";
                 }
 
                 return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
