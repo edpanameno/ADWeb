@@ -68,7 +68,7 @@ namespace ADWeb.Controllers
                     if(userDbInfo != null)
                     {
                         var domainUser = domain.GetUserByID(userDbInfo.CreatedBy);
-                        viewModel.DBInfo.Createdby = domainUser.GivenName + " " + domainUser.Surname;
+                        viewModel.DBInfo.Createdby = userDbInfo.CreatedBy;
                         viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
                     }
                     else
@@ -262,12 +262,13 @@ namespace ADWeb.Controllers
             {
                 ADDomain domain = new ADDomain();
                 domain.CreateUser(userId);
+                ADUser domainUser = domain.GetUserByID(User.Identity.Name);
 
                 // Insert the account to the Database. Note: we are only
                 // interested in basic information 
                 DomainUser user = new DomainUser();
                 user.DateCreated = DateTime.Now;
-                user.CreatedBy = User.Identity.Name;
+                user.CreatedBy = domainUser.GivenName + " " + domainUser.Surname;
                 user.Username = userId.Username;
 
                 using(var db = new ADWebDB())
