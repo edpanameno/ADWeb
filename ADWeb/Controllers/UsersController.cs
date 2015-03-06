@@ -19,7 +19,7 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             ViewUsersVM users = new ViewUsersVM();
-            users.RecentlyUpdated = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-7)).Take(10).ToList();
+            //users.RecentlyUpdated = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-7)).Take(10).ToList();
             users.RecentlyCreated = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7)).Take(10).ToList();
 
             return View(users);
@@ -67,7 +67,8 @@ namespace ADWeb.Controllers
 
                     if(userDbInfo != null)
                     {
-                        viewModel.DBInfo.Createdby = domain.GetUserByID(userDbInfo.CreatedBy).DisplayName;
+                        var domainUser = domain.GetUserByID(userDbInfo.CreatedBy);
+                        viewModel.DBInfo.Createdby = domainUser.GivenName + " " + domainUser.Surname;
                         viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
                     }
                     else
