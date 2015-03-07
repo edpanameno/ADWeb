@@ -11,17 +11,29 @@ using System.Web.Configuration;
 namespace ADWeb.Core.ActiveDirectory
 {
     using ADWeb.Core.ViewModels;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
     /// </summary>
     public enum SearchField
     {
+        [Display(Name="Display Name")]
         DisplayName = 1,
+       
+        [Display(Name="First Name")]
         FirstName,
+        
+        [Display(Name="Last Name")]
         LastName,
+        
+        [Display(Name="Department")]
         Department,
+        
+        [Display(Name="Title")]
         Title,
+         
+        [Display(Name="Email")]
         Mail
     }
 
@@ -262,6 +274,57 @@ namespace ADWeb.Core.ActiveDirectory
             }
 
             return users.OrderBy(u => u.Surname).ToList();
+        }
+
+        public List<ADUser> SearchUsers(string searchString, SearchField searchField)
+        {
+            List<ADUser> users = new List<ADUser>();
+            
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser userFilter = new ADUser(context);
+                /*{
+                    DisplayName = "*" + searchString + "*"
+                };*/
+                
+                switch(searchField)
+                {
+                    case SearchField.DisplayName:
+                        userFilter.DisplayName = "*" + searchString + "*";
+                        break;
+                    case SearchField.FirstName:
+                        userFilter.GivenName = "*" + searchString + "*";
+                        break;
+                    case SearchField.LastName:
+                        userFilter.Surname = "*" + searchString + "*";
+                        break;
+                    case SearchField.Department:
+                        userFilter.Department = "*" + searchString + "*";
+                        break;
+                    case SearchField.Title:
+                        userFilter.Title = "*" + searchString + "*";
+                        break;
+                    case SearchField.Mail:
+                        userFilter.EmailAddress = "*" + searchString + "*";
+                        break;
+                    default:
+                        break;
+                }
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                {
+                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = searcher.FindAll().ToList();
+
+                    foreach(Principal user in searchResults)
+                    {
+                        ADUser usr = user as ADUser;
+                        users.Add(usr);
+                    }
+                }
+            }
+
+            return users.OrderBy( u => u.Surname).ToList();
         }
 
         /// <summary>

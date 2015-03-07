@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
+
+<table class="table table-bordered table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>Department</th>
+            <th>Date Created</th>
+        </tr>
+    </thead>
+    @foreach(var user in @Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
+            <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
+            <td>@Html.ActionLink(@user.WhenCreated.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName})</td>
+        </tr>
+    }
+</table>
+

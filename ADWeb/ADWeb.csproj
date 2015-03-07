@@ -189,6 +189,8 @@
     <Content Include="Views\Users\RecentlyCreated.cshtml" />
     <Content Include="Views\Users\_FilteredUsers.cshtml" />
     <Content Include="Views\Groups\CreateGroup.cshtml" />
+    <Content Include="Views\Users\Search.cshtml" />
+    <Content Include="Views\Users\_UserSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

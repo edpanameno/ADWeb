@@ -49,7 +49,7 @@ namespace ADWeb.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Users");
                     }
                 }
                 else

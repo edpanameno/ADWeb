@@ -337,5 +337,23 @@ namespace ADWeb.Controllers
             
             return PartialView("_FilteredUsers", users);
         }
+    
+        public ActionResult Search()
+        {
+            SearchUsersModel searchUsers = new SearchUsersModel();
+            searchUsers.SearchField = SearchField.DisplayName;
+            
+            return View(searchUsers);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult SearchUsers(SearchUsersModel id)
+        {
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.SearchUsers(id.SearchValue, id.SearchField);
+
+            return PartialView("_UserSearchResults", users);
+        }
     }
 }

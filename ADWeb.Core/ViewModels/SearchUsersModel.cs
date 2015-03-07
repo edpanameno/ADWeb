@@ -12,5 +12,10 @@ namespace ADWeb.Core.ViewModels
         [Display(Name="Search Value")]
         [Required(ErrorMessage="Search Value is Required.")]
         public string SearchValue { get; set; }
+
+        /// <summary>
+        /// Specifies what field will be searched for
+        /// </summary>
+        public SearchField SearchField { get; set; }
     }
 }
