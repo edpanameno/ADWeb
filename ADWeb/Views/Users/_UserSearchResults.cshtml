@@ -1,24 +1,31 @@
 ﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
 
-<h3>@ViewBag.SearchTerm returned '@Model.Count().ToString()' accounts!</h3>
-
-<table class="table table-bordered table-condensed table-hover">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Title</th>
-            <th>Department</th>
-        </tr>
-    </thead>
-    @foreach(var user in @Model)
-    {
-        <tr>
-            <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
-            <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
-            <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
-            <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
-        </tr>
-    }
-</table>
+@if(Model.Count() > 0)
+{
+    <h3>Search for '@ViewBag.SearchTerm' found @Model.Count().ToString() accounts!</h3>
+    
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Title</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        @foreach(var user in @Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
+                <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>Search for '@ViewBag.SearchTerm' did not find any accounts.</h3>
+}
 
