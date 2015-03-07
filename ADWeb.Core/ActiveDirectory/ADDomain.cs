@@ -34,7 +34,10 @@ namespace ADWeb.Core.ActiveDirectory
         Title,
          
         [Display(Name="Email")]
-        Mail
+        Mail,
+        
+        [Display(Name="Company")]
+        Company
     }
 
     /// <summary>
@@ -306,6 +309,9 @@ namespace ADWeb.Core.ActiveDirectory
                         break;
                     case SearchField.Mail:
                         userFilter.EmailAddress = "*" + searchString + "*";
+                        break;
+                    case SearchField.Company:
+                        userFilter.Company = "*" + searchString + "*";
                         break;
                     default:
                         break;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,28 @@ namespace ADWeb.Core.Entities
 {
     public enum UserUpdateType
     {
+        [Display(Name="User Information")]
         UserInfo = 1,
+        
+        [Display(Name="Added to Group")]
         AddedToGroup,
+        
+        [Display(Name="Removed from Group")]
         RemovedFromGroup,
+        
+        [Display(Name="Disabled Account")]
         Disabled,
+        
+        [Display(Name="Re-enabled Account")]
         ReEnabled,
+        
+        [Display(Name="Reset Password")]
         ResetPassword,
+        
+        [Display(Name="Unlocked Account")]
         UnlockedAccount,
+        
+        [Display(Name="Renamed Username")]
         RenamedUserName,
         
         /// <summary>
@@ -25,6 +41,7 @@ namespace ADWeb.Core.Entities
         /// the application (i.e. it existed before or
         /// it was created outside the app)
         /// </summary>
+        [Display(Name="Created DB Entry")]
         CreatedDBEntry
     }
 

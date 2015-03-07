@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
 
-<h3>@Model.Count().ToString() accounts were found!</h3>
-<br />
+<h3>@ViewBag.SearchTerm returned '@Model.Count().ToString()' accounts!</h3>
 
 <table class="table table-bordered table-condensed table-hover">
     <thead>

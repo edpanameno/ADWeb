@@ -352,6 +352,7 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             List<ADUser> users = domain.SearchUsers(id.SearchValue, id.SearchField);
+            ViewBag.SearchTerm = id.SearchValue;
 
             return PartialView("_UserSearchResults", users);
         }
