@@ -24,6 +24,12 @@ namespace ADWeb
             routes.AppendTrailingSlash = true;
             
             routes.MapRoute(
+                name: "AdminSection",
+                url: "Admin/{action}/{id}",
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
+            );
+            
+            routes.MapRoute(
                 name: "GroupsSection",
                 url: "Groups/{action}/{groupId}",
                 defaults: new { controller = "Groups", action = "Index", groupId = UrlParameter.Optional }

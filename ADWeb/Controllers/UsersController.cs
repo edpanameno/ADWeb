@@ -67,51 +67,17 @@ namespace ADWeb.Controllers
 
                     if(userDbInfo != null)
                     {
+                        // If this part of the code is reached, then it means that the user
+                        // currently being viewed is was created inside of the application and
+                        // thus has an entry in the DomainUsers table.
                         var domainUser = domain.GetUserByID(userDbInfo.CreatedBy);
                         viewModel.DBInfo.Createdby = userDbInfo.CreatedBy;
                         viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
+                        viewModel.UserHistory = userDbInfo.UpdateHistory.OrderByDescending(u => u.DateUpdated).ToList();
                     }
                     else
                     {
-                        // If we have reached this part of the code then it means that
-                        // we have come accross a user that was not created thru the 
-                        // application and thus has no entry in the DomainUsers table.
-                        // We are going to be creating an entry into this table, but 
-                        // we are not going to use the currently logged in user who is 
-                        // viewing this account as the person that created the account.
-                        // The reason I don't want to store the username is because the 
-                        // entry was not created by the user, instead it was created by
-                        // the system. I am going to be making this a unique value just
-                        // in case we need to use this later on for reports.
-                        string createdBy = "System Generated";
-
-                        DomainUser newUser = new DomainUser();
-                        newUser.CreatedBy = createdBy;
-                        newUser.Username = user.SamAccountName;
-                        newUser.DateCreated = user.WhenCreated;
-
-                        UserUpdateHistory newUserHistory = new UserUpdateHistory();
-                        newUserHistory.UpdatedBy = createdBy;
-                        newUserHistory.Username = user.SamAccountName;
-                        newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
-                        newUserHistory.DateUpdated = DateTime.Now;
-                        newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table by the system.</li></ul>";
-                        
-                        db.DomainUsers.Add(newUser);
-                        db.UserUpdateHistory.Add(newUserHistory);
-                        db.SaveChanges();
-                        
-                        viewModel.DBInfo.Createdby = newUser.CreatedBy;
-                        viewModel.DBInfo.WhenCreated = newUser.DateCreated;
-                    }
-
-                    var userHistory = db.UserUpdateHistory
-                                        .Where(u => u.DomainUser.Username == userId)
-                                        .OrderByDescending(u => u.DateUpdated).ToList();
-                    
-                    if(userHistory != null)
-                    {
-                        viewModel.UserHistory = userHistory;
+                        viewModel.DBInfo.Createdby = "Unknown";
                     }
                 }
                 
@@ -221,21 +187,74 @@ namespace ADWeb.Controllers
                 // There is a possiblity that a user may accidentally hit the update
                 // button but nothing has changed in the user's information. If this
                 // happens, we don't want anything to be written to the database. The
-                // following if statement checks for this scenario.
+                // following if condition checks for this scenario.
                 if(userInfoUpdate)
                 {
                     using(var db = new ADWebDB())
                     {
                         ADUser loggedInUser = domain.GetUserByID(User.Identity.Name);
 
-                        UserUpdateHistory userChange = new UserUpdateHistory();
-                        userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
-                        userChange.Username = userId.SamAccountName;
-                        userChange.UpdateType = UserUpdateType.UserInfo;
-                        userChange.DateUpdated = DateTime.Now;
-                        userChange.Notes = msg.ToString();
+                        // Before adding a new update history for this user, we first have
+                        // to check to see if this account has an entry in the DomainUsers
+                        // table. If it doesn't then we'll go ahead and create one. If it does,
+                        // then we'll just insert the update history to the table.
+                        var userDbInfo = db.DomainUsers.Where(u => u.Username == userId.SamAccountName).FirstOrDefault();
+                        
+                        if(userDbInfo == null)
+                        {
+                            // If we have reached this part of the code then it means that
+                            // we have come accross a user that was not created thru the 
+                            // application and thus has no entry in the DomainUsers table.
+                            // We are going to be creating an entry into this table, but 
+                            // we are not going to use the currently logged in user who is 
+                            // viewing this account as the person that created the account.
+                            // The reason I don't want to store the username is because the 
+                            // entry was not created by the user, instead it was created by
+                            // the system. I am going to be making this a unique value just
+                            // in case we need to use this later on for reports.
+                            string createdBy = "System Generated";
 
-                        db.UserUpdateHistory.Add(userChange);
+                            DomainUser newUser = new DomainUser();
+                            newUser.CreatedBy = createdBy;
+                            newUser.Username = currentUser.SamAccountName;
+                            newUser.DateCreated = currentUser.WhenCreated;
+
+                            // Entry that identifies this as a user who we just inserted
+                            // an entry to the DomainUsers table for.
+                            UserUpdateHistory newUserHistory = new UserUpdateHistory();
+                            newUserHistory.UpdatedBy = createdBy;
+                            newUserHistory.Username = userId.SamAccountName;
+                            newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
+                            newUserHistory.DateUpdated = DateTime.Now;
+                            newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table by the system.</li></ul>";
+
+                            // This is the actual changes that were made for this user
+                            // when the update user button was clicked on and submitted for
+                            // this request.
+                            UserUpdateHistory userChange = new UserUpdateHistory();
+                            userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                            userChange.Username = userId.SamAccountName;
+                            userChange.UpdateType = UserUpdateType.UserInfo;
+                            userChange.DateUpdated = DateTime.Now;
+                            userChange.Notes = msg.ToString();
+                            
+                            db.DomainUsers.Add(newUser);
+                            db.UserUpdateHistory.Add(newUserHistory);
+                            db.UserUpdateHistory.Add(userChange);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            UserUpdateHistory userChange = new UserUpdateHistory();
+                            userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                            userChange.Username = userId.SamAccountName;
+                            userChange.UpdateType = UserUpdateType.UserInfo;
+                            userChange.DateUpdated = DateTime.Now;
+                            userChange.Notes = msg.ToString();
+
+                            db.UserUpdateHistory.Add(userChange);
+                        }
+
                         db.SaveChanges();
                     }
                     

@@ -57,11 +57,15 @@
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="DAL\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />
-    <Compile Include="Entities\OrganizationalUnit.cs" />
+    <Compile Include="Entities\DomainOU.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
     <Compile Include="Migrations\201503071514301_Init-DB.cs" />
     <Compile Include="Migrations\201503071514301_Init-DB.Designer.cs">
       <DependentUpon>201503071514301_Init-DB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503072156402_Added-DomainOU.cs" />
+    <Compile Include="Migrations\201503072156402_Added-DomainOU.Designer.cs">
+      <DependentUpon>201503072156402_Added-DomainOU.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +86,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503071514301_Init-DB.resx">
       <DependentUpon>201503071514301_Init-DB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503072156402_Added-DomainOU.resx">
+      <DependentUpon>201503072156402_Added-DomainOU.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

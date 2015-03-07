@@ -16,6 +16,7 @@ namespace ADWeb.Core.DAL
 
         public DbSet<DomainUser> DomainUsers { get; set; }
         public DbSet<UserUpdateHistory> UserUpdateHistory { get; set; }
+        public DbSet<DomainOU> DomainOU { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
