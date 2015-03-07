@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace ADWeb.Core.Concrete
+namespace ADWeb.Core.DAL
 {
     using ADWeb.Core.Entities;
 

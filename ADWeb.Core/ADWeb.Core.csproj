@@ -55,7 +55,7 @@
     <Compile Include="ActiveDirectory\ADGroup.cs" />
     <Compile Include="ActiveDirectory\ADUser.cs" />
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
-    <Compile Include="Concrete\ADWebDB.cs" />
+    <Compile Include="DAL\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
     <Compile Include="Migrations\201503050527460_InitDB.cs" />

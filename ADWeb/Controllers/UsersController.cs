@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ADWeb.Controllers
 {
-    using ADWeb.Core.Concrete;
+    using ADWeb.Core.DAL;
     using ADWeb.Core.Entities;
     using ADWeb.Core.ViewModels;
     using ADWeb.Core.ActiveDirectory;
