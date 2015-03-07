@@ -73,6 +73,12 @@ namespace ADWeb.Controllers
                     }
                     else
                     {
+                        // We are going to get the current user logged into the application
+                        // so that when we create the appropriate entires in the database
+                        // we are storing the first and last name in the createdby field 
+                        // as opposed to storing the username.
+                        ADUser loggedInUser = domain.GetUserByID(User.Identity.Name);
+
                         // The user exists in active directory but does not
                         // have an entry in the DomainUsers table. We'll add 
                         // an entry so that the application doesn't complain that
@@ -80,12 +86,12 @@ namespace ADWeb.Controllers
                         // the domain (including those that were not created thru
                         // this application).
                         DomainUser newUser = new DomainUser();
-                        newUser.CreatedBy = User.Identity.Name;
+                        newUser.CreatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
                         newUser.Username = user.SamAccountName;
                         newUser.DateCreated = user.WhenCreated;
 
                         UserUpdateHistory newUserHistory = new UserUpdateHistory();
-                        newUserHistory.UpdatedBy = User.Identity.Name;
+                        newUserHistory.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
                         newUserHistory.Username = user.SamAccountName;
                         newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
                         newUserHistory.DateUpdated = DateTime.Now;
@@ -95,7 +101,7 @@ namespace ADWeb.Controllers
                         db.UserUpdateHistory.Add(newUserHistory);
                         db.SaveChanges();
                         
-                        viewModel.DBInfo.Createdby = domain.GetUserByID(newUser.CreatedBy).DisplayName;
+                        viewModel.DBInfo.Createdby = newUser.CreatedBy;
                         viewModel.DBInfo.WhenCreated = newUser.DateCreated;
                     }
 
