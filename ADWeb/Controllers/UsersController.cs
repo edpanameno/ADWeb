@@ -73,29 +73,29 @@ namespace ADWeb.Controllers
                     }
                     else
                     {
-                        // We are going to get the current user logged into the application
-                        // so that when we create the appropriate entires in the database
-                        // we are storing the first and last name in the createdby field 
-                        // as opposed to storing the username.
-                        ADUser loggedInUser = domain.GetUserByID(User.Identity.Name);
+                        // If we have reached this part of the code then it means that
+                        // we have come accross a user that was not created thru the 
+                        // application and thus has no entry in the DomainUsers table.
+                        // We are going to be creating an entry into this table, but 
+                        // we are not going to use the currently logged in user who is 
+                        // viewing this account as the person that created the account.
+                        // The reason I don't want to store the username is because the 
+                        // entry was not created by the user, instead it was created by
+                        // the system. I am going to be making this a unique value just
+                        // in case we need to use this later on for reports.
+                        string createdBy = "System Generated";
 
-                        // The user exists in active directory but does not
-                        // have an entry in the DomainUsers table. We'll add 
-                        // an entry so that the application doesn't complain that
-                        // this is needed to get update history of all users in 
-                        // the domain (including those that were not created thru
-                        // this application).
                         DomainUser newUser = new DomainUser();
-                        newUser.CreatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                        newUser.CreatedBy = createdBy;
                         newUser.Username = user.SamAccountName;
                         newUser.DateCreated = user.WhenCreated;
 
                         UserUpdateHistory newUserHistory = new UserUpdateHistory();
-                        newUserHistory.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                        newUserHistory.UpdatedBy = createdBy;
                         newUserHistory.Username = user.SamAccountName;
                         newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
                         newUserHistory.DateUpdated = DateTime.Now;
-                        newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table.</li></ul>";
+                        newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table by the system.</li></ul>";
                         
                         db.DomainUsers.Add(newUser);
                         db.UserUpdateHistory.Add(newUserHistory);
@@ -226,8 +226,10 @@ namespace ADWeb.Controllers
                 {
                     using(var db = new ADWebDB())
                     {
+                        ADUser loggedInUser = domain.GetUserByID(User.Identity.Name);
+
                         UserUpdateHistory userChange = new UserUpdateHistory();
-                        userChange.UpdatedBy = User.Identity.Name;
+                        userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
                         userChange.Username = userId.SamAccountName;
                         userChange.UpdateType = UserUpdateType.UserInfo;
                         userChange.DateUpdated = DateTime.Now;

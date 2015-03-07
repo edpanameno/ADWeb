@@ -206,18 +206,27 @@
             <table class="table table-bordered table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th>Date Created</th>
-                        <th>Update Type</th>
-                        <th>Updated By</th>
-                        <th>Details</th>
+                        <th width="20%">Update Information</th>
+                        <th width="80%">Update Details</th>
                     </tr>
                 </thead>
                 @foreach(var entry in Model.UserHistory)
                 {
                     <tr>
-                        <td>@entry.DateUpdated.ToShortDateString()</td>
-                        <td>@entry.UpdateType</td>
-                        <td>@entry.UpdatedBy</td>
+                        <td>
+                            <table style="font-size: 10pt; font-style: italic;">
+                                <tr>
+                                    <td>Date: @entry.DateUpdated.ToShortDateString()</td>
+                                </tr>
+                                <tr>
+                                    <td>Update Type: @entry.UpdateType</td>
+
+                                </tr>
+                                <tr>
+                                    <td>Updated by: @entry.UpdatedBy</td>
+                                </tr>
+                            </table>
+                        </td>
                         <td>@(new HtmlString(entry.Notes))</td>
                     </tr>
                 }
