@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
 
+<h3>@Model.Count().ToString() accounts were found!</h3>
+<br />
+
 <table class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
@@ -7,7 +10,6 @@
             <th>Last Name</th>
             <th>Title</th>
             <th>Department</th>
-            <th>Date Created</th>
         </tr>
     </thead>
     @foreach(var user in @Model)
@@ -17,7 +19,6 @@
             <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
             <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
             <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
-            <td>@Html.ActionLink(@user.WhenCreated.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName})</td>
         </tr>
     }
 </table>
