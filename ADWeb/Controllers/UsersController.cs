@@ -19,7 +19,6 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             ViewUsersVM users = new ViewUsersVM();
-            //users.RecentlyUpdated = domain.GetUsersByCriteria(AdvancedSearchFilter.WhenChanged, DateTime.Now.AddDays(-7)).Take(10).ToList();
             users.RecentlyCreated = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7)).Take(10).ToList();
 
             return View(users);
@@ -235,7 +234,12 @@ namespace ADWeb.Controllers
                             userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
                             userChange.Username = userId.SamAccountName;
                             userChange.UpdateType = UserUpdateType.UserInfo;
-                            userChange.DateUpdated = DateTime.Now;
+
+                            // I am adding 10 milli seconds to this value so that when we 
+                            // retrieve it from the database this will show up later on
+                            // as we order the results from this table based on the
+                            // date updated field!
+                            userChange.DateUpdated = DateTime.Now.AddMilliseconds(10);
                             userChange.Notes = msg.ToString();
                             
                             db.DomainUsers.Add(newUser);
