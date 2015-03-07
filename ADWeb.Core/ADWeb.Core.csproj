@@ -57,6 +57,7 @@
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="DAL\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />
+    <Compile Include="Entities\OrganizationalUnit.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
     <Compile Include="Migrations\201503071514301_Init-DB.cs" />
     <Compile Include="Migrations\201503071514301_Init-DB.Designer.cs">

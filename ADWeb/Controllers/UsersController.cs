@@ -348,11 +348,11 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult SearchUsers(SearchUsersModel id)
+        public PartialViewResult SearchUsers(SearchUsersModel search)
         {
             ADDomain domain = new ADDomain();
-            List<ADUser> users = domain.SearchUsers(id.SearchValue, id.SearchField);
-            ViewBag.SearchTerm = id.SearchValue;
+            List<ADUser> users = domain.SearchUsers(search.SearchValue, search.SearchField);
+            ViewBag.SearchTerm = search.SearchValue;
 
             return PartialView("_UserSearchResults", users);
         }
