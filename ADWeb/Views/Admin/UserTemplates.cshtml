@@ -6,7 +6,8 @@
 }
 
 <h3>User Templates</h3>
-<p>Below you will find the user templates currently used in the application. To create a new User Template, please click @Html.ActionLink("here", "CreateUserTemplate").</p>
+<p>Below you will find the user templates currently used in the application. 
+    To create a new User Template, please click @Html.ActionLink("here", "CreateUserTemplate").</p>
 
 @if(@TempData["invalid_user_template"] != null)
 {
@@ -53,40 +54,53 @@
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="active-user-templates">
-        <p>Below you will find the active User Templates that are currently stored in the application.</p>
-        <table class="table table-bordered table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th width="20%">Name</th>
-                    <th width="80%">Notes</th>
-                </tr>
-            </thead>
-            @foreach(var template in Model.ActiveUserTemplates)
-            {
-                <tr>
-                    <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                    <td>@Html.ActionLink(@template.Notes ?? "No notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                </tr>
-            }
-        </table>
+
+        @if(Model.ActiveUserTemplates.Count > 0)
+        {
+            <p>Below you will find the active User Templates that are currently stored in the application.</p>
+            <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th width="20%">Name</th>
+                        <th width="80%">Notes</th>
+                    </tr>
+                </thead>
+                @foreach(var template in Model.ActiveUserTemplates)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.ActionLink(@template.Notes ?? "No notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                    </tr>
+                }
+            </table>
+        } else
+        {
+           <p>There are currently no Enabled User Templates. To create a new User Template, please click @Html.ActionLink("here", "CreateUserTemplate").</p> 
+        }
     </div>
     <div role="tabpanel" class="tab-pane" id="disabled-user-templates">
-        <p>Below you will find the disabled user templates currently stored in the application. </p> 
-        <table class="table table-bordered table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th width="20%">Name</th>
-                    <th width="80%">Notes</th>
-                </tr>
-            </thead>
-            @foreach(var template in Model.DisabledUserTemplates)
-            {
-                <tr>
-                    <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                    <td>@Html.ActionLink(@template.Notes, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                </tr>
-            }
-        </table>
+        @if(Model.DisabledUserTemplates.Count > 0)
+        {
+            <p>Below you will find the disabled user templates currently stored in the application. </p> 
+            <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th width="20%">Name</th>
+                        <th width="80%">Notes</th>
+                    </tr>
+                </thead>
+                @foreach(var template in Model.DisabledUserTemplates)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.ActionLink(@template.Notes, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                    </tr>
+                }
+            </table>
+        } else
+        {
+           <p style="color: #900">There are currently no disabled User Templates.</p> 
+        }
     </div>
 </div>
 
