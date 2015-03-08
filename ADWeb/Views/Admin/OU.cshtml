@@ -67,8 +67,8 @@
             @foreach(var ou in Model.ActiveOUs)
             {
                 <tr>
-                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { ou = @ou.Name })</td>
-                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { ou = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { id = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { id = @ou.Name })</td>
                 </tr>
             }
         </table>
@@ -88,8 +88,8 @@
             @foreach(var ou in Model.DisabledOUs)
             {
                 <tr>
-                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { ou = @ou.Name })</td>
-                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { ou = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { id = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { id = @ou.Name })</td>
                 </tr>
             }
         </table>
