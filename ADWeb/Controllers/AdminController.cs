@@ -80,5 +80,28 @@ namespace ADWeb.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOU(DomainOU newOU)
+        {
+            if(ModelState.IsValid)
+            {
+                using(var db = new ADWebDB())
+                {
+                    newOU.Enabled = true;
+
+                    db.DomainOU.Add(newOU);
+                    db.SaveChanges();
+
+                    TempData["ou_created"] = "The Organizationl Unit " + newOU.Name + " has been created successfully!";
+                    return RedirectToAction("OU");
+                }
+            }
+            else
+            {
+                return View("OU");
+            }
+        }
     }
 }

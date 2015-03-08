@@ -20,7 +20,7 @@ required fields.</p>
     </div>
     
     <div class="form-group">
-        <label for="Enabled" class="col-sm-2 control-label">Enabled</label>
+        <label for="Enabled" class="col-sm-2 control-label">Status</label>
         <div class="col-sm-5">
             @Html.DropDownListFor(m => m.Enabled, (IEnumerable<SelectListItem>)ViewBag.EnabledList, new { @class="form-control" })
             <span class="help-block">Determines whether this OU will be made available as possible containers for users. Note: disabling this
