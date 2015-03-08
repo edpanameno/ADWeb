@@ -43,6 +43,8 @@ namespace ADWeb.Controllers
                 viewModel.PhoneNumber = user.PhoneNumber;
                 viewModel.Company = user.Company;
                 viewModel.Notes = user.Notes;
+                viewModel.Enabled = user.Enabled;
+                viewModel.ExpirationDate = user.AccountExpirationDate;
                 
                 // We are not using the WhenCreated field form the DomainUser
                 // table in the database because each user object in the domain

@@ -54,6 +54,8 @@ namespace ADWeb.Core.ViewModels
         public DateTime WhenChanged { get; set; }
         public DateTime WhenCreated { get; set; }
         public string LogonCount { get; set; }
+        public bool? Enabled { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
         /// The group(s) that a user belongs to in the domain.

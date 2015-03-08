@@ -77,8 +77,10 @@ namespace ADWeb.Controllers
             }
             else
             {
-                return View();
+                ModelState.AddModelError("", "Unable to update the Organizational Unit.");
             }
+            
+            return View();
         }
 
         [HttpPost]
@@ -100,8 +102,10 @@ namespace ADWeb.Controllers
             }
             else
             {
-                return View("OU");
+                ModelState.AddModelError("", "Unable to create Organizational Unit.");
             }
+            
+            return View("OU");
         }
     }
 }

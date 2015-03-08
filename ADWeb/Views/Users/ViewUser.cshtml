@@ -11,6 +11,12 @@
             padding-left: 20px;
         }
     </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 }
 
 <h2>@Model.GivenName @Model.Initial @Model.Surname</h2>
@@ -139,7 +145,7 @@
             
             <div class="form-group">
                 <label for="Notes" class="col-sm-2 control-label">Notes</label>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     @Html.TextAreaFor(m => m.Notes, new { @class="form-control", rows="8", cols="10" })
                 </div>
             </div>
@@ -198,6 +204,16 @@
             <tr>
                 <td>Logon Count</td>
                 <td style="text-align: right">@Model.LogonCount</td>
+            </tr>
+            <tr>
+                <td>Enabled <a href="#" data-toggle="tooltip" data-placement="right" data-original-title="Determines if a user account is enabled or not. If the account is enabled, the user is be able to login. If it's disabled, the user will no longer be able to login into the domain.'">(?)</a></td>
+                <td style="text-align: right">@Model.Enabled</td>
+            </tr>
+            <tr>
+                <td>Expiration Date</td>
+                <td style="text-align: right">
+                    @if(Model.ExpirationDate.HasValue) { @Model.ExpirationDate.Value.AddDays(-1).ToShortDateString() } else { <text>No Expiration Date</text> }
+                </td>
             </tr>
         </table>
 
