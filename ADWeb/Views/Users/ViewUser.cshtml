@@ -58,7 +58,7 @@
 
 
 <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="basic-info">
+    <div role="tabpanel" class="tab-pane fade in active" id="basic-info">
         <p>Use the fields below to view and edit the information for this user. 
         Note: When updating this users, all fields that are marked with an asterisk (*) are required fields.</p>
         @Html.ValidationSummary()
@@ -157,7 +157,7 @@
             </div>
         }
     </div>
-    <div role="tabpanel" class="tab-pane" id="user-groups">
+    <div role="tabpanel" class="tab-pane fade in" id="user-groups">
         <p>Below you will find the groups that this user belongs to. Note: No system generated groups will show up in the list below (i.e. Domain Users, Users).</p>
         <div class="table-responsive">
             <button type="submit" class="btn btn-primary pull-right" title="Click to Add user to Group(s)">Add User to Group(s)</button>
@@ -186,7 +186,7 @@
             </table>
         </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="user-history">
+    <div role="tabpanel" class="tab-pane fade in" id="user-history">
         <p>Below you will find some the stats/history of this user.</p>
         <table style="width: 400px" class="table table-bordered table-condensed">
             <tr>
