@@ -1,0 +1,55 @@
+﻿@model ADWeb.Core.Entities.DomainOU
+
+@{
+    ViewBag.Title = "Viewing OU " + @Model.Name;
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h3>@Model.Name Organizational Unit</h3>
+<p>Below you will find the information for this Organizational Unit. Please note that when updating an OU, all fields marked with an asterisks(*) are 
+required fields.</p>
+@using(Html.BeginForm("UpdateOU", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "role" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="Name" class="col-sm-2 control-label">Name*</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Name, new { @class="form-control", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="Enabled" class="col-sm-2 control-label">Enabled</label>
+        <div class="col-sm-5">
+            @Html.DropDownListFor(m => m.Enabled, (IEnumerable<SelectListItem>)ViewBag.EnabledList, new { @class="form-control" })
+            <span class="help-block">Determines whether this OU will be made available as possible containers for users. Note: disabling this
+            OU here will not delete the OU from active directory.</span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="DistinguishedName" class="col-sm-2 control-label">Distinguished Name*</label>
+        <div class="col-sm-8">
+            @Html.TextAreaFor(m => m.DistinguishedName, new { @class="form-control", rows="4" })
+            @Html.ValidationMessageFor(m => m.DistinguishedName)
+            <span class="help-block">Note: The distinguished name of the OU must be valid or else the application will error out when 
+            trying to create a user/group in this ou.  For more information on what this should look like please click on this <a href="https://msdn.microsoft.com/en-us/library/aa366101%28v=vs.85%29.aspx" target="_blank">link</a>.</span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="Notes" class="col-sm-2 control-label">Notes</label>
+        <div class="col-sm-8">
+            @Html.TextAreaFor(m => m.Notes, new { @class="form-control", rows="7" })
+        </div>
+    </div>
+    
+    @Html.HiddenFor(m => m.DomainOUID)
+    
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"> </span> Update Organizational Unit</button>
+        </div>
+    </div>
+}

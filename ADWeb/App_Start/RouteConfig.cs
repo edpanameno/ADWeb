@@ -25,8 +25,8 @@ namespace ADWeb
             
             routes.MapRoute(
                 name: "AdminSection",
-                url: "Admin/{action}/{id}",
-                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
+                url: "Admin/{action}/{ou}",
+                defaults: new { controller = "Admin", action = "Index", ou = UrlParameter.Optional }
             );
             
             routes.MapRoute(

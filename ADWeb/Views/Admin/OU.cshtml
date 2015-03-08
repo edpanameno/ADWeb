@@ -1,0 +1,91 @@
+﻿@model ADWeb.Core.ViewModels.OUViewModel 
+
+@{
+    ViewBag.Title = "OU";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h3>Organizational Units</h3>
+<p>Below you will find the organizational units that are currently configured in the appplication.</p>
+
+@if(@TempData["invalid_ou"] != null)
+{
+    <div class="alert alert-warning alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["invalid_ou"]</span>
+    </div>
+}
+
+@if(@TempData["ou_updated"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["ou_updated"]</span>
+    </div>
+}
+
+<ul class="nav nav-tabs" role="tablist" id="ouInfo">
+    <li role="presentation" class="active">
+        <a href="#ou-info" role="tab" data-toggle="tab">Organizational Units</a>
+    </li>
+    <li role="presentation">
+        <a href="#disabled-ou" role="tab" data-toggle="tab">Disabled Organizational Units</a>
+    </li>
+    <li role="presentation">
+        <a href="#create-ou" role="tab" data-toggle="tab">Create Organizational Unit</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="ou-info">
+        <p>Below you will find the list of active Organizational Units currently stored in the application. These are the organizatinal units that
+        users can be placed into when created or moved to for existing users. To view or update an existing OU, please click on the link provided below.</p>
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th width="20%">Name</th>
+                    <th width="80%">Notes</th>
+                </tr>
+            </thead>
+            @foreach(var ou in Model.ActiveOUs)
+            {
+                <tr>
+                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { ou = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { ou = @ou.Name })</td>
+                </tr>
+            }
+        </table>
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="disabled-ou">
+        <p>Below you will find the list of Organizational Units that have been disabled in the application. To re-enable an organizational unit,
+        please click on the link provided below.</p>
+        
+        <table class="table table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th width="20%">Name</th>
+                    <th width="80%">Notes</th>
+                </tr>
+            </thead>
+            @foreach(var ou in Model.DisabledOUs)
+            {
+                <tr>
+                    <td>@Html.ActionLink(@ou.Name, "ViewOU", new { ou = @ou.Name })</td>
+                    <td>@Html.ActionLink(@ou.Notes, "ViewOU", new { ou = @ou.Name })</td>
+                </tr>
+            }
+        </table>
+    </div>
+        
+    <div role="tabpanel" class="tab-pane" id="create-ou">
+        <p>Use the fields below to create a new Organizational Unit.</p>
+    </div>
+</div>
+
