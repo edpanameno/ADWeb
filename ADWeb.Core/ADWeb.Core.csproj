@@ -61,30 +61,6 @@
     <Compile Include="Entities\DomainOU.cs" />
     <Compile Include="Entities\UserTemplate.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
-    <Compile Include="Migrations\201503071514301_Init-DB.cs" />
-    <Compile Include="Migrations\201503071514301_Init-DB.Designer.cs">
-      <DependentUpon>201503071514301_Init-DB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503072156402_Added-DomainOU.cs" />
-    <Compile Include="Migrations\201503072156402_Added-DomainOU.Designer.cs">
-      <DependentUpon>201503072156402_Added-DomainOU.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503080002038_Added-DomainOUAnnotations.cs" />
-    <Compile Include="Migrations\201503080002038_Added-DomainOUAnnotations.Designer.cs">
-      <DependentUpon>201503080002038_Added-DomainOUAnnotations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503081517211_Added-UserTemplate-DomainGroup.cs" />
-    <Compile Include="Migrations\201503081517211_Added-UserTemplate-DomainGroup.Designer.cs">
-      <DependentUpon>201503081517211_Added-UserTemplate-DomainGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503081530433_Updated-TemplateGroup.cs" />
-    <Compile Include="Migrations\201503081530433_Updated-TemplateGroup.Designer.cs">
-      <DependentUpon>201503081530433_Updated-TemplateGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503081543398_Added-OU-To-UserTemplates.cs" />
-    <Compile Include="Migrations\201503081543398_Added-OU-To-UserTemplates.Designer.cs">
-      <DependentUpon>201503081543398_Added-OU-To-UserTemplates.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
@@ -102,26 +78,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503071514301_Init-DB.resx">
-      <DependentUpon>201503071514301_Init-DB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503072156402_Added-DomainOU.resx">
-      <DependentUpon>201503072156402_Added-DomainOU.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503080002038_Added-DomainOUAnnotations.resx">
-      <DependentUpon>201503080002038_Added-DomainOUAnnotations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503081517211_Added-UserTemplate-DomainGroup.resx">
-      <DependentUpon>201503081517211_Added-UserTemplate-DomainGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503081530433_Updated-TemplateGroup.resx">
-      <DependentUpon>201503081530433_Updated-TemplateGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503081543398_Added-OU-To-UserTemplates.resx">
-      <DependentUpon>201503081543398_Added-OU-To-UserTemplates.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,17 +12,16 @@ namespace ADWeb.Core.Entities
     {
         public int UserTemplateID { get; set; }
         public bool Enabled { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string CreatedBy { get; set; }
-
+        
         [Display(Name="Template Name")]
         [Required(ErrorMessage="User Template Name Required")]
         public string Name { get; set; }
         
-        public bool? ChangePasswordAtNextLogon { get; set; }
-        public bool? UserCannotChangePassword { get; set; }
-        public bool? PasswordNeverExpires { get; set; }
-        public bool? AccountExpires { get; set; }
+        public bool ChangePasswordAtNextLogon { get; set; }
+        public bool UserCannotChangePassword { get; set; }
+        public bool PasswordNeverExpires { get; set; }
+        public bool AccountExpires { get; set; }
+        
         public string Notes { get; set; }
 
         [ForeignKey("DomainOU")]

@@ -57,15 +57,15 @@
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                 <tr>
-                    <th width="25%">Name</th>
-                    <th width="85%">Notes</th>
+                    <th width="20%">Name</th>
+                    <th width="80%">Notes</th>
                 </tr>
             </thead>
             @foreach(var template in Model.ActiveUserTemplates)
             {
                 <tr>
                     <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                    <td>@Html.ActionLink(@template.Notes, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                    <td>@Html.ActionLink(@template.Notes ?? "No notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
                 </tr>
             }
         </table>
@@ -75,8 +75,8 @@
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                 <tr>
-                    <th width="30%">Name</th>
-                    <th width="70%">Notes</th>
+                    <th width="20%">Name</th>
+                    <th width="80%">Notes</th>
                 </tr>
             </thead>
             @foreach(var template in Model.DisabledUserTemplates)

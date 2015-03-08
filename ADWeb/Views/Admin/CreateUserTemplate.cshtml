@@ -29,7 +29,44 @@
     </div>
     
     <div class="form-group">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Additional User Properties
+                </div>
+                <div class="panel-body">
+                    <p>Use the fields below to select additional properties for the active directory accounts that will be created by using this user template.</p>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.UserTemplate.PasswordNeverExpires) Password Never Expires
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.UserTemplate.ChangePasswordAtNextLogon) Change Password at Next Login 
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.UserTemplate.UserCannotChangePassword) User Cannot Change Password 
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.UserTemplate.AccountExpires) Account Expires 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <div class="col-sm-9">
             <label for="Notes">Template Notes:</label>
             @Html.TextAreaFor(m => m.UserTemplate.Notes, new { @class = "form-control", rows = "7" })
         </div>

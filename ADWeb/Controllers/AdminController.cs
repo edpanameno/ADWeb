@@ -148,18 +148,7 @@ namespace ADWeb.Controllers
             {
                 using(var db = new ADWebDB())
                 {
-                    ADDomain domain = new ADDomain();
-                    ADUser user = domain.GetUserByID(User.Identity.Name);
-
                     id.UserTemplate.Enabled = true;
-                    id.UserTemplate.DateCreated = DateTime.Now;
-                    id.UserTemplate.CreatedBy = user.GivenName + " " + user.Surname;
-                    
-                    id.UserTemplate.ChangePasswordAtNextLogon = false;
-                    id.UserTemplate.UserCannotChangePassword = false;
-                    id.UserTemplate.PasswordNeverExpires = false;
-                    id.UserTemplate.AccountExpires = false;
-
                     db.UserTemplate.Add(id.UserTemplate);
                     db.SaveChanges();
 
@@ -216,12 +205,16 @@ namespace ADWeb.Controllers
             {
                 using(var db = new ADWebDB())
                 {
-                    db.Entry(id).State = EntityState.Modified;
-                    db.Entry(id).Property(ut => ut.Enabled).IsModified = true;
-                    db.Entry(id).Property(ut => ut.DateCreated).IsModified = false;
+                    db.UserTemplate.Attach(id);
                     db.Entry(id).Property(ut => ut.Name).IsModified = true;
+                    db.Entry(id).Property(ut => ut.Enabled).IsModified = true;
                     db.Entry(id).Property(ut => ut.DomainOUID).IsModified = true;
+                    db.Entry(id).Property(ut => ut.PasswordNeverExpires).IsModified = true;
+                    db.Entry(id).Property(ut => ut.ChangePasswordAtNextLogon).IsModified = true;
+                    db.Entry(id).Property(ut => ut.UserCannotChangePassword).IsModified = true;
+                    db.Entry(id).Property(ut => ut.AccountExpires).IsModified = true;
                     db.Entry(id).Property(ut => ut.Notes).IsModified = true;
+                    
                     db.SaveChanges();
 
                     TempData["user_template_updated"] = "The user template '" + id.Name + "' has been successfully update";
@@ -230,7 +223,8 @@ namespace ADWeb.Controllers
             }
             else
             {
-                return View();
+                TempData["error_updating_user_template"] = "Error updating Template";
+                return RedirectToAction("ViewUserTemplate", new { id = id.UserTemplateID });
             }
         }
     }

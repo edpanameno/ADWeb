@@ -9,6 +9,17 @@
 <p>Below you will find the information for this user template. Note: When making updates to this user template, all fields that are
     marked with an asterisks(*) are required fields.</p>
 
+@if(@TempData["error_updating_user_template"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["error_updating_user_template"]</span>
+    </div>
+}
+
 @using(Html.BeginForm("UpdateUserTemplate", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "role" }))
 {
     @Html.AntiForgeryToken()
@@ -22,6 +33,13 @@
     
     <div class="form-group">
         <div class="col-sm-6">
+            <label for="DomainOUID">Status:</label>
+            @Html.DropDownListFor(m => m.Enabled, (List<SelectListItem>)@ViewBag.UTStatus, new { @class="form-control" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-6">
             <label for="DomainOUID">Organizational Unit:</label>
             @Html.DropDownListFor(m => m.DomainOUID, (List<SelectListItem>)@ViewBag.OUList, new { @class="form-control" })
             <span class="help-block">The Organizational Unit that all users created with this User Template will be created under.</span>
@@ -29,12 +47,41 @@
     </div>
     
     <div class="form-group">
-        <div class="col-sm-6">
-            <label for="DomainOUID">Status:</label>
-            @Html.DropDownListFor(m => m.Enabled, (List<SelectListItem>)@ViewBag.UTStatus, new { @class="form-control" })
+        <div class="col-sm-8">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Additional User Properties
+                </div>
+                <div class="panel-body">
+                    <p>Use the fields below to select additional properties for the active directory accounts that will be created by using this user template.</p>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.PasswordNeverExpires) Password Never Expires
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.ChangePasswordAtNextLogon) Change Password at Next Login 
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.UserCannotChangePassword) User Cannot Change Password 
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            @Html.CheckBoxFor(m => m.AccountExpires) Account Expires 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-     
+         
     <div class="form-group">
         <div class="col-sm-8">
             <label for="Notes">Template Notes:</label>
