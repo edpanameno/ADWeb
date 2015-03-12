@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace ADWeb.Core.ActiveDirectory
 {
-    using ADWeb.Core.ViewModels;
-    using System.ComponentModel.DataAnnotations;
+    //using ADWeb.ViewModels;
+    using ADWeb.Core.Models;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
@@ -77,7 +78,7 @@ namespace ADWeb.Core.ActiveDirectory
             GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];
         }
 
-        public void CreateUser(CreateUserVM user)
+        public void CreateUser(User user)
         {
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, TempUsers, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
@@ -102,7 +103,7 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
-        public void CreateGroup(CreateGroupVM group)
+        public void CreateGroup(Group group)
         {
             // By default, all groups will go into the GroupsOU
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, GroupsOU, ContextOptions.Negotiate, ServiceUser, ServicePassword))
@@ -220,7 +221,7 @@ namespace ADWeb.Core.ActiveDirectory
             return groups;
         }
 
-        public void UpdateUser(UserViewModel updatedUser)
+        public void UpdateUser(User updatedUser)
         {
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADWeb.Core.ViewModels
+namespace ADWeb.ViewModels
 {
     public class CreateGroupVM
     {

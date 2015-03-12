@@ -9,8 +9,9 @@ namespace ADWeb.Controllers
 {
     using ADWeb.Core.DAL;
     using ADWeb.Core.Entities;
-    using ADWeb.Core.ViewModels;
+    //using ADWeb.Core.ViewModels;
     using ADWeb.Core.ActiveDirectory;
+    using ADWeb.ViewModels;
 
     [Authorize]
     public class AdminController : Controller

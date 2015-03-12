@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
 
 namespace ADWeb.Controllers
 {
     using ADWeb.Core.DAL;
     using ADWeb.Core.Entities;
-    using ADWeb.Core.ViewModels;
+    using ADWeb.Core.Models;
     using ADWeb.Core.ActiveDirectory;
-    using System.Text;
+    using ADWeb.ViewModels;
+    using AutoMapper;
 
     [Authorize]
     public class UsersController : Controller
@@ -183,7 +185,10 @@ namespace ADWeb.Controllers
                 }
 
                 msg.Append("</ul>");
-                domain.UpdateUser(userId);
+
+                ADWeb.Core.Models.User user = Mapper.Map<User>(userId);
+
+                domain.UpdateUser(user);
 
                 // There is a possiblity that a user may accidentally hit the update
                 // button but nothing has changed in the user's information. If this
@@ -293,24 +298,26 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
+                ADWeb.Core.Models.User newUser = Mapper.Map<User>(userId);
+
                 ADDomain domain = new ADDomain();
-                domain.CreateUser(userId);
-                ADUser domainUser = domain.GetUserByID(User.Identity.Name);
+                domain.CreateUser(newUser);
+                ADUser currentUser = domain.GetUserByID(User.Identity.Name);
 
                 // Insert the account to the Database. Note: we are only
                 // interested in basic information 
-                DomainUser user = new DomainUser();
-                user.DateCreated = DateTime.Now;
-                user.CreatedBy = domainUser.GivenName + " " + domainUser.Surname;
-                user.Username = userId.Username;
+                DomainUser newDomainUser = new DomainUser();
+                newDomainUser.DateCreated = DateTime.Now;
+                newDomainUser.CreatedBy = currentUser.GivenName + " " + currentUser.Surname;
+                newDomainUser.Username = newUser.Username;
 
                 using(var db = new ADWebDB())
                 {
-                    db.DomainUsers.Add(user);
+                    db.DomainUsers.Add(newDomainUser);
                     db.SaveChanges();
                 }
 
-                TempData["user_created_successfully"] = userId.FirstName + " " + userId.LastName + " has been created successfully!";
+                TempData["user_created_successfully"] = newUser.FirstName + " " + newUser.LastName + " has been created successfully!";
                 return RedirectToAction("ViewUser", new { userId = userId.Username });
             }
             

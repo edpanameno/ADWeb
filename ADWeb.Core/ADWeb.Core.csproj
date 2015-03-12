@@ -62,19 +62,11 @@
     <Compile Include="Entities\UserTemplate.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\CreateGroupVM.cs" />
-    <Compile Include="ViewModels\CreateUserVM.cs" />
-    <Compile Include="ViewModels\LoginModel.cs" />
-    <Compile Include="ViewModels\OUViewModel.cs" />
-    <Compile Include="ViewModels\SearchUsersModel.cs" />
-    <Compile Include="ViewModels\UserTemplateVM.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="ViewModels\ViewUsersVM.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

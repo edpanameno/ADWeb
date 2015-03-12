@@ -4,11 +4,14 @@ using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ADWeb.Core.ActiveDirectory;
-using ADWeb.Core.ViewModels;
 
 namespace ADWeb.Controllers
 {
+    using AutoMapper;
+    using ADWeb.ViewModels;
+    using ADWeb.Core.ActiveDirectory;
+    using ADWeb.Core.Models;
+
     [Authorize]
     public class GroupsController : Controller
     {
@@ -39,11 +42,13 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
+                Group group = Mapper.Map<Group>(groupId);
+
                 ADDomain domain = new ADDomain();
-                domain.CreateGroup(groupId);
+                domain.CreateGroup(group);
                 
-                TempData["group_created_successfully"] = groupId.GroupName + " has been created successfully!";
-                return RedirectToAction("ViewGroup", new { groupId = groupId.GroupName });
+                TempData["group_created_successfully"] = group.GroupName + " has been created successfully!";
+                return RedirectToAction("ViewGroup", new { groupId = group.GroupName });
             }
 
             return View();

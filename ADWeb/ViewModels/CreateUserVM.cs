@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADWeb.Core.ViewModels
+namespace ADWeb.ViewModels
 {
     /// <summary>
     /// This class is used to create a User in the domain

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using ADWeb.Core.Entities;
 
-namespace ADWeb.Core.ViewModels
+namespace ADWeb.ViewModels
 {
     /// <summary>
     /// This class will be used to view and edit the basic information

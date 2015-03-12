@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using ADWeb.Core.ActiveDirectory;
 
-namespace ADWeb.Core.ViewModels
+namespace ADWeb.ViewModels
 {
     public class SearchUsersModel
     {
