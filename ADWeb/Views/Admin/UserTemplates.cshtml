@@ -8,7 +8,7 @@
 <h3>User Templates</h3>
 <p>Below you will find the user templates currently used in the application. 
     To create a new User Template, please click @Html.ActionLink("here", "CreateUserTemplate").</p>
-
+<br />
 @if(@TempData["invalid_user_template"] != null)
 {
     <div class="alert alert-danger alert-dismissable fade in" role="alert">
@@ -54,15 +54,15 @@
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="active-user-templates">
-
         @if(Model.ActiveUserTemplates.Count > 0)
         {
-            <p>Below you will find the active User Templates that are currently stored in the application.</p>
+            <p>Below you will find the active User Templates that are currently stored in the application. These User Templates will
+            be available when creating a user account.</p>
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th width="20%">Name</th>
-                        <th width="80%">Notes</th>
+                        <th width="25%">Name</th>
+                        <th width="75%">Notes</th>
                     </tr>
                 </thead>
                 @foreach(var template in Model.ActiveUserTemplates)
@@ -81,12 +81,13 @@
     <div role="tabpanel" class="tab-pane" id="disabled-user-templates">
         @if(Model.DisabledUserTemplates.Count > 0)
         {
-            <p>Below you will find the disabled user templates currently stored in the application. </p> 
+            <p>Below you will find the disabled user templates currently stored in the application. Disabled User Templates will not be available when creatin
+            a new user account.</p> 
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th width="20%">Name</th>
-                        <th width="80%">Notes</th>
+                        <th width="25%">Name</th>
+                        <th width="75%">Notes</th>
                     </tr>
                 </thead>
                 @foreach(var template in Model.DisabledUserTemplates)
