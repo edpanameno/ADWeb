@@ -290,9 +290,6 @@ namespace ADWeb.Core.ActiveDirectory
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser userFilter = new ADUser(context);
-                /*{
-                    DisplayName = "*" + searchString + "*"
-                };*/
                 
                 switch(searchField)
                 {
