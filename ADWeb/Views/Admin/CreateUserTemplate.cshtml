@@ -9,6 +9,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#search-groups").autocomplete({
+                minLength: 3,
                 source: '@Url.Action("SearchForGroups")'
             });
         });
