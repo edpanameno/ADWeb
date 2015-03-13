@@ -11,7 +11,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ADWeb.Core.ActiveDirectory
 {
-    //using ADWeb.ViewModels;
     using ADWeb.Core.Models;
 
     /// <summary>
