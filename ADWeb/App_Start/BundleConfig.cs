@@ -26,7 +26,12 @@ namespace ADWeb
 
             bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/custom.css"));
+                      "~/Content/custom.css",
+                      "~/Content/themes/base/core.css",
+                      "~/Content/themes/base/autocomplete.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                "~/Content/js/jquery-ui-1.11.3.min.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

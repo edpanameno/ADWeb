@@ -9,9 +9,9 @@ namespace ADWeb.Controllers
 {
     using ADWeb.Core.DAL;
     using ADWeb.Core.Entities;
-    //using ADWeb.Core.ViewModels;
     using ADWeb.Core.ActiveDirectory;
     using ADWeb.ViewModels;
+    using ADWeb.Core.Models;
 
     [Authorize]
     public class AdminController : Controller
@@ -227,6 +227,14 @@ namespace ADWeb.Controllers
                 TempData["error_updating_user_template"] = "Error updating Template";
                 return RedirectToAction("ViewUserTemplate", new { id = id.UserTemplateID });
             }
+        }
+    
+        public ActionResult SearchForGroups(string term)
+        {
+            ADDomain domain = new ADDomain();
+            List<Group> groupsFound = domain.SearchGroups(term);
+
+            return Json(groupsFound, JsonRequestBehavior.AllowGet);
         }
     }
 }

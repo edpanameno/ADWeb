@@ -60,13 +60,22 @@
     <Compile Include="Entities\DomainUser.cs" />
     <Compile Include="Entities\DomainOU.cs" />
     <Compile Include="Entities\UserTemplate.cs" />
+    <Compile Include="Entities\UserTemplateGroup.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
+    <Compile Include="Migrations\201503130317047_Added-UserTemplateGroups.cs" />
+    <Compile Include="Migrations\201503130317047_Added-UserTemplateGroups.Designer.cs">
+      <DependentUpon>201503130317047_Added-UserTemplateGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503130317047_Added-UserTemplateGroups.resx">
+      <DependentUpon>201503130317047_Added-UserTemplateGroups.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

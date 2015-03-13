@@ -33,6 +33,6 @@ namespace ADWeb.Core.Entities
         /// </summary>
         public virtual DomainOU DomainOU { get; set; }
 
-        public virtual ICollection<DomainGroup> Groups { get; set; }
+        public virtual ICollection<UserTemplateGroup> Groups { get; set; }
     }
 }

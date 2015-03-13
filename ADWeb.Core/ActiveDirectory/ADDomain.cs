@@ -336,6 +336,32 @@ namespace ADWeb.Core.ActiveDirectory
             return users.OrderBy( u => u.Surname).ToList();
         }
 
+        public List<Group> SearchGroups(string searchString)
+        {
+            List<Group> groups = new List<Group>();
+            
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                GroupPrincipal groupFilter = new GroupPrincipal(context)
+                {
+                    Name = "*" + searchString + "*"
+                };
+
+                using(PrincipalSearcher groupSearcher = new PrincipalSearcher(groupFilter))
+                {
+                    ((DirectorySearcher)groupSearcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = groupSearcher.FindAll().ToList();
+
+                    foreach(GroupPrincipal group in searchResults)
+                    {
+                        groups.Add(new Group() { GroupName = group.Name });
+                    }
+                }
+            }
+
+            return groups;
+        }
+
         /// <summary>
         /// Gets all the users in the domain.
         /// </summary>
