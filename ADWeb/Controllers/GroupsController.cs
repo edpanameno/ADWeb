@@ -42,13 +42,13 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
-                Group group = Mapper.Map<Group>(groupId);
+                Group newGroup = Mapper.Map<Group>(groupId);
 
                 ADDomain domain = new ADDomain();
-                domain.CreateGroup(group);
+                domain.CreateGroup(newGroup);
                 
-                TempData["group_created_successfully"] = group.GroupName + " has been created successfully!";
-                return RedirectToAction("ViewGroup", new { groupId = group.GroupName });
+                TempData["group_created_successfully"] = newGroup.GroupName + " has been created successfully!";
+                return RedirectToAction("ViewGroup", new { groupId = newGroup.GroupName });
             }
 
             return View();
