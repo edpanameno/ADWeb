@@ -232,7 +232,7 @@ namespace ADWeb.Controllers
         public ActionResult SearchForGroups(string term)
         {
             ADDomain domain = new ADDomain();
-            List<Group> groupsFound = domain.SearchGroups(term);
+            List<string> groupsFound = domain.SearchGroups(term);
 
             return Json(groupsFound, JsonRequestBehavior.AllowGet);
         }

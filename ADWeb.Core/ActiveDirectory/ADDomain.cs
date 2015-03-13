@@ -336,9 +336,9 @@ namespace ADWeb.Core.ActiveDirectory
             return users.OrderBy( u => u.Surname).ToList();
         }
 
-        public List<Group> SearchGroups(string searchString)
+        public List<string> SearchGroups(string searchString)
         {
-            List<Group> groups = new List<Group>();
+            List<string> groups = new List<string>();
             
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
@@ -354,7 +354,7 @@ namespace ADWeb.Core.ActiveDirectory
 
                     foreach(GroupPrincipal group in searchResults)
                     {
-                        groups.Add(new Group() { GroupName = group.Name });
+                        groups.Add(group.Name);
                     }
                 }
             }

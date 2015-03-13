@@ -3,42 +3,20 @@
 @{
     ViewBag.Title = "Create User Template";
     Layout = "~/Views/Shared/_Admin.cshtml";
-    
-    AjaxOptions ajaxOptions = new AjaxOptions()
-    {
-        UpdateTargetId = "group-results"
-    };
-}
+    }
     
 @section headSection {
     <script type="text/javascript">
         $(document).ready(function () {
             $("#search-groups").autocomplete({
-                minLength: 3,
-                source: function (request, response) {
-                    $.ajax({
-                        url: '@Url.Action("SearchForGroups")',
-                        dataType: 'json',
-                        data: request,
-                        success: function (data) {
-                            response(data.map(function (value) {
-                                return {
-                                    'label': '<li>' + value.id + '</li>',
-                                    'value': value.value
-                                };
-                            }));
-                        }
-                    })
-                }
+                source: '@Url.Action("SearchForGroups")'
             });
         });
     </script>
 
     <style type="text/css">
-        .ui-widget-content {
-            color: black;
-            border-radius: 0px;
-            border: 1px solid #454545;
+        ul {
+            list-style-type: none;
         }
     </style>
 }
@@ -74,7 +52,7 @@
                 <div class="panel-body">
                     <p>Use the text box below to search for active groups currently stored in the domain. These are the groups that the
                     users will be made a part of when they are created using this User Template.</p>
-                    <label for="group-search">Group Name</label><input type="text" id="search-groups" name="search-groups" />
+                    <input type="text" id="search-groups" name="search-groups" />
                 </div>
             </div>
         </div>
