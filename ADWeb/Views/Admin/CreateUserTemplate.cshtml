@@ -12,12 +12,39 @@
                 minLength: 3,
                 source: '@Url.Action("SearchForGroups")'
             });
+
+            $("#btnAddGroup").click(function () {
+                var groupName = $("#search-groups").val();
+                $("#group-table").append("<tr><td>" + groupName + "</td></tr>");
+                $("#search-groups").val("").focus();
+            });
         });
     </script>
 
     <style type="text/css">
-        ul {
+        /*ul {
             list-style-type: none;
+        }*/
+         
+        .ui-widget {
+            font-size: 1em;
+            font-family: Georgia, Times;
+        }
+
+        .ui-menu {
+                list-style:none;
+                padding: 10px;
+                margin: 0;
+                display:block;
+                width:227px;
+        }
+        .ui-menu .ui-menu {
+                margin-top: -3px;
+        }
+        .ui-menu .ui-menu-item {
+                margin:0;
+                padding: 0;
+                width: 200px;
         }
     </style>
 }
@@ -53,7 +80,16 @@
                 <div class="panel-body">
                     <p>Use the text box below to search for active groups currently stored in the domain. These are the groups that the
                     users will be made a part of when they are created using this User Template.</p>
-                    <input type="text" id="search-groups" name="search-groups" />
+                    
+                    <table class="table table-bordered table-condensed table-hover" id="group-table">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <input class="form-control" type="text" id="search-groups" name="search-groups" style="width: 400px;" /> <button type="button" class="btn btn-primary" id="btnAddGroup">Add Group</button>
                 </div>
             </div>
         </div>
