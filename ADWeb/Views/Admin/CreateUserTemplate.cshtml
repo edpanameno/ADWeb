@@ -15,17 +15,18 @@
 
             $("#btnAddGroup").click(function () {
                 var groupName = $("#search-groups").val();
-                $("#group-table").append("<tr><td>" + groupName + "</td></tr>");
-                $("#search-groups").val("").focus();
+                if (groupName == "") {
+                    alert("Group Name cannot be blank! Please type in a name of the group that you wish to add to this User Template.");
+                }
+                else {
+                    $("#group-table").append("<tr><td>" + groupName + "</td></tr>");
+                    $("#search-groups").val("").focus();
+                }
             });
         });
     </script>
 
     <style type="text/css">
-        /*ul {
-            list-style-type: none;
-        }*/
-         
         .ui-widget {
             font-size: 1em;
             font-family: Georgia, Times;
@@ -78,7 +79,8 @@
                     User Template Groups
                 </div>
                 <div class="panel-body">
-                    <p>Use the text box below to search for active groups currently stored in the domain. These are the groups that the
+                    <p>Use the text box below to search for active groups currently stored in the domain. Once the desired group has been found and selected,
+                    please click on the 'Add Group' button to add the group to the User Tempate. These are the groups that the
                     users will be made a part of when they are created using this User Template.</p>
                     
                     <table class="table table-condensed" id="group-table">
@@ -89,7 +91,14 @@
                         </thead>
                     </table>
 
-                    <input class="form-control" type="text" id="search-groups" name="search-groups" style="width: 400px;" /> <button type="button" class="btn btn-primary" id="btnAddGroup">Add Group</button>
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            <input type="text" id="search-groups" class="form-control" placeholder="Search For Groups ..." />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" id="btnAddGroup">Add Group</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

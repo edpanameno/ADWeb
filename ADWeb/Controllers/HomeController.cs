@@ -18,7 +18,8 @@ namespace ADWeb.Controllers
             {
                 ADDomain domain = new ADDomain();
 
-                // We want to show the users who were created in the last 7 days
+                // By default, we'll show the user the accounts that
+                // were created in the last 7 days.
                 List<ADUser> users = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7)).Take(10).ToList();
                 ViewBag.UsersChanged = users;
             }
