@@ -47,7 +47,42 @@
     </div>
     
     <div class="form-group">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    User Template Groups
+                </div>
+                <div class="panel-body">
+                    <p>Below you will find the groups that belong to this user template. All users created using this template
+                    will be added to the groups listed below.</p>
+                    <table class="table table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        @if(Model.Groups.Count > 0)
+                        {
+                            foreach(var group in Model.Groups)
+                            {
+                                <tr>
+                                    <td title="@group.DistinguishedName">@group.Name</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td style="color:#900; font-weight: bold">No Groups Currently associated with this user template.</td></tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="form-group">
+        <div class="col-sm-9">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Additional User Properties
@@ -83,7 +118,7 @@
     </div>
          
     <div class="form-group">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <label for="Notes">Template Notes:</label>
             @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", rows = "7" })
         </div>

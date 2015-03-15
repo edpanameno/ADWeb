@@ -154,6 +154,39 @@ namespace ADWeb.Controllers
                     db.UserTemplate.Add(id.UserTemplate);
                     db.SaveChanges();
 
+                    // We now have to iterate thru the list of groups that
+                    // this user template has been configured to have so that
+                    // we can add this information to the database. But we have 
+                    // to also be careful to make sure that only valid groups are
+                    // added to the database because we are allowing users to enter
+                    // the name of the group(s) they are looking for, there is a
+                    // possibility that a group may not exist in the domain.
+
+                    ADDomain domain = new ADDomain();
+                    ADGroup group;
+
+                    foreach(var grp in id.Groups)
+                    {
+                        group = domain.GetGroupBasicInfo(grp);
+                        
+                        // We have to check if this group is in the domain, if it
+                        // is then we would have retrieved a name for the group.
+                        // If it's not a valid name, then the group name will be
+                        // blank and thus this is a group that doesn't exit in  
+                        // the domain.
+                        if(!string.IsNullOrWhiteSpace(group.GroupName))
+                        {
+                            db.UserTemplateGroup.Add(new UserTemplateGroup()
+                                                    {
+                                                        Enabled = true,
+                                                        Name = group.GroupName,
+                                                        DistinguishedName = group.DN,
+                                                        UserTemplateID = id.UserTemplate.UserTemplateID
+                                                    });
+                            db.SaveChanges();
+                        }
+                    }
+
                     TempData["user_template_created"] = "The user template '" + id.UserTemplate.Name + "' has been created successfully!";
 
                     return RedirectToAction("UserTemplates");
@@ -183,6 +216,15 @@ namespace ADWeb.Controllers
                 List<SelectListItem> utStatus = new List<SelectListItem>();
                 utStatus.Add(new SelectListItem() { Text = "Enabled", Value = "true" });
                 utStatus.Add(new SelectListItem() { Text = "Disabled", Value = "false" });
+
+                // I am calling the ToList method here so that we can get a list groups
+                // associated with this User Template. If we don'd do this here, then
+                // I cannot get access to this list from the View (I get a message that
+                // the context has already been disposed of and therefore cannot access
+                // this information). Calling this method here should not be that big of 
+                // hit performance wise as I don't expect user templates to have a lot of
+                // groups associated with them.
+                userTemplate.Groups.ToList();
 
                 ViewBag.OUList = ouItems;
                 ViewBag.UTStatus = utStatus;

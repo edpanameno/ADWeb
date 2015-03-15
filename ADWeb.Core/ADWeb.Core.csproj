@@ -56,15 +56,14 @@
     <Compile Include="ActiveDirectory\ADUser.cs" />
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="DAL\ADWebDB.cs" />
-    <Compile Include="Entities\DomainGroup.cs" />
     <Compile Include="Entities\DomainUser.cs" />
     <Compile Include="Entities\DomainOU.cs" />
     <Compile Include="Entities\UserTemplate.cs" />
     <Compile Include="Entities\UserTemplateGroup.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
-    <Compile Include="Migrations\201503130317047_Added-UserTemplateGroups.cs" />
-    <Compile Include="Migrations\201503130317047_Added-UserTemplateGroups.Designer.cs">
-      <DependentUpon>201503130317047_Added-UserTemplateGroups.cs</DependentUpon>
+    <Compile Include="Migrations\201503151524534_Init-DB.cs" />
+    <Compile Include="Migrations\201503151524534_Init-DB.Designer.cs">
+      <DependentUpon>201503151524534_Init-DB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Group.cs" />
@@ -72,13 +71,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503130317047_Added-UserTemplateGroups.resx">
-      <DependentUpon>201503130317047_Added-UserTemplateGroups.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503151524534_Init-DB.resx">
+      <DependentUpon>201503151524534_Init-DB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

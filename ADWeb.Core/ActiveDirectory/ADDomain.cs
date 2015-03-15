@@ -421,6 +421,22 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        public ADGroup GetGroupBasicInfo(string groupName)
+        {
+            ADGroup group = new ADGroup();
+
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName))
+                {
+                    group.GroupName = adGroup.Name;
+                    group.DN = adGroup.DistinguishedName;
+                }
+            }
+
+            return group;
+        }
+
         /// <summary>
         /// Gets all of the active groups in the domain
         /// </summary>

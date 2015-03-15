@@ -18,7 +18,7 @@ namespace ADWeb.Core.DAL
         public DbSet<UserUpdateHistory> UserUpdateHistory { get; set; }
         public DbSet<DomainOU> DomainOU { get; set; }
         public DbSet<UserTemplate> UserTemplate { get; set; }
-        public DbSet<DomainGroup> DomainGroup { get; set; }
+        public DbSet<UserTemplateGroup> UserTemplateGroup { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

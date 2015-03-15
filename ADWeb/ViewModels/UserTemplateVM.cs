@@ -15,7 +15,7 @@ namespace ADWeb.ViewModels
     {
         public UserTemplate UserTemplate { get; set; }
         public List<DomainOU> OrganizationalUnits { get; set; }
-        public List<DomainGroup> DomainGroups { get; set; }
+        public List<UserTemplateGroup> UserTemplateGroups { get; set; }
 
         public List<UserTemplate> ActiveUserTemplates { get; set; }
         public List<UserTemplate> DisabledUserTemplates { get; set; }
