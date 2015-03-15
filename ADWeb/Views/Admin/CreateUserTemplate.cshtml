@@ -8,6 +8,7 @@
 @section headSection {
     <script type="text/javascript">
         $(document).ready(function () {
+            var rowIndex = 0;
             $("#search-groups").autocomplete({
                 minLength: 3,
                 source: '@Url.Action("SearchForGroups")'
@@ -19,8 +20,9 @@
                     alert("Group Name cannot be blank! Please type in a name of the group that you wish to add to this User Template.");
                 }
                 else {
-                    $("#group-table").append("<tr><td>" + groupName + "</td></tr>");
+                    $("#group-table").append("<tr><td><input type=\"text\" name=\"Groups[" + rowIndex + "]\" value=\"" + groupName + "\" readonly=\"true\" /></td></tr>");
                     $("#search-groups").val("").focus();
+                    rowIndex++;
                 }
             });
         });

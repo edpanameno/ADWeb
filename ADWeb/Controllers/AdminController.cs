@@ -143,10 +143,11 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUserTemplate(UserTemplateVM id)
+        public ActionResult CreateUserTemplate(CreateUserTemplateVM id)
         {
             if(ModelState.IsValid)
             {
+
                 using(var db = new ADWebDB())
                 {
                     id.UserTemplate.Enabled = true;
