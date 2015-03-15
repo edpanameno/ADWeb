@@ -12,6 +12,11 @@ namespace ADWeb.ViewModels
     /// </summary>
     public class CreateUserTemplateVM
     {
+        public CreateUserTemplateVM()
+        {
+            UserTemplate = new UserTemplate();
+        }
+
         public UserTemplate UserTemplate { get; set; }
         public List<DomainOU> OrganizationalUnits { get; set; }
         public List<string> Groups { get; set; }

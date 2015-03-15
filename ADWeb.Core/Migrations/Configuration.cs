@@ -26,6 +26,11 @@ namespace ADWeb.Core.Migrations
                 new DomainOU { Name = "Services", DistinguishedName = "OU=Services,OU=Account - Resources,DC=test,DC=local", Enabled = true, Notes = "Service Accounts stored in this OU." },
                 new DomainOU { Name = "Temp-Users", DistinguishedName = "OU=Temp-Users,OU=Account - Resources,DC=test,DC=local", Enabled = true, Notes = "Temporary Accounts stored in this OU." }
             );
+
+            context.UserTemplate.AddOrUpdate(
+                u => u.Name,
+                new UserTemplate { Name = "Default Template", Enabled = true, ChangePasswordAtNextLogon = false, UserCannotChangePassword = false, PasswordNeverExpires = false, AccountExpires = false, Notes = "The default User Template for the system", DomainOUID = 1 } 
+            );
         }
     }
 }

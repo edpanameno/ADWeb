@@ -8,6 +8,18 @@ using System.Threading.Tasks;
 
 namespace ADWeb.Core.Entities
 {
+    /// <summary>
+    /// This determines how long an account can be active
+    /// from the date of creation for the user account.
+    /// </summary>
+    public enum UserExpirationRange
+    {
+        Days = 0,
+        Weeks,
+        Months,
+        Years
+    }
+
     public class UserTemplate
     {
         public int UserTemplateID { get; set; }
@@ -21,6 +33,9 @@ namespace ADWeb.Core.Entities
         public bool UserCannotChangePassword { get; set; }
         public bool PasswordNeverExpires { get; set; }
         public bool AccountExpires { get; set; }
+
+        public UserExpirationRange? ExpirationRange { get; set; }
+        public int? ExpirationValue { get; set; }
         
         public string Notes { get; set; }
 

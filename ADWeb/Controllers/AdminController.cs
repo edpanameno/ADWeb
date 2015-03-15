@@ -128,6 +128,7 @@ namespace ADWeb.Controllers
             {
                 CreateUserTemplateVM userTemplateVM = new CreateUserTemplateVM();
                 userTemplateVM.OrganizationalUnits = db.DomainOU.Where(o => o.Enabled == true).ToList();
+                userTemplateVM.UserTemplate.ExpirationRange = UserExpirationRange.Days;
 
                 List<SelectListItem> ouItems = new List<SelectListItem>();
                 foreach(var ou in userTemplateVM.OrganizationalUnits)
@@ -161,7 +162,6 @@ namespace ADWeb.Controllers
                     // added to the database because we are allowing users to enter
                     // the name of the group(s) they are looking for, there is a
                     // possibility that a group may not exist in the domain.
-
                     ADDomain domain = new ADDomain();
                     ADGroup group;
 
