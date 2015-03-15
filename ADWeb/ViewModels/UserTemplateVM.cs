@@ -8,6 +8,9 @@ namespace ADWeb.ViewModels
 {
     using ADWeb.Core.Entities;
 
+    /// <summary>
+    /// This class will be used to view a user template object
+    /// </summary>
     public class UserTemplateVM
     {
         public UserTemplate UserTemplate { get; set; }

@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
+    <Compile Include="ViewModels\CreateUserTemplateVM.cs" />
     <Compile Include="ViewModels\CreateUserVM.cs" />
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\OUViewModel.cs" />

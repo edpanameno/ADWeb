@@ -126,7 +126,7 @@ namespace ADWeb.Controllers
         {
             using(var db = new ADWebDB())
             {
-                UserTemplateVM userTemplateVM = new UserTemplateVM();
+                CreateUserTemplateVM userTemplateVM = new CreateUserTemplateVM();
                 userTemplateVM.OrganizationalUnits = db.DomainOU.Where(o => o.Enabled == true).ToList();
 
                 List<SelectListItem> ouItems = new List<SelectListItem>();
