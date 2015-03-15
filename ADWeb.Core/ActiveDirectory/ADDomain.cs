@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ADWeb.Core.ActiveDirectory
 {
     using ADWeb.Core.Models;
+using ADWeb.Core.Entities;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
@@ -66,6 +67,7 @@ namespace ADWeb.Core.ActiveDirectory
         public string TempUsers { get; set; }
         public string UPNSuffix { get; set; }
         public string GroupsOU { get; set; }
+        public string RootDSE { get; set; }
 
         public ADDomain()
         {
@@ -75,6 +77,89 @@ namespace ADWeb.Core.ActiveDirectory
             TempUsers = WebConfigurationManager.AppSettings["temp_users"];
             UPNSuffix = WebConfigurationManager.AppSettings["upn_suffix"];
             GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];
+        }
+
+        public void CreateUserWithTemplate(User user, UserTemplateSettings userTemplateSettings)
+        {
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, userTemplateSettings.DomainOU, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(ADUser newUser = new ADUser(context))
+                {
+                    newUser.SamAccountName = user.Username;
+                    newUser.GivenName = user.FirstName;
+                    newUser.MiddleName = user.MiddleName;
+                    newUser.Surname = user.LastName;
+                    newUser.EmailAddress = user.EmailAddress;
+                    newUser.PhoneNumber = user.PhoneNumber;
+                    newUser.Title = user.Title;
+                    newUser.Department = user.Department;
+                    newUser.Notes = "Created by ADWeb on " + DateTime.Now.ToString() + ".";
+                    newUser.DisplayName = user.LastName + ", " + user.FirstName + " " + user.Initials;
+                    newUser.UserPrincipalName = user.Username + UPNSuffix;
+                    newUser.Enabled = true;
+
+                    // Settings from the User template
+                    newUser.UserCannotChangePassword = userTemplateSettings.UserCannotChangePassword;
+                   
+                    if(userTemplateSettings.ChangePasswordAtNextLogon)
+                    {
+                        // This will force the user to change their password
+                        // the next time they login
+                        newUser.ExpirePasswordNow();
+                    }
+
+                    newUser.PasswordNeverExpires = userTemplateSettings.PasswordNeverExpires;
+
+                    if(userTemplateSettings.AccountExpires)
+                    {
+                        // We have to determine how long until the user's account
+                        // will expire.
+                        DateTime? expirationDate = new DateTime();
+                             
+                        switch(userTemplateSettings.ExpirationRange)
+                        {
+                            case UserExpirationRange.Days:
+                                expirationDate = DateTime.Now.AddDays(userTemplateSettings.ExpirationValue.Value);
+                                break;
+                            case UserExpirationRange.Weeks:
+                                int totalDays = 7 * userTemplateSettings.ExpirationValue.Value;
+                                expirationDate = DateTime.Now.AddDays(totalDays);
+                                break;
+                            case UserExpirationRange.Months:
+                                expirationDate = DateTime.Now.AddMonths(userTemplateSettings.ExpirationValue.Value);
+                                break;
+                            case UserExpirationRange.Years:
+                                expirationDate = DateTime.Now.AddYears(userTemplateSettings.ExpirationValue.Value);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        newUser.AccountExpirationDate = expirationDate;
+                    }
+
+                    newUser.SetPassword(user.Password);
+                    newUser.Save();
+
+                    // Now add the user to the groups associated with the user template
+                    foreach(var grp in userTemplateSettings.Groups)
+                    {
+                        // We are using RootDSE for now because we are looking at the
+                        // whole domain. This will need to be changed later on so that
+                        // only certain OU's will be searched for groups
+                        using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+                        {
+                            GroupPrincipal group = GroupPrincipal.FindByIdentity(groupContext, grp);
+                            if(group != null)
+                            {
+                                group.Members.Add(newUser);
+                                group.Save();
+                            }
+                        }
+
+                    }
+                }
+            }
         }
 
         public void CreateUser(User user)

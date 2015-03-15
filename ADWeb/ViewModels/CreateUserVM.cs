@@ -53,6 +53,7 @@ namespace ADWeb.ViewModels
         
         [Display(Name="Deparment")] 
         public string Department { get; set; }
-        
+
+        public int UserTemplateID { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace ADWeb
     using AutoMapper;
     using ADWeb.ViewModels;
     using ADWeb.Core.Models;
+    using ADWeb.Core.Entities;
 
     /// <summary>
     /// Used to setup the mappings of View Models to Model

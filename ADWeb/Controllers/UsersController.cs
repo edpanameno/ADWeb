@@ -289,6 +289,19 @@ namespace ADWeb.Controllers
     
         public ActionResult CreateUser()
         {
+            using(var db = new ADWebDB())
+            {
+                List<SelectListItem> userTemplates = new List<SelectListItem>();
+                
+                var templates = db.UserTemplate.Where(u => u.Enabled).ToList();
+                foreach(var template in templates)
+                {
+                    userTemplates.Add(new SelectListItem() { Value = template.UserTemplateID.ToString(), Text = template.Name});
+                }
+                
+                ViewBag.UTList = userTemplates;
+            }
+
             return View();
         }
 
@@ -298,27 +311,45 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
-                ADWeb.Core.Models.User newUser = Mapper.Map<User>(userId);
-
-                ADDomain domain = new ADDomain();
-                domain.CreateUser(newUser);
-                ADUser currentUser = domain.GetUserByID(User.Identity.Name);
-
-                // Insert the account to the Database. Note: we are only
-                // interested in basic information 
-                DomainUser newDomainUser = new DomainUser();
-                newDomainUser.DateCreated = DateTime.Now;
-                newDomainUser.CreatedBy = currentUser.GivenName + " " + currentUser.Surname;
-                newDomainUser.Username = newUser.Username;
-
                 using(var db = new ADWebDB())
                 {
+                    ADWeb.Core.Models.User newUser = Mapper.Map<User>(userId);
+                    ADDomain domain = new ADDomain();
+
+                    // Get User Template Settings so that we can use it to create
+                    // the user.
+                    UserTemplate userTemplate = db.UserTemplate.Find(userId.UserTemplateID);
+                    UserTemplateSettings userTemplateSettings = new UserTemplateSettings();
+                    userTemplateSettings.ChangePasswordAtNextLogon = userTemplate.ChangePasswordAtNextLogon;
+                    userTemplateSettings.UserCannotChangePassword = userTemplate.UserCannotChangePassword;
+                    userTemplateSettings.PasswordNeverExpires = userTemplate.PasswordNeverExpires;
+                    userTemplateSettings.AccountExpires = userTemplate.AccountExpires;
+                    userTemplateSettings.ExpirationRange = userTemplate.ExpirationRange;
+                    userTemplateSettings.ExpirationValue = userTemplate.ExpirationValue;
+                    userTemplateSettings.DomainOU = userTemplate.DomainOU.DistinguishedName;
+
+                    foreach(var group in userTemplate.Groups.ToList())
+                    {
+                        userTemplateSettings.Groups.Add(group.Name);
+                    }
+
+                    domain.CreateUserWithTemplate(newUser, userTemplateSettings);
+                    ADUser currentUser = domain.GetUserByID(User.Identity.Name);
+
+                    // Insert the account to the Database. Note: we are only
+                    // interested in basic information 
+                    DomainUser newDomainUser = new DomainUser();
+                    newDomainUser.DateCreated = DateTime.Now;
+                    newDomainUser.CreatedBy = currentUser.GivenName + " " + currentUser.Surname;
+                    newDomainUser.Username = newUser.Username;
+
                     db.DomainUsers.Add(newDomainUser);
                     db.SaveChanges();
+                    
+                    TempData["user_created_successfully"] = newUser.FirstName + " " + newUser.LastName + " has been created successfully!";
+                    return RedirectToAction("ViewUser", new { userId = userId.Username });
                 }
 
-                TempData["user_created_successfully"] = newUser.FirstName + " " + newUser.LastName + " has been created successfully!";
-                return RedirectToAction("ViewUser", new { userId = userId.Username });
             }
             
             return View();
