@@ -148,7 +148,6 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
-
                 using(var db = new ADWebDB())
                 {
                     id.UserTemplate.Enabled = true;
@@ -165,25 +164,31 @@ namespace ADWeb.Controllers
                     ADDomain domain = new ADDomain();
                     ADGroup group;
 
-                    foreach(var grp in id.Groups)
+                    // There is a possibility that theusers will not add any groups
+                    // when they first create the user template. We have to check for
+                    // this now so that we can avoid a nasty error message!
+                    if(id.Groups.Count > 0)
                     {
-                        group = domain.GetGroupBasicInfo(grp);
-                        
-                        // We have to check if this group is in the domain, if it
-                        // is then we would have retrieved a name for the group.
-                        // If it's not a valid name, then the group name will be
-                        // blank and thus this is a group that doesn't exit in  
-                        // the domain.
-                        if(!string.IsNullOrWhiteSpace(group.GroupName))
+                        foreach(var grp in id.Groups)
                         {
-                            db.UserTemplateGroup.Add(new UserTemplateGroup()
-                                                    {
-                                                        Enabled = true,
-                                                        Name = group.GroupName,
-                                                        DistinguishedName = group.DN,
-                                                        UserTemplateID = id.UserTemplate.UserTemplateID
-                                                    });
-                            db.SaveChanges();
+                            group = domain.GetGroupBasicInfo(grp);
+
+                            // We have to check if this group is in the domain, if it
+                            // is then we would have retrieved a name for the group.
+                            // If it's not a valid name, then the group name will be
+                            // blank and thus this is a group that doesn't exit in  
+                            // the domain.
+                            if(!string.IsNullOrWhiteSpace(group.GroupName))
+                            {
+                                db.UserTemplateGroup.Add(new UserTemplateGroup()
+                                                        {
+                                                            Enabled = true,
+                                                            Name = group.GroupName,
+                                                            DistinguishedName = group.DN,
+                                                            UserTemplateID = id.UserTemplate.UserTemplateID
+                                                        });
+                                db.SaveChanges();
+                            }
                         }
                     }
 
@@ -258,6 +263,8 @@ namespace ADWeb.Controllers
                     db.Entry(id).Property(ut => ut.UserCannotChangePassword).IsModified = true;
                     db.Entry(id).Property(ut => ut.AccountExpires).IsModified = true;
                     db.Entry(id).Property(ut => ut.Notes).IsModified = true;
+                    db.Entry(id).Property(ut => ut.ExpirationRange).IsModified = true;
+                    db.Entry(id).Property(ut => ut.ExpirationValue).IsModified = true;
                     
                     db.SaveChanges();
 

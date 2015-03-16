@@ -15,6 +15,7 @@ namespace ADWeb.ViewModels
         public CreateUserTemplateVM()
         {
             UserTemplate = new UserTemplate();
+            Groups = new List<string>();
         }
 
         public UserTemplate UserTemplate { get; set; }
