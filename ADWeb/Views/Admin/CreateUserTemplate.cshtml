@@ -28,7 +28,7 @@
 
             $("#UserTemplate_AccountExpires").click(function () {
                 $("#expiration-info").toggle();
-                $("#UserTemplate_ExpirationRange").focus();
+                $("#UserTemplate_ExpirationValue").focus();
             });
         });
     </script>
@@ -146,14 +146,13 @@
                         <div class="col-md-8">
                             @Html.CheckBoxFor(m => m.UserTemplate.AccountExpires) Account Expires 
                             <div class="help-block">
-                                <div id="expiration-info" style="display: none;">
-                                    <p>Please select the date range and value of when the accounts created by this user template will expire.</p>
-                                    <label for="ExpirationRange">Expiration Range:</label>
-                                    @Html.EnumDropDownListFor(m => m.UserTemplate.ExpirationRange, htmlAttributes: new { @class = "form-control" })
+                                <div id="expiration-info" style="display: none; margin-left: 20px">
                                     <label for="ExpirationValue">Expiration Value:</label>
                                     @Html.TextBoxFor(m => m.UserTemplate.ExpirationValue, new { @class="form-control" })
-                                    <span class="help-block">The values above will set the account to expire starting from the date that the account is created.</span>
+                                    <label for="ExpirationRange">Expiration Range:</label>
+                                    @Html.EnumDropDownListFor(m => m.UserTemplate.ExpirationRange, htmlAttributes: new { @class = "form-control" })
                                 </div>
+                                <p>Select the Value and Date Range when the account will expire starting from the date the user account is created using this user template.</p>
                             </div>
                         </div>
                     </div>
