@@ -37,6 +37,7 @@ namespace ADWeb.Core.Entities
         public UserExpirationRange? ExpirationRange { get; set; }
         public int? ExpirationValue { get; set; }
         
+        [Required(ErrorMessage="User Template Notes are required.")]
         public string Notes { get; set; }
 
         [ForeignKey("DomainOU")]

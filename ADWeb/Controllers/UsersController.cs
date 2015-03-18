@@ -319,6 +319,7 @@ namespace ADWeb.Controllers
                     // Get User Template Settings so that we can use it to create
                     // the user.
                     UserTemplate userTemplate = db.UserTemplate.Find(userId.UserTemplateID);
+                    
                     UserTemplateSettings userTemplateSettings = new UserTemplateSettings();
                     userTemplateSettings.ChangePasswordAtNextLogon = userTemplate.ChangePasswordAtNextLogon;
                     userTemplateSettings.UserCannotChangePassword = userTemplate.UserCannotChangePassword;

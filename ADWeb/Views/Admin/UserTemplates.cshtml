@@ -94,7 +94,7 @@
                 {
                     <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                        <td>@Html.ActionLink(@template.Notes, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.ActionLink(@template.Notes ?? "no notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
                     </tr>
                 }
             </table>
