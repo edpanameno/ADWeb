@@ -113,7 +113,7 @@ using ADWeb.Core.Entities;
                     if(userTemplateSettings.AccountExpires)
                     {
                         // We have to determine how long until the user's account
-                        // will expire.
+                        // will expire in relation to the date that it is being created.
                         DateTime? expirationDate = new DateTime();
                              
                         switch(userTemplateSettings.ExpirationRange)
