@@ -262,9 +262,9 @@ namespace ADWeb.Controllers
                     db.Entry(id).Property(ut => ut.ChangePasswordAtNextLogon).IsModified = true;
                     db.Entry(id).Property(ut => ut.UserCannotChangePassword).IsModified = true;
                     db.Entry(id).Property(ut => ut.AccountExpires).IsModified = true;
-                    db.Entry(id).Property(ut => ut.Notes).IsModified = true;
                     db.Entry(id).Property(ut => ut.ExpirationRange).IsModified = true;
                     db.Entry(id).Property(ut => ut.ExpirationValue).IsModified = true;
+                    db.Entry(id).Property(ut => ut.Notes).IsModified = true;
                     
                     db.SaveChanges();
 
@@ -285,6 +285,21 @@ namespace ADWeb.Controllers
             List<string> groupsFound = domain.SearchGroups(term);
 
             return Json(groupsFound, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult RemoveGroupFromUserTemplate(string groupID)
+        {
+            using(var db =  new ADWebDB())
+            {
+                UserTemplateGroup group = db.UserTemplateGroup.Find(Int32.Parse(groupID));
+                group.Enabled = false;
+                //db.UserTemplateGroup.Add(group);
+                db.SaveChanges();
+
+                TempData["group_removed"] = "The Group '" + group.Name + "' was successfully removed!";
+                return RedirectToAction("ViewUserTemplate", new { id = group.UserTemplateID } );
+
+            }
         }
     }
 }

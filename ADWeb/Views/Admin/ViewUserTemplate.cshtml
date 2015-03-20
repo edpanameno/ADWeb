@@ -38,6 +38,17 @@
     </div>
 }
 
+@if(@TempData["group_removed"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["group_removed"]</span>
+    </div>
+}
+
 @using(Html.BeginForm("UpdateUserTemplate", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "role" }))
 {
     @Html.AntiForgeryToken()
@@ -76,16 +87,23 @@
                     <table class="table table-bordered table-condensed table-hover">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th width="75%">Name</th>
+                                <th width="25%">Remove</th>
                             </tr>
                         </thead>
                         @if(Model.Groups.Count > 0)
                         {
                             foreach(var group in Model.Groups)
                             {
-                                <tr>
-                                    <td title="@group.DistinguishedName">@group.Name</td>
-                                </tr>
+                                if(group.Enabled)
+                                {
+                                    <tr>
+                                        <td title="@group.DistinguishedName">@group.Name</td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "RemoveGroupFromUserTemplate", new { groupID = @group.UserTemplateGroupID })
+                                        </td>
+                                    </tr>
+                        }
                             }
                         }
                         else
