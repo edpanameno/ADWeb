@@ -39,7 +39,7 @@
                        "<button type='button' class='close' data-dismiss='alert'>" +
                        "<span aria-hidden='true'>&times;</span>" +
                        "<span class='sr-only'>Close</span>" +
-                       "</button><span>The group " + groupName + " has been removed successfully!</span></div>";
+                       "</button><span>The group <u>" + groupName + "</u> has been removed successfully!</span></div>";
             $("#group-removed").append(msg);
         }
     </script>
@@ -129,7 +129,7 @@
                         }
                         else
                         {
-                            <tr><td style="color:#900; font-weight: bold">No Groups Currently associated with this user template.</td></tr>
+                            <tr><td colspan="2" style="color:#900">No Groups Currently associated with this user template. To add groups to this user template, use the text box below to search for groups and add them.</td></tr>
                         }
                     </table>
                 </div>
