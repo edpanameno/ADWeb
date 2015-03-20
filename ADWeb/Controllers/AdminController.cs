@@ -287,18 +287,14 @@ namespace ADWeb.Controllers
             return Json(groupsFound, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult RemoveGroupFromUserTemplate(string groupID)
+        [HttpPost]
+        public void RemoveGroupFromUserTemplate(string groupID)
         {
             using(var db =  new ADWebDB())
             {
                 UserTemplateGroup group = db.UserTemplateGroup.Find(Int32.Parse(groupID));
                 group.Enabled = false;
-                //db.UserTemplateGroup.Add(group);
                 db.SaveChanges();
-
-                TempData["group_removed"] = "The Group '" + group.Name + "' was successfully removed!";
-                return RedirectToAction("ViewUserTemplate", new { id = group.UserTemplateID } );
-
             }
         }
     }

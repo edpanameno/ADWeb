@@ -8,6 +8,7 @@
 @section headSection {
     <script type="text/javascript">
         $(document).ready(function () {
+
             if ($("#AccountExpires").is(":checked")) {
                 $("#expiration-info").show();
             }
@@ -20,6 +21,28 @@
                 $("#UserTemplate_ExpirationValue").focus();
             });
         });
+
+        // This method is used to remove the group from the
+        // table that has all of the group(s) associated with
+        // this user template.
+        function removeGroup(groupId) {
+            $("#group-" + groupId).remove();
+        }
+
+        // Whenever a group is removed from the user template, a
+        // alert will show up at the top of the page. This function
+        // generates this message and shows it to the user. If more
+        // than one group is removed from the user template, another
+        // message will be shown to the user.
+        function showSuccessMsg(groupName) {
+            
+            var msg = "<div class='alert alert-info alert-dismissable fade in' role='alert' id='group-removed'> " +
+                       "<button type='button' class='close' data-dismiss='alert'>" +
+                       "<span aria-hidden='true'>&times;</span>" +
+                       "<span class='sr-only'>Close</span>" +
+                       "</button><span>The group " + groupName + " has been removed successfully!</span></div>";
+            $("#group-removed").append(msg);
+        }
     </script>
 }
 
@@ -38,16 +61,7 @@
     </div>
 }
 
-@if(@TempData["group_removed"] != null)
-{
-    <div class="alert alert-info alert-dismissable fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-        </button>
-        <span>@TempData["group_removed"]</span>
-    </div>
-}
+<div id="group-removed"></div>
 
 @using(Html.BeginForm("UpdateUserTemplate", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "role" }))
 {
@@ -88,7 +102,7 @@
                         <thead>
                             <tr>
                                 <th width="75%">Name</th>
-                                <th width="25%">Remove</th>
+                                <th width="25%">Delete Group</th>
                             </tr>
                         </thead>
                         @if(Model.Groups.Count > 0)
@@ -97,10 +111,19 @@
                             {
                                 if(group.Enabled)
                                 {
-                                    <tr>
+                                    <tr id="group-@group.UserTemplateGroupID">
                                         <td title="@group.DistinguishedName">@group.Name</td>
                                         <td>
-                                            @Html.ActionLink("Delete", "RemoveGroupFromUserTemplate", new { groupID = @group.UserTemplateGroupID })
+                                            @Ajax.ActionLink("Delete", 
+                                                             "RemoveGroupFromUserTemplate", 
+                                                             new { groupID = @group.UserTemplateGroupID }, 
+                                                             new AjaxOptions() 
+                                                                 { 
+                                                                     HttpMethod = "POST", 
+                                                                     Confirm = "Are you sure you want to delete the group '" + @group.Name + " from this user template?",
+                                                                     OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
+                                                                     OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
+                                                                 })
                                         </td>
                                     </tr>
                         }
