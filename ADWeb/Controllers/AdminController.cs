@@ -282,8 +282,9 @@ namespace ADWeb.Controllers
                         // not be added. For us to do this check, we have to get the list
                         // of groups first. Also, please note that we have to check that we
                         // only get active groups! 
-                        var existingGroups = db.UserTemplateGroup.Where(u => u.UserTemplateID == id.UserTemplate.UserTemplateID && u.Enabled == true)
-                                                                 .Select(u => u.Name).ToList();
+                        var existingGroups = db.UserTemplateGroup
+                                               .Where(u => u.UserTemplateID == id.UserTemplate.UserTemplateID && u.Enabled == true)
+                                               .Select(u => u.Name).ToList();
 
                         foreach(var grp in id.Groups)
                         {
@@ -318,7 +319,7 @@ namespace ADWeb.Controllers
                         }
                     }
 
-                    TempData["user_template_updated"] = "The user template '" + id.UserTemplate.Name + "' has been successfully update";
+                    TempData["user_template_updated"] = "The user template '<b><u>" + id.UserTemplate.Name + "</u></b>' has been successfully updated!";
                     return RedirectToAction("UserTemplates");
                 }
             }
