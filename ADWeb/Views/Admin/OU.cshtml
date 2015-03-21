@@ -101,30 +101,30 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <label for="Name" class="col-sm-2 control-label">Name*</label>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
+                    <label for="Name">Name*</label>
                     @Html.TextBoxFor(m => m.NewOU.Name, new { @class="form-control", autofocus="autofocus" })
                     @Html.ValidationMessageFor(m => m.NewOU.Name)
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="DistinguishedName" class="col-sm-2 control-label">Distinguished Name*</label>
                 <div class="col-sm-8">
+                <label for="DistinguishedName">Distinguished Name*</label>
                     @Html.TextAreaFor(m => m.NewOU.DistinguishedName, new { @class="form-control", rows="4"})
                     @Html.ValidationMessageFor(m => m.NewOU.DistinguishedName)
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="Notes" class="col-sm-2 control-label">Notes</label>
                 <div class="col-sm-8">
+                    <label for="Notes">Notes</label>
                     @Html.TextAreaFor(m => m.NewOU.Notes, new { @class="form-control", rows="5"})
                 </div>
             </div>
             
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-6" >
+                <div class="col-sm-8" >
                     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Create Organizational Unit</button>
                 </div>
             </div>

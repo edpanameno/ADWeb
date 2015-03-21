@@ -12,16 +12,16 @@ required fields.</p>
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
-        <label for="Name" class="col-sm-2 control-label">Name*</label>
-        <div class="col-sm-5">
+        <div class="col-sm-8">
+            <label for="Name">Name*</label>
             @Html.TextBoxFor(m => m.Name, new { @class="form-control", autofocus = "autofocus" })
             @Html.ValidationMessageFor(m => m.Name)
         </div>
     </div>
     
     <div class="form-group">
-        <label for="Enabled" class="col-sm-2 control-label">Status</label>
-        <div class="col-sm-5">
+        <div class="col-sm-8">
+        <label for="Enabled">Status</label>
             @Html.DropDownListFor(m => m.Enabled, (IEnumerable<SelectListItem>)ViewBag.EnabledList, new { @class="form-control" })
             <span class="help-block">Determines whether this OU will be made available as possible containers for users. Note: disabling this
             OU here will not delete the OU from active directory.</span>
@@ -29,8 +29,8 @@ required fields.</p>
     </div>
     
     <div class="form-group">
-        <label for="DistinguishedName" class="col-sm-2 control-label">Distinguished Name*</label>
         <div class="col-sm-8">
+        <label for="DistinguishedName">Distinguished Name*</label>
             @Html.TextAreaFor(m => m.DistinguishedName, new { @class="form-control", rows="4" })
             @Html.ValidationMessageFor(m => m.DistinguishedName)
             <span class="help-block">Note: The distinguished name of the OU must be valid or else the application will error out when 
@@ -39,8 +39,8 @@ required fields.</p>
     </div>
     
     <div class="form-group">
-        <label for="Notes" class="col-sm-2 control-label">Notes</label>
         <div class="col-sm-8">
+        <label for="Notes">Notes</label>
             @Html.TextAreaFor(m => m.Notes, new { @class="form-control", rows="7" })
         </div>
     </div>
@@ -48,7 +48,7 @@ required fields.</p>
     @Html.HiddenFor(m => m.DomainOUID)
     
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-6">
+        <div class="col-sm-8">
             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"> </span> Update Organizational Unit</button>
         </div>
     </div>
