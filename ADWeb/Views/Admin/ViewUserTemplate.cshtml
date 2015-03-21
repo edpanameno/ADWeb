@@ -119,7 +119,7 @@
     @Html.AntiForgeryToken()
     <div class="form-group">
         <div class="col-sm-6">
-            <label for="Name">Template Name*:</label>
+            <label for="Name">Template Name*</label>
             @Html.TextBoxFor(m => m.UserTemplate.Name, new { @class = "form-control", autofocus = "autofocus" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Name)
         </div>
@@ -127,14 +127,14 @@
     
     <div class="form-group">
         <div class="col-sm-6">
-            <label for="DomainOUID">Status:</label>
+            <label for="DomainOUID">Status</label>
             @Html.DropDownListFor(m => m.UserTemplate.Enabled, (List<SelectListItem>)@ViewBag.UTStatus, new { @class="form-control" })
         </div>
     </div>
     
     <div class="form-group">
         <div class="col-sm-6">
-            <label for="DomainOUID">Organizational Unit:</label>
+            <label for="DomainOUID">Organizational Unit</label>
             @Html.DropDownListFor(m => m.UserTemplate.DomainOUID, (List<SelectListItem>)@ViewBag.OUList, new { @class="form-control" })
             <span class="help-block">The Organizational Unit that all users created with this User Template will be created under.</span>
         </div>
@@ -160,28 +160,28 @@
                                     <th width="25%">Delete Group</th>
                                 </tr>
                             </thead>
-                        @foreach(var group in Model.UserTemplate.Groups)
-                        {
-                            if(group.Enabled)
+                            @foreach(var group in Model.UserTemplate.Groups)
                             {
-                                <tr id="group-@group.UserTemplateGroupID">
-                                    <td title="@group.DistinguishedName">@group.Name</td>
-                                    <td>
-                                        @Ajax.ActionLink("Delete", 
-                                                         "RemoveGroupFromUserTemplate", 
-                                                         new { groupID = @group.UserTemplateGroupID }, 
-                                                         new AjaxOptions() 
-                                                         { 
-                                                             HttpMethod = "POST", 
-                                                             Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
-                                                             OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
-                                                             OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
-                                                         })
-                                    </td>
-                                </tr>
+                                if(group.Enabled)
+                                {
+                                    <tr id="group-@group.UserTemplateGroupID">
+                                        <td title="@group.DistinguishedName">@group.Name</td>
+                                        <td>
+                                            @Ajax.ActionLink("Delete", 
+                                                             "RemoveGroupFromUserTemplate", 
+                                                             new { groupID = @group.UserTemplateGroupID }, 
+                                                             new AjaxOptions() 
+                                                             { 
+                                                                 HttpMethod = "POST", 
+                                                                 Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
+                                                                 OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
+                                                                 OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
+                                                             })
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </table>
+                        </table>
                     }
                     else
                     {
@@ -257,7 +257,7 @@
          
     <div class="form-group">
         <div class="col-sm-9">
-            <label for="Notes">Template Notes*:</label>
+            <label for="Notes">Template Notes*</label>
             @Html.TextAreaFor(m => m.UserTemplate.Notes, new { @class = "form-control", rows = "7" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Notes)
             <div class="help-block">Enter a brief description of this User Template for future reference.</div>

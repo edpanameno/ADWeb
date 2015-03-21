@@ -231,7 +231,7 @@ namespace ADWeb.Controllers
                 // this information). Calling this method here should not be that big of 
                 // hit performance wise as I don't expect user templates to have a lot of
                 // groups associated with them.
-                utVM.UserTemplate.Groups.ToList();
+                utVM.UserTemplate.Groups.Where(g => g.Enabled == true).ToList();
 
                 ViewBag.OUList = ouItems;
                 ViewBag.UTStatus = utStatus;
