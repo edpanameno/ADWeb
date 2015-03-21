@@ -439,6 +439,11 @@ using ADWeb.Core.Entities;
 
                     foreach(GroupPrincipal group in searchResults)
                     {
+                        if(group.Name.Equals("Domain Users", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
                         groups.Add(group.Name);
                     }
                 }

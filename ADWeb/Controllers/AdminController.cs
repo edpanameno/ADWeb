@@ -290,11 +290,11 @@ namespace ADWeb.Controllers
 
                             // This is where we check if this user template already has
                             // the group that is being added. If it does, then we simply
-                            // break out of this iteration of the foreach loop and go on 
+                            // continue out of this iteration of the foreach loop and go on 
                             // to the next group being added.
                             if(existingGroups.Contains(grp))
                             {
-                                break;
+                                continue;
                             }
 
                             group = domain.GetGroupBasicInfo(grp);
