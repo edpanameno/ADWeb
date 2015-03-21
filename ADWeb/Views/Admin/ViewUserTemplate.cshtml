@@ -9,6 +9,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            $("#search-groups").autocomplete({
+                minLength: 3,
+                source: '@Url.Action("SearchForGroups")'
+            });
+
             if ($("#AccountExpires").is(":checked")) {
                 $("#expiration-info").show();
             }
@@ -43,6 +48,34 @@
             $("#group-removed").append(msg);
         }
     </script>
+    
+    <style type="text/css">
+        #group-table input[type=text] {
+            background-color: transparent;
+            border: 0px solid;
+        }
+
+        .ui-widget {
+            font-size: 1em;
+            font-family: Georgia, Times;
+        }
+
+        .ui-menu {
+                list-style:none;
+                padding: 10px;
+                margin: 0;
+                display:block;
+                width:227px;
+        }
+        .ui-menu .ui-menu {
+                margin-top: -3px;
+        }
+        .ui-menu .ui-menu-item {
+                margin:0;
+                padding: 0;
+                width: 200px;
+        }
+    </style>
 }
 
 <h3>@Model.Name User Template</h3>
@@ -124,7 +157,7 @@
                                                                  })
                                         </td>
                                     </tr>
-                        }
+                                }
                             }
                         }
                         else
@@ -132,6 +165,14 @@
                             <tr><td colspan="2" style="color:#900">No Groups Currently associated with this user template. To add groups to this user template, use the text box below to search for groups and add them.</td></tr>
                         }
                     </table>
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            <input type="text" id="search-groups" class="form-control" placeholder="Search For Groups ..." />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" id="btnAddGroup">Add Group</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
