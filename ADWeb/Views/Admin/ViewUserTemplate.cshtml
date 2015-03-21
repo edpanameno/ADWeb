@@ -34,14 +34,14 @@
                 $("#search-groups").focus();
             });
 
-            if ($("#AccountExpires").is(":checked")) {
+            if ($("#UserTemplate_AccountExpires").is(":checked")) {
                 $("#expiration-info").show();
             }
             else {
                 $("#expiration-info").hide();
             }
 
-            $("#AccountExpires").change(function () {
+            $("#UserTemplate_AccountExpires").change(function () {
                 $("#expiration-info").toggle();
                 $("#UserTemplate_ExpirationValue").focus();
             });
@@ -145,47 +145,48 @@
             <div id="group-removed"></div>
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    User Template Groups
+                    <strong>User Template Groups</strong>
                 </div>
                 <div class="panel-body">
                     <p>Below you will find the groups that belong to this user template. All users created using this template
-                    will be added to the groups listed below.</p>
-                    <table class="table table-bordered table-condensed table-hover">
-                        <thead>
-                            <tr>
-                                <th width="75%">Name</th>
-                                <th width="25%">Delete Group</th>
-                            </tr>
-                        </thead>
-                        @if(Model.UserTemplate.Groups.Count > 0)
+                    will be added to the groups listed below. If you need to delete a group from this template, click on the 'Delete'
+                    link next to the group.</p>
+                    @if(Model.UserTemplate.Groups.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="75%">Name</th>
+                                    <th width="25%">Delete Group</th>
+                                </tr>
+                            </thead>
+                        @foreach(var group in Model.UserTemplate.Groups)
                         {
-                            foreach(var group in Model.UserTemplate.Groups)
+                            if(group.Enabled)
                             {
-                                if(group.Enabled)
-                                {
-                                    <tr id="group-@group.UserTemplateGroupID">
-                                        <td title="@group.DistinguishedName">@group.Name</td>
-                                        <td>
-                                            @Ajax.ActionLink("Delete", 
-                                                             "RemoveGroupFromUserTemplate", 
-                                                             new { groupID = @group.UserTemplateGroupID }, 
-                                                             new AjaxOptions() 
-                                                                 { 
-                                                                     HttpMethod = "POST", 
-                                                                     Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
-                                                                     OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
-                                                                     OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
-                                                                 })
-                                        </td>
-                                    </tr>
-                                }
+                                <tr id="group-@group.UserTemplateGroupID">
+                                    <td title="@group.DistinguishedName">@group.Name</td>
+                                    <td>
+                                        @Ajax.ActionLink("Delete", 
+                                                         "RemoveGroupFromUserTemplate", 
+                                                         new { groupID = @group.UserTemplateGroupID }, 
+                                                         new AjaxOptions() 
+                                                         { 
+                                                             HttpMethod = "POST", 
+                                                             Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
+                                                             OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
+                                                             OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
+                                                         })
+                                    </td>
+                                </tr>
                             }
                         }
-                        else
-                        {
-                            <tr><td colspan="2" style="color:#900">No Groups Currently associated with this user template. To add groups to this user template, use the text box below to search for groups and add them.</td></tr>
-                        }
                     </table>
+                    }
+                    else
+                    {
+                        <span style="color:#900">No Groups Currently associated with this user template. To add groups to this user template, use the text box below to search for groups and add them.</span><br /><br />
+                    }
                     <a href="#" id="add-groups"><span class="glyphicon glyphicon-plus"></span> Add Groups to this User Template</a>
                     <div class="col-lg-9" id="add-new-groups" style="display: none;">
                         <br />
@@ -197,10 +198,10 @@
                         </div>
                         <div>
                             <br />
-                            <ul id="new-groups-list">
+                            <ul class="list-unstyled" id="new-groups-list" style="color: #900; font-weight: bold;">
                             </ul>
                         </div>
-                        <span class="help-block">Once you are done adding new team, click on the 'Update User Template' Button below to add the groups. Note: If you try to 
+                        <span class="help-block">Once you are done adding new teams, click on the 'Update User Template' Button below to add the groups. Note: If you try to 
                         add a team that currently is part of this user template the team will not be added.</span>
                     </div>
                 </div>
@@ -213,7 +214,7 @@
         <div class="col-sm-9">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Additional User Properties
+                    <strong>Addtional User Properties</strong>
                 </div>
                 <div class="panel-body">
                     <p>Use the fields below to select additional properties for the active directory accounts that will be created by using this user template.</p>

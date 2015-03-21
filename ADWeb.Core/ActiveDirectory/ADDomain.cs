@@ -439,7 +439,11 @@ using ADWeb.Core.Entities;
 
                     foreach(GroupPrincipal group in searchResults)
                     {
-                        if(group.Name.Equals("Domain Users", StringComparison.OrdinalIgnoreCase))
+                        // We are going to ignore any built in groups that 
+                        // we don't want users to be part of such as 'Domain
+                        // Users' (user are added to this group automatically),
+                        // 'Domain Admins', etc.
+                        if(group.Name.Contains("Domain"))
                         {
                             continue;
                         }

@@ -71,7 +71,7 @@
     
     <div class="form-group">
         <div class="col-sm-6">
-            <label for="Name">Template Name*:</label>
+            <label for="Name">Template Name*</label>
             @Html.TextBoxFor(m => m.UserTemplate.Name, new { @class = "form-control", autofocus = "autofocus" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Name)
         </div>
@@ -79,7 +79,7 @@
     
     <div class="form-group">
         <div class="col-sm-6">
-            <label for="DomainOUID">Organizational Unit:</label>
+            <label for="DomainOUID">Organizational Unit</label>
             @Html.DropDownListFor(m => m.UserTemplate.DomainOUID, (List<SelectListItem>)@ViewBag.OUList, new { @class="form-control" })
             <span class="help-block">The Organizational Unit that all users created with this User Template will be created under.</span>
         </div>
@@ -88,7 +88,7 @@
         <div class="col-sm-9">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    User Template Groups
+                    <strong>User Template Groups</strong>
                 </div>
                 <div class="panel-body">
                     <p>Use the text box below to search for active groups currently stored in the domain. Once the desired group has been found and selected,
@@ -120,7 +120,7 @@
         <div class="col-sm-9">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Additional User Properties
+                    <strong>Additional User Properties</strong>
                 </div>
                 <div class="panel-body">
                     <p>Use the fields below to select additional properties for the active directory accounts that will be created by using this user template.</p>
@@ -164,7 +164,7 @@
         
     <div class="form-group">
         <div class="col-sm-9">
-            <label for="Notes">Template Notes*:</label>
+            <label for="Notes">Template Notes*</label>
             @Html.TextAreaFor(m => m.UserTemplate.Notes, new { @class = "form-control", rows = "7" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Notes)
             <div class="help-block">Enter a brief description of this User Template for future reference.</div>
