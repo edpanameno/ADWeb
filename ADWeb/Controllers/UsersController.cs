@@ -329,7 +329,14 @@ namespace ADWeb.Controllers
                     userTemplateSettings.ExpirationValue = userTemplate.ExpirationValue;
                     userTemplateSettings.DomainOU = userTemplate.DomainOU.DistinguishedName;
 
-                    foreach(var group in userTemplate.Groups.ToList())
+                    // When getting the groups associated with a user template, we 
+                    // are only interested in getting those groups that are active (i.e.
+                    // they have not been removed by the admins of the application). If this is 
+                    // not done, then there will be an error if a group happens to have been
+                    // added, removed and then added again by one of the administrators. This should
+                    // be a rare occurrance, but we have to check just to make sure no errors occur
+                    // when creating user accounts.
+                    foreach(var group in userTemplate.Groups.Where(u => u.Enabled == true).ToList())
                     {
                         userTemplateSettings.Groups.Add(group.Name);
                     }

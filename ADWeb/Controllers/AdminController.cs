@@ -277,8 +277,26 @@ namespace ADWeb.Controllers
                         ADDomain domain = new ADDomain();
                         ADGroup group;
 
+                        // We also have to check that the group(s) being added to this
+                        // user template don't alreay exist. If it does, then it will 
+                        // not be added. For us to do this check, we have to get the list
+                        // of groups first. Also, please note that we have to check that we
+                        // only get active groups! 
+                        var existingGroups = db.UserTemplateGroup.Where(u => u.UserTemplateID == id.UserTemplate.UserTemplateID && u.Enabled == true)
+                                                                 .Select(u => u.Name).ToList();
+
                         foreach(var grp in id.Groups)
                         {
+
+                            // This is where we check if this user template already has
+                            // the group that is being added. If it does, then we simply
+                            // break out of this iteration of the foreach loop and go on 
+                            // to the next group being added.
+                            if(existingGroups.Contains(grp))
+                            {
+                                break;
+                            }
+
                             group = domain.GetGroupBasicInfo(grp);
 
                             // We have to check if this group is in the domain, if it
