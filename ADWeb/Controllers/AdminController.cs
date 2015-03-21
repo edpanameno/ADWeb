@@ -319,7 +319,7 @@ namespace ADWeb.Controllers
                         }
                     }
 
-                    TempData["user_template_updated"] = "The user template '<b><u>" + id.UserTemplate.Name + "</u></b>' has been successfully updated!";
+                    TempData["user_template_updated"] = "The user template '" + id.UserTemplate.Name + "' has been successfully updated!";
                     return RedirectToAction("UserTemplates");
                 }
             }

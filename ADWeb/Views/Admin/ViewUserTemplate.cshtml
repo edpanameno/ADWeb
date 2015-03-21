@@ -118,7 +118,7 @@
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <label for="Name">Template Name*</label>
             @Html.TextBoxFor(m => m.UserTemplate.Name, new { @class = "form-control", autofocus = "autofocus" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Name)
@@ -126,14 +126,14 @@
     </div>
     
     <div class="form-group">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <label for="DomainOUID">Status</label>
             @Html.DropDownListFor(m => m.UserTemplate.Enabled, (List<SelectListItem>)@ViewBag.UTStatus, new { @class="form-control" })
         </div>
     </div>
     
     <div class="form-group">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <label for="DomainOUID">Organizational Unit</label>
             @Html.DropDownListFor(m => m.UserTemplate.DomainOUID, (List<SelectListItem>)@ViewBag.OUList, new { @class="form-control" })
             <span class="help-block">The Organizational Unit that all users created with this User Template will be created under.</span>
@@ -143,9 +143,9 @@
     <div class="form-group">
         <div class="col-sm-9">
             <div id="group-removed"></div>
-            <div class="panel panel-info">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong>User Template Groups</strong>
+                    User Template Groups
                 </div>
                 <div class="panel-body">
                     <p>Below you will find the groups that belong to this user template. All users created using this template
@@ -212,9 +212,9 @@
     
     <div class="form-group">
         <div class="col-sm-9">
-            <div class="panel panel-info">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong>Addtional User Properties</strong>
+                    Addtional User Properties
                 </div>
                 <div class="panel-body">
                     <p>Use the fields below to select additional properties for the active directory accounts that will be created by using this user template.</p>
