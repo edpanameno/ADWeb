@@ -164,7 +164,7 @@ namespace ADWeb.Controllers
                     ADDomain domain = new ADDomain();
                     ADGroup group;
 
-                    // There is a possibility that theusers will not add any groups
+                    // There is a possibility that the users will not add any groups
                     // when they first create the user template. We have to check for
                     // this now so that we can avoid a nasty error message!
                     if(id.Groups.Count > 0)
@@ -207,7 +207,9 @@ namespace ADWeb.Controllers
         {
             using(var db = new ADWebDB())
             {
-                var userTemplate = db.UserTemplate.Where(ut => ut.UserTemplateID == id).FirstOrDefault();
+                ViewUserTemplateVM utVM = new ViewUserTemplateVM();
+
+                utVM.UserTemplate = db.UserTemplate.Where(ut => ut.UserTemplateID == id).FirstOrDefault();
                 var ous = db.DomainOU.Where(ou => ou.Enabled == true).ToList();
                 
                 List<SelectListItem> ouItems = new List<SelectListItem>();
@@ -215,7 +217,7 @@ namespace ADWeb.Controllers
                 {
                     ouItems.Add(new SelectListItem { Text = ou.Name, 
                                                      Value = ou.DomainOUID.ToString(), 
-                                                     Selected = userTemplate.DomainOUID == ou.DomainOUID });
+                                                     Selected = utVM.UserTemplate.DomainOUID == ou.DomainOUID });
                 }
 
                 List<SelectListItem> utStatus = new List<SelectListItem>();
@@ -229,14 +231,14 @@ namespace ADWeb.Controllers
                 // this information). Calling this method here should not be that big of 
                 // hit performance wise as I don't expect user templates to have a lot of
                 // groups associated with them.
-                userTemplate.Groups.ToList();
+                utVM.UserTemplate.Groups.ToList();
 
                 ViewBag.OUList = ouItems;
                 ViewBag.UTStatus = utStatus;
 
-                if(userTemplate != null)
+                if(utVM.UserTemplate != null)
                 {
-                    return View(userTemplate);
+                    return View(utVM);
                 }
                 else
                 {
@@ -248,34 +250,64 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUserTemplate(UserTemplate id)
+        public ActionResult UpdateUserTemplate(ViewUserTemplateVM id)
         {
             if(ModelState.IsValid)
             {
                 using(var db = new ADWebDB())
                 {
-                    db.UserTemplate.Attach(id);
-                    db.Entry(id).Property(ut => ut.Name).IsModified = true;
-                    db.Entry(id).Property(ut => ut.Enabled).IsModified = true;
-                    db.Entry(id).Property(ut => ut.DomainOUID).IsModified = true;
-                    db.Entry(id).Property(ut => ut.PasswordNeverExpires).IsModified = true;
-                    db.Entry(id).Property(ut => ut.ChangePasswordAtNextLogon).IsModified = true;
-                    db.Entry(id).Property(ut => ut.UserCannotChangePassword).IsModified = true;
-                    db.Entry(id).Property(ut => ut.AccountExpires).IsModified = true;
-                    db.Entry(id).Property(ut => ut.ExpirationRange).IsModified = true;
-                    db.Entry(id).Property(ut => ut.ExpirationValue).IsModified = true;
-                    db.Entry(id).Property(ut => ut.Notes).IsModified = true;
+                    db.UserTemplate.Attach(id.UserTemplate);
+                    db.Entry(id.UserTemplate).Property(ut => ut.Name).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.Enabled).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.DomainOUID).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.PasswordNeverExpires).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.ChangePasswordAtNextLogon).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.UserCannotChangePassword).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.AccountExpires).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.ExpirationRange).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.ExpirationValue).IsModified = true;
+                    db.Entry(id.UserTemplate).Property(ut => ut.Notes).IsModified = true;
                     
                     db.SaveChanges();
+                    
+                    // We need to check to see if a new group (or groups) have been 
+                    // added to this user template. If so then we'll add the group!
+                    if(id.Groups.Count > 0)
+                    {
+                        ADDomain domain = new ADDomain();
+                        ADGroup group;
 
-                    TempData["user_template_updated"] = "The user template '" + id.Name + "' has been successfully update";
+                        foreach(var grp in id.Groups)
+                        {
+                            group = domain.GetGroupBasicInfo(grp);
+
+                            // We have to check if this group is in the domain, if it
+                            // is then we would have retrieved a name for the group.
+                            // If it's not a valid name, then the group name will be
+                            // blank and thus this is a group that doesn't exit in  
+                            // the domain.
+                            if(!string.IsNullOrWhiteSpace(group.GroupName))
+                            {
+                                db.UserTemplateGroup.Add(new UserTemplateGroup()
+                                                        {
+                                                            Enabled = true,
+                                                            Name = group.GroupName,
+                                                            DistinguishedName = group.DN,
+                                                            UserTemplateID = id.UserTemplate.UserTemplateID
+                                                        });
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+
+                    TempData["user_template_updated"] = "The user template '" + id.UserTemplate.Name + "' has been successfully update";
                     return RedirectToAction("UserTemplates");
                 }
             }
             else
             {
                 TempData["error_updating_user_template"] = "Error updating Template";
-                return RedirectToAction("ViewUserTemplate", new { id = id.UserTemplateID });
+                return RedirectToAction("ViewUserTemplate", new { id = id.UserTemplate.UserTemplateID });
             }
         }
     

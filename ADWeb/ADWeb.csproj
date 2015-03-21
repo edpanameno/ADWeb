@@ -146,6 +146,7 @@
     <Compile Include="ViewModels\UserTemplateVM.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewUsersVM.cs" />
+    <Compile Include="ViewModels\ViewUserTemplateVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
