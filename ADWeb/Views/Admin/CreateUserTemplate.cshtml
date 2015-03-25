@@ -165,7 +165,7 @@
     <div class="form-group">
         <div class="col-sm-9">
             <label for="Notes">Template Notes*</label>
-            @Html.TextAreaFor(m => m.UserTemplate.Notes, new { @class = "form-control", rows = "7" })
+            @Html.TextAreaFor(m => m.UserTemplate.Notes, new { @class = "form-control ckeditor", rows = "7" })
             @Html.ValidationMessageFor(m => m.UserTemplate.Notes)
             <div class="help-block">Enter a brief description of this User Template for future reference.</div>
         </div>

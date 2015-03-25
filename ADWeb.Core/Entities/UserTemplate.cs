@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ADWeb.Core.Entities
 {
@@ -37,6 +38,7 @@ namespace ADWeb.Core.Entities
         public UserExpirationRange? ExpirationRange { get; set; }
         public int? ExpirationValue { get; set; }
         
+        [AllowHtml]
         [Required(ErrorMessage="User Template Notes are required.")]
         public string Notes { get; set; }
 

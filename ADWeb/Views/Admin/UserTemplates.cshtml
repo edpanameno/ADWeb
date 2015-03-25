@@ -67,9 +67,9 @@
                 </thead>
                 @foreach(var template in Model.ActiveUserTemplates)
                 {
-                    <tr>
+                                        <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                        <td>@Html.ActionLink(@template.Notes ?? "No notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.ActionLink(@template.Notes ?? "No Notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
                     </tr>
                 }
             </table>
@@ -94,7 +94,7 @@
                 {
                     <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                        <td>@Html.ActionLink(@template.Notes ?? "no notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.ActionLink(WebUtility.HtmlEncode(@template.Notes), "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
                     </tr>
                 }
             </table>
