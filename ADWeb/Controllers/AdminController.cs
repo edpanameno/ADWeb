@@ -87,18 +87,18 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOU(DomainOU newOU)
+        public ActionResult CreateOU(OUViewModel id)
         {
             if(ModelState.IsValid)
             {
                 using(var db = new ADWebDB())
                 {
-                    newOU.Enabled = true;
+                    id.NewOU.Enabled = true;
 
-                    db.DomainOU.Add(newOU);
+                    db.DomainOU.Add(id.NewOU);
                     db.SaveChanges();
 
-                    TempData["ou_created"] = "The Organizationl Unit " + newOU.Name + " has been created successfully!";
+                    TempData["ou_created"] = "The Organizationl Unit " + id.NewOU.Name + " has been created successfully!";
                     return RedirectToAction("OU");
                 }
             }

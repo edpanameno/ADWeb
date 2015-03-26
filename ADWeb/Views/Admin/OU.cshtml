@@ -96,7 +96,7 @@
     </div>
         
     <div role="tabpanel" class="tab-pane" id="create-ou">
-        <p>Use the fields below to create a new Organizational Unit.</p>
+        <p>Use the fields below to create a new Organizational Unit. All fields marked with an asterisk(*) are required fields.</p>
         @using(Html.BeginForm("CreateOU", "Admin", FormMethod.Post, new { @class="form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -118,8 +118,10 @@
             
             <div class="form-group">
                 <div class="col-sm-8">
-                    <label for="Notes">Notes</label>
+                    <label for="Notes">Notes*</label>
                     @Html.TextAreaFor(m => m.NewOU.Notes, new { @class="form-control", rows="5"})
+                    @Html.ValidationMessageFor(m => m.NewOU.Notes)
+                    <span class="help-block">Enter some brief notes about this Organizational Unit.</span>
                 </div>
             </div>
             

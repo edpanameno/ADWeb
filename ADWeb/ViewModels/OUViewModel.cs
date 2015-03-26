@@ -13,6 +13,8 @@ namespace ADWeb.ViewModels
         public OUViewModel()
         {
             NewOU = new DomainOU();
+            //ActiveOUs = new List<DomainOU>();
+            //DisabledOUs = new List<DomainOU>();
         }
 
         public DomainOU NewOU { get; set; }

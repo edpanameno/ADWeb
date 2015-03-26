@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ADWeb.Core.Entities
 {
@@ -16,11 +17,13 @@ namespace ADWeb.Core.Entities
         [Required(ErrorMessage="Distinguished name is required")]
         public string DistinguishedName { get; set; }
         
-        [Required(ErrorMessage="OU must have a name.")]
+        [Required(ErrorMessage="Organizational Unit must have a name.")]
         public string Name { get; set; }
         
         [Required]
         public bool Enabled { get; set; }
+        
+        [Required(ErrorMessage="Notes for this Organizational Unit are Required.")]
         public string Notes { get; set; }
     }
 }
