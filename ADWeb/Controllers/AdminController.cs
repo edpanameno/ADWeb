@@ -256,18 +256,7 @@ namespace ADWeb.Controllers
             {
                 using(var db = new ADWebDB())
                 {
-                    db.UserTemplate.Attach(id.UserTemplate);
-                    db.Entry(id.UserTemplate).Property(ut => ut.Name).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.Enabled).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.DomainOUID).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.PasswordNeverExpires).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.ChangePasswordAtNextLogon).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.UserCannotChangePassword).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.AccountExpires).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.ExpirationRange).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.ExpirationValue).IsModified = true;
-                    db.Entry(id.UserTemplate).Property(ut => ut.Notes).IsModified = true;
-                    
+                    db.Entry(id.UserTemplate).State = EntityState.Modified;
                     db.SaveChanges();
                     
                     // We need to check to see if a new group (or groups) have been 
@@ -344,8 +333,11 @@ namespace ADWeb.Controllers
             using(var db =  new ADWebDB())
             {
                 UserTemplateGroup group = db.UserTemplateGroup.Find(Int32.Parse(groupID));
-                group.Enabled = false;
-                db.SaveChanges();
+                if(group != null)
+                {
+                    group.Enabled = false;
+                    db.SaveChanges();
+                }
             }
         }
     }
