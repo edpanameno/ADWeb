@@ -57,7 +57,7 @@
         @if(Model.ActiveUserTemplates.Count > 0)
         {
             <p>Below you will find the active User Templates that are currently stored in the application. These User Templates will
-            be available when creating a user account.</p>
+            be available when creating a user account. To View the properties of a template, please click on the name of the template.</p>
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
@@ -67,9 +67,9 @@
                 </thead>
                 @foreach(var template in Model.ActiveUserTemplates)
                 {
-                                        <tr>
+                    <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                        <td>@Html.ActionLink(@template.Notes ?? "No Notes", "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.Raw(@template.Notes)</td>
                     </tr>
                 }
             </table>
@@ -94,7 +94,7 @@
                 {
                     <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
-                        <td>@Html.ActionLink(WebUtility.HtmlEncode(@template.Notes), "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
+                        <td>@Html.Raw(@template.Notes)</td>
                     </tr>
                 }
             </table>
