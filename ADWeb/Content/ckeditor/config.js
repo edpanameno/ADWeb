@@ -7,9 +7,21 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    config.toolbar = 'Custom';
+
+    config.toolbar_Custom = [
+        //{ name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', 'Underline', '-', 'RemoveFormat'] },
+        { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+        { name: 'links', items: ['Link', 'Unlink'] },
+        { name: 'insert', items: ['Image'] },
+        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+        { name: 'colors', items: ['TextColor', 'BGColor'] },
+        { name: 'tools', items: ['Source'] }
+    ];
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
-	config.toolbarGroups = [
+	/*config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'links' },
@@ -24,15 +36,15 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 		{ name: 'colors' },
 		{ name: 'about' }
-	];
+	];*/
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	//config.removeButtons = 'Underline,Subscript,Superscript';
 
 	// Set the most common block elements.
-	config.format_tags = 'p;h1;h2;h3;pre';
+	//config.format_tags = 'p;h1;h2;h3;pre';
 
 	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
+	//config.removeDialogTabs = 'image:advanced;link:advanced';
 };
