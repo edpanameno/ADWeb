@@ -10,11 +10,65 @@
         .update-details {
             padding-left: 20px;
         }
+        
+        #new-groups-list input[type=text] {
+            background-color: transparent;
+            border: 0px solid;
+            width: 100%;
+        }
+
+        .ui-widget {
+            font-size: 1em;
+            font-family: Georgia, Times;
+        }
+
+        .ui-menu {
+                list-style: lower-alpha;
+                padding: 10px;
+                margin: 0;
+                display:block;
+                width:227px;
+        }
+        .ui-menu .ui-menu {
+                margin-top: -3px;
+        }
+        .ui-menu .ui-menu-item {
+                margin:0;
+                padding: 0;
+                width: 200px;
+        }
+
     </style>
 
     <script type="text/javascript">
         $(function () {
+
             $('[data-toggle="tooltip"]').tooltip();
+
+            $('#add-user-to-groups').click(function (e) {
+                e.preventDefault();
+                $('#add-user-to-groups-panel').toggle();
+                $('#search-groups').focus();
+            });
+
+            var rowIndex = 0;
+            $("#search-groups").autocomplete({
+                minLength: 2,
+                source: '@Url.Action("SearchForGroups")'
+            });
+            
+            $("#btnAddNewGroup").click(function () {
+                var groupName = $("#search-groups").val();
+
+                if (groupName == "") {
+                    alert("Group Name cannot be blank! Please type in a name of the group that you wish to add to this User Template.");
+                    return;
+                }
+
+                $("#new-groups-list").append("<li><input type=\"text\" name=\"Groups[" + rowIndex + "]\" value=\"" + groupName + "\" readonly=\"true\" /></li>");
+                $("#search-groups").val("").focus();
+                rowIndex++;
+            });
         });
     </script>
 }
@@ -41,6 +95,17 @@
             <span class="sr-only">Close</span>
         </button>
         <span>@TempData["user_updated_successfully"]</span>
+    </div>
+}
+
+@if(@TempData["groups_added_successfully"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["groups_added_successfully"]</span>
     </div>
 }
 
@@ -158,11 +223,37 @@
         }
     </div>
     <div role="tabpanel" class="tab-pane " id="user-groups">
-        <p>Below you will find the groups that this user belongs to. Note: No system generated groups will show up in the list below (i.e. Domain Users, Users).</p>
+        <p>Below you will find the groups that this user belongs to. To add users to groups, please click on the 'Add User to Groups' link below. Note: No system generated groups will show up in the list below (i.e. Domain Users, Users).</p>
+        <a href="#" id="add-user-to-groups"><span class="glyphicon glyphicon-plus"></span> Add User to Groups</a>
+        <div id="add-user-to-groups-panel" style="display: none">
+            <br />
+            <p>To add new groups to this user, please use the text box below to search for and select the groups you wish to add. Once all of the group(s) have been added, please
+            click on the 'Add Groups' button below.</p>
+            @using(Html.BeginForm("AddUserToGroups", "Users", null, FormMethod.Post, new { @class="form-horizontal", role="form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="input-group col-sm-7">
+                    <input type="text" id="search-groups" class="form-control" placeholder="Search For Groups ..." />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" id="btnAddNewGroup">Add New Group</button>
+                    </span>
+                </div>
+                <br />
+                <ul class="list-unstyled" id="new-groups-list" style="color: #1e4eb0; font-weight: bold; font-style: italic;">
+                </ul>
+                
+                @Html.HiddenFor(m => m.SamAccountName)
+
+                <div class="form-group">
+                    <div class="col-sm-6" >
+                        <button type="submit" class="btn btn-primary">Add Groups</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <br />
         <div class="table-responsive">
-            <button type="submit" class="btn btn-primary pull-right" title="Click to Add user to Group(s)">Add User to Group(s)</button>
-            <br />
-            <br />
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>

@@ -150,7 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ckeditor\adapters\jquery.js" />
-    <Content Include="Content\ckeditor\build-config.js" />
     <Content Include="Content\ckeditor\ckeditor.js" />
     <Content Include="Content\ckeditor\config.js" />
     <Content Include="Content\ckeditor\contents.css" />
@@ -430,13 +429,11 @@
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
-    <Content Include="Content\ckeditor\CHANGES.md" />
     <Content Include="Content\ckeditor\LICENSE.md" />
     <Content Include="Content\ckeditor\plugins\scayt\LICENSE.md" />
     <Content Include="Content\ckeditor\plugins\scayt\README.md" />
     <Content Include="Content\ckeditor\plugins\wsc\LICENSE.md" />
     <Content Include="Content\ckeditor\plugins\wsc\README.md" />
-    <Content Include="Content\ckeditor\README.md" />
     <None Include="Content\js\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\jquery-1.10.2.js" />
     <Content Include="Content\js\jquery-1.10.2.min.js" />

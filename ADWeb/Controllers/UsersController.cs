@@ -427,5 +427,107 @@ namespace ADWeb.Controllers
 
             return PartialView("_UserSearchResults", users);
         }
+        
+        public ActionResult SearchForGroups(string term)
+        {
+            ADDomain domain = new ADDomain();
+            List<string> groupsFound = domain.SearchGroups(term);
+
+            return Json(groupsFound, JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddUserToGroups(string SamAccountName, List<string> Groups)
+        {
+            ADDomain domain = new ADDomain();
+
+            // There is the posibility that a group that the user already belongs
+            // to is part of the groups list being passed to this method. I have to 
+            // get a list of the current groups that this user belongs to and before
+            // adding any of the groups that have been passed to this method, I must
+            // make sure that it doesn't already exist. If it does, then the group
+            // trying to be added will just be discarded.
+            List<string> currentGroups = domain.GetCurrentUserGroups(SamAccountName);
+            
+            // This will hold the list of groups that will be added to the
+            // user account.
+            List<string> newGroupsToAdd = new List<string>();
+
+            foreach(var group in Groups)
+            {
+                if(!currentGroups.Contains(group))
+                {
+                    newGroupsToAdd.Add(group);
+                }
+            }
+
+            domain.AddUserToGroups(SamAccountName, newGroupsToAdd);
+
+            // Now we have to log this action so that it shows up on the
+            // change history for this user
+            using(var db = new ADWebDB())
+            {
+                ADUser loggedInUser = domain.GetUserByID(User.Identity.Name);
+                
+                // The following code generates the update details for this action  
+                StringBuilder updateNotes = new StringBuilder();
+                updateNotes.Append("<p>The following groups have been added to this user:</p>");
+                updateNotes.Append("<ul class=\"update-details\">");
+               
+                foreach(var group in newGroupsToAdd)
+                {
+                    updateNotes.Append("<li>" + group + "</li>");
+                }
+
+                updateNotes.Append("</ul>");
+                    
+                UserUpdateHistory newGroupHistory = new UserUpdateHistory();
+                newGroupHistory.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                newGroupHistory.DateUpdated = DateTime.Now;
+                newGroupHistory.UpdateType = UserUpdateType.AddedToGroup;
+                newGroupHistory.Notes = updateNotes.ToString();
+                newGroupHistory.Username = SamAccountName;
+
+                // Before adding this update history entry into the database
+                // we have to check for the possibility of the user having no
+                // entry in the DomainUsers table.
+                DomainUser user = db.DomainUsers.Find(SamAccountName);
+
+                if(user != null)
+                {
+                    // The user has an existing entry in the DomainUser
+                    // table
+                    db.UserUpdateHistory.Add(newGroupHistory);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    DomainUser newDomainUser = new DomainUser();
+                    newDomainUser.DateCreated = DateTime.Now;
+                    newDomainUser.CreatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
+                    newDomainUser.Username = SamAccountName;
+
+                    db.DomainUsers.Add(newDomainUser);
+                    db.SaveChanges();
+
+                    // Entry that identifies this as a user who we just inserted
+                    // an entry to the DomainUsers table for.
+                    UserUpdateHistory newUserHistory = new UserUpdateHistory();
+                    newUserHistory.UpdatedBy = "System Generated";
+                    newUserHistory.Username = SamAccountName;
+                    newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
+                    newUserHistory.DateUpdated = DateTime.Now;
+                    newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table by the system.</li></ul>";
+
+                    db.UserUpdateHistory.Add(newUserHistory);
+                    db.UserUpdateHistory.Add(newGroupHistory);
+                    db.SaveChanges();
+                }
+                
+                TempData["groups_added_successfully"] = "Groups have been added successfully to this user!";
+                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+            }
+        }
     }
 }

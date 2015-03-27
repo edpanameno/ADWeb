@@ -268,6 +268,36 @@ using ADWeb.Core.Entities;
         }
 
         /// <summary>
+        /// Returns a list of groups that the user belongs to.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<string> GetCurrentUserGroups(string userId)
+        {
+            List<string> groups = new List<string>();
+            
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                using(ADUser user = ADUser.FindByIdentity(context, userId))
+                {
+                    foreach(var grp in user.GetAuthorizationGroups())
+                    {
+                        // We don't want to show the Users and Domain Users groups
+                        // to the users of the application.
+                        if(grp.Name == "Users" || grp.Name == "Domain Users")
+                        {
+                            continue;
+                        }
+                        
+                        groups.Add(grp.Name);
+                    }
+                }
+            }
+
+            return groups;
+        }
+
+        /// <summary>
         /// Returns the list of groups that the user belongs to. This method returns
         /// a Dictionary<string,string> where the key is the name of the group and the
         /// value is the description of each group.
@@ -556,6 +586,30 @@ using ADWeb.Core.Entities;
             }
 
             return groups.OrderBy(g => g.GroupName).ToList();
+        }
+    
+        public void AddUserToGroups(string userId, List<string> groups)
+        {
+            using(PrincipalContext userContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser user = ADUser.FindByIdentity(userContext, userId);
+                if(user != null)
+                {
+                    foreach(var grp in groups)
+                    {
+                        using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+                        {
+                            GroupPrincipal group = GroupPrincipal.FindByIdentity(groupContext, grp);
+                            
+                            if(group != null)
+                            {
+                                group.Members.Add(user);
+                                group.Save();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
