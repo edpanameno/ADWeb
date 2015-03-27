@@ -462,6 +462,8 @@ namespace ADWeb.Controllers
                 }
             }
 
+            // At this time we have filtered out the groups so that only 
+            // new groups are added to this user
             domain.AddUserToGroups(SamAccountName, newGroupsToAdd);
 
             // Now we have to log this action so that it shows up on the

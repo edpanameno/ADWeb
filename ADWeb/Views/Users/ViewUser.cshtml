@@ -51,6 +51,15 @@
                 $('#search-groups').focus();
             });
 
+            $("#addGroups").click(function (e) {
+                var groupCount = $("#new-groups-list").children().size();
+                if (groupCount == 0) {
+                    alert("You must add at least one group to this user.")
+                    e.preventDefault();
+                    $("#search-groups").val("").focus();
+                }
+            });
+
             var rowIndex = 0;
             $("#search-groups").autocomplete({
                 minLength: 2,
@@ -58,6 +67,7 @@
             });
             
             $("#btnAddNewGroup").click(function () {
+
                 var groupName = $("#search-groups").val();
 
                 if (groupName == "") {
@@ -69,6 +79,7 @@
                 $("#search-groups").val("").focus();
                 rowIndex++;
             });
+
         });
     </script>
 }
@@ -246,7 +257,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-6" >
-                        <button type="submit" class="btn btn-primary">Add Groups</button>
+                        <button type="submit" class="btn btn-primary" id="addGroups">Add Groups</button>
                     </div>
                 </div>
             }
