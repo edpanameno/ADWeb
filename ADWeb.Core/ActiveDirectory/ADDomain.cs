@@ -611,5 +611,32 @@ using ADWeb.Core.Entities;
                 }
             }
         }
+    
+        /// <summary>
+        /// This function is used to validate that the group names exist in the
+        /// domain.
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <returns></returns>
+        public List<string> ValidateGroups(List<string> groups)
+        {
+            List<string> validatedGroups = new List<string>();
+            
+            using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                GroupPrincipal group;  
+                foreach(var grp in groups)
+                {
+                    group = GroupPrincipal.FindByIdentity(groupContext, grp);
+                    
+                    if(group != null)
+                    {
+                        validatedGroups.Add(group.Name);
+                    }
+               }
+            }
+            
+            return validatedGroups;
+        }
     }
 }

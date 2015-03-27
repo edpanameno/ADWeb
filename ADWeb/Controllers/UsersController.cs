@@ -442,6 +442,26 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
 
+            // The current implementation of this feature will allow users to type in
+            // a few characters of a group name and if any matches are found then those
+            // matches are displayed to the user. There is a chance that the user may just
+            // type in the name of the group he/she wants to add and not use any of the
+            // returned results. For this reason, I am doing an extra check on the domain
+            // to make sure that whatever has been entered are valid groups. If a group 
+            // name has been entered that is not valid (i.e. it doesn't exist) then that
+            // group will not be added to the following list. After generating this list,
+            // we are doing an extra check to see if it's empty (which can theoretically 
+            // happen) and if so then we just re-direct the user back to the ViewUser page
+            // and send a long a message of the issue why no group(s) were added to the user.
+            List<string> validatedGroups = domain.ValidateGroups(Groups);
+
+            if(validatedGroups.Count == 0)
+            {
+                TempData["invalid_groups"] = @"Invalid Group Names. The group(s) you tried to add are not valid group name. 
+                                               Please check the name of the group and try again.";
+                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+            }
+
             // There is the posibility that a group that the user already belongs
             // to is part of the groups list being passed to this method. I have to 
             // get a list of the current groups that this user belongs to and before
@@ -454,7 +474,7 @@ namespace ADWeb.Controllers
             // user account.
             List<string> newGroupsToAdd = new List<string>();
 
-            foreach(var group in Groups)
+            foreach(var group in validatedGroups)
             {
                 if(!currentGroups.Contains(group))
                 {
@@ -466,7 +486,6 @@ namespace ADWeb.Controllers
             // belongs to then none of these group should be added.
             if(newGroupsToAdd.Count == 0)
             {
-
                 TempData["no_groups_added"] = "No Groups have been added to this user as the user already is part of the groups submitted.";
                 return RedirectToAction("ViewUser", new { userId = SamAccountName});
             }

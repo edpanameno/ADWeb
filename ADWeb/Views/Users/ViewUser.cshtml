@@ -131,6 +131,17 @@
     </div>
 }
 
+@if(@TempData["invalid_groups"] != null)
+{
+    <div class="alert alert-danger alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["invalid_groups"]</span>
+    </div>
+}
+
 <ul class="nav nav-tabs nav-justified" role="tablist" id="userInfo">
     <li role="presentation" class="active">
         <a href="#basic-info" role="tab" data-toggle="tab">Basic Info</a>
