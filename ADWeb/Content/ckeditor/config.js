@@ -20,8 +20,13 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'tools', items: ['Source'] }
     ];
 
-    config.font_defaultLabel = 'Georgia';
-    config.fontSize_defaultLabel = '13px';
+    config.fontSize_style = {
+        element: 'span',
+        styles: { 'font-size': '#12pt' },
+        overrides: [{ element: 'font', attributes: { 'size': null }}]
+    };
+    //config.font_defaultLabel = 'Georgia';
+    //config.fontSize_defaultLabel = '13px';
 
     // The toolbar groups arrangement, optimized for two toolbar rows.
     /*config.toolbarGroups = [
