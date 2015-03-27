@@ -4,24 +4,27 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+	// Define changes to default configuration here. For example:
+	// config.language = 'fr';
+    // config.uiColor = '#AADC6E';
     config.toolbar = 'Custom';
 
     config.toolbar_Custom = [
         //{ name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'styles', items: ['Font', 'FontSize'] },
         { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', 'Underline', '-', 'RemoveFormat'] },
-        { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
-        { name: 'links', items: ['Link', 'Unlink'] },
-        { name: 'insert', items: ['Image'] },
-        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
         { name: 'colors', items: ['TextColor', 'BGColor'] },
+        { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+        //{ name: 'links', items: ['Link', 'Unlink'] },
+        //{ name: 'insert', items: ['Image'] },
         { name: 'tools', items: ['Source'] }
     ];
 
-	// The toolbar groups arrangement, optimized for two toolbar rows.
-	/*config.toolbarGroups = [
+    config.font_defaultLabel = 'Georgia';
+    config.fontSize_defaultLabel = '13px';
+
+    // The toolbar groups arrangement, optimized for two toolbar rows.
+    /*config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'links' },
@@ -38,13 +41,13 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];*/
 
-	// Remove some buttons provided by the standard plugins, which are
-	// not needed in the Standard(s) toolbar.
-	//config.removeButtons = 'Underline,Subscript,Superscript';
+    // Remove some buttons provided by the standard plugins, which are
+    // not needed in the Standard(s) toolbar.
+    //config.removeButtons = 'Underline,Subscript,Superscript';
 
-	// Set the most common block elements.
-	//config.format_tags = 'p;h1;h2;h3;pre';
+    // Set the most common block elements.
+    //config.format_tags = 'p;h1;h2;h3;pre';
 
-	// Simplify the dialog windows.
-	//config.removeDialogTabs = 'image:advanced;link:advanced';
+    // Simplify the dialog windows.
+    //config.removeDialogTabs = 'image:advanced;link:advanced';
 };
