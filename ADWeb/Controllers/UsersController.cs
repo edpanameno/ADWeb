@@ -462,6 +462,15 @@ namespace ADWeb.Controllers
                 }
             }
 
+            // If we are adding a group (or list of groups) that the user already
+            // belongs to then none of these group should be added.
+            if(newGroupsToAdd.Count == 0)
+            {
+
+                TempData["no_groups_added"] = "No Groups have been added to this user as the user already is part of the groups submitted.";
+                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+            }
+
             // At this time we have filtered out the groups so that only 
             // new groups are added to this user
             domain.AddUserToGroups(SamAccountName, newGroupsToAdd);
