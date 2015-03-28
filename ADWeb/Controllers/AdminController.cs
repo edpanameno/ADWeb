@@ -223,6 +223,9 @@ namespace ADWeb.Controllers
                 List<SelectListItem> utStatus = new List<SelectListItem>();
                 utStatus.Add(new SelectListItem() { Text = "Enabled", Value = "true" });
                 utStatus.Add(new SelectListItem() { Text = "Disabled", Value = "false" });
+                
+                ViewBag.OUList = ouItems;
+                ViewBag.UTStatus = utStatus;
 
                 // I am calling the ToList method here so that we can get a list groups
                 // associated with this User Template. If we don'd do this here, then
@@ -231,10 +234,7 @@ namespace ADWeb.Controllers
                 // this information). Calling this method here should not be that big of 
                 // hit performance wise as I don't expect user templates to have a lot of
                 // groups associated with them.
-                utVM.UserTemplate.Groups.ToList(); 
-
-                ViewBag.OUList = ouItems;
-                ViewBag.UTStatus = utStatus;
+                utVM.UserTemplate.Groups.Where(g => g.Enabled);
 
                 if(utVM.UserTemplate != null)
                 {
