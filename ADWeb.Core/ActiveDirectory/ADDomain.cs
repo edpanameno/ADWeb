@@ -282,13 +282,15 @@ using ADWeb.Core.Entities;
                 {
                     foreach(var grp in user.GetAuthorizationGroups())
                     {
-                        // We don't want to show the Users and Domain Users groups
-                        // to the users of the application.
-                        if(grp.Name == "Users" || grp.Name == "Domain Users")
-                        {
-                            continue;
-                        }
-                        
+                        // Note: We are not doing any filtering on groups 
+                        // (i.e. we are not filtering out Domain Users 
+                        // and other builtin groups). The reason why we
+                        // are not doing this filtering here is because 
+                        // we want to get the list of all groups for the
+                        // user regardless of where they are so that we can
+                        // make sure that we don't try to add the user back 
+                        // to this same group. I don't want those nasty error
+                        // messages showing up for the users!
                         groups.Add(grp.Name);
                     }
                 }
@@ -593,6 +595,7 @@ using ADWeb.Core.Entities;
             using(PrincipalContext userContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser user = ADUser.FindByIdentity(userContext, userId);
+
                 if(user != null)
                 {
                     foreach(var grp in groups)
@@ -603,8 +606,11 @@ using ADWeb.Core.Entities;
                             
                             if(group != null)
                             {
-                                group.Members.Add(user);
-                                group.Save();
+                                if(!user.IsMemberOf(group))
+                                {
+                                    group.Members.Add(user);
+                                    group.Save();
+                                }
                             }
                         }
                     }
