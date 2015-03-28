@@ -151,34 +151,41 @@
                     <p>Below you will find the groups that belong to this user template. All users created using this template
                     will be added to the groups listed below. If you need to delete a group from this template, click on the 'Delete'
                     link next to the group.</p>
-                    
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th width="75%">Name</th>
-                                <th width="25%">Delete Group</th>
-                            </tr>
-                        </thead>
-                        @foreach(var group in Model.UserTemplate.Groups)
-                        {
-                            <tr id="group-@group.UserTemplateGroupID">
-                                <td title="@group.DistinguishedName">@group.Name</td>
-                                <td>
-                                    @Ajax.ActionLink("Delete", 
-                                                     "RemoveGroupFromUserTemplate", 
-                                                     new { groupID = @group.UserTemplateGroupID }, 
-                                                     new AjaxOptions() 
-                                                     { 
-                                                         HttpMethod = "POST", 
-                                                         Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
-                                                         OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
-                                                         OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
-                                                     })
-                                </td>
-                            </tr>
-                        }
-                    </table>
-
+                    @if(Model.UserTemplate.Groups.Count == 0)
+                    {
+                        <span style="color:#900">No Groups Currently associated with this user template. Any users created with a User Template that does not have
+                        any groups will only be added to the 'Domain Users' group by default. To add groups to this user template, click on the 
+                        'Add Groups to this User Template' link below adn use the text box below to search for groups and add them.</span><br /><br />
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="75%">Name</th>
+                                    <th width="25%">Delete Group</th>
+                                </tr>
+                            </thead>
+                            @foreach(var group in Model.UserTemplate.Groups)
+                            {
+                                <tr id="group-@group.UserTemplateGroupID">
+                                    <td title="@group.DistinguishedName">@group.Name</td>
+                                    <td>
+                                        @Ajax.ActionLink("Delete", 
+                                                         "RemoveGroupFromUserTemplate", 
+                                                         new { groupID = @group.UserTemplateGroupID }, 
+                                                         new AjaxOptions() 
+                                                         { 
+                                                             HttpMethod = "POST", 
+                                                             Confirm = "Are you sure you want to delete the group '" + @group.Name + "' from this user template?",
+                                                             OnComplete = "removeGroup(" + @group.UserTemplateGroupID + ")",
+                                                             OnSuccess = "showSuccessMsg(\"" + @group.Name + "\")"
+                                                         })
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
                     <a href="#" id="add-groups"><span class="glyphicon glyphicon-plus"></span> Add Groups to this User Template</a>
                     <div class="col-lg-9" id="add-new-groups" style="display: none;">
                         <br />

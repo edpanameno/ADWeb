@@ -227,6 +227,7 @@ namespace ADWeb.Controllers
                 ViewBag.OUList = ouItems;
                 ViewBag.UTStatus = utStatus;
 
+
                 // I am calling the ToList method here so that we can get a list groups
                 // associated with this User Template. If we don'd do this here, then
                 // I cannot get access to this list from the View (I get a message that
@@ -234,7 +235,7 @@ namespace ADWeb.Controllers
                 // this information). Calling this method here should not be that big of 
                 // hit performance wise as I don't expect user templates to have a lot of
                 // groups associated with them.
-                utVM.UserTemplate.Groups.Where(g => g.Enabled);
+                utVM.UserTemplate.Groups = utVM.UserTemplate.Groups.Where(g => g.Enabled).ToList();
 
                 if(utVM.UserTemplate != null)
                 {
