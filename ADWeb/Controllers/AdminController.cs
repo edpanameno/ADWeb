@@ -151,6 +151,12 @@ namespace ADWeb.Controllers
                 using(var db = new ADWebDB())
                 {
                     id.UserTemplate.Enabled = true;
+
+                    if(string.IsNullOrEmpty(id.UserTemplate.Notes))
+                    {
+                        id.UserTemplate.Notes = "No Notes Entered for this User Template.";
+                    }
+
                     db.UserTemplate.Add(id.UserTemplate);
                     db.SaveChanges();
 
@@ -227,14 +233,9 @@ namespace ADWeb.Controllers
                 ViewBag.OUList = ouItems;
                 ViewBag.UTStatus = utStatus;
 
-
-                // I am calling the ToList method here so that we can get a list groups
-                // associated with this User Template. If we don'd do this here, then
-                // I cannot get access to this list from the View (I get a message that
-                // the context has already been disposed of and therefore cannot access
-                // this information). Calling this method here should not be that big of 
-                // hit performance wise as I don't expect user templates to have a lot of
-                // groups associated with them.
+                // We are only interested in seeing groups that are enabled. The users have the
+                // ability to remove groups that have been added to this template, at which time
+                // those groups have their Enabled property set to false.
                 utVM.UserTemplate.Groups = utVM.UserTemplate.Groups.Where(g => g.Enabled).ToList();
 
                 if(utVM.UserTemplate != null)
@@ -258,10 +259,16 @@ namespace ADWeb.Controllers
                 using(var db = new ADWebDB())
                 {
                     db.Entry(id.UserTemplate).State = EntityState.Modified;
+                    
+                    if(string.IsNullOrEmpty(id.UserTemplate.Notes))
+                    {
+                        id.UserTemplate.Notes = "No Notes entered for this template.";
+                    }
+
                     db.SaveChanges();
                     
                     // We need to check to see if a new group (or groups) have been 
-                    // added to this user template. If so then we'll add the group!
+                    // added to this user template. If so then we'll add the groups!
                     if(id.Groups.Count > 0)
                     {
                         ADDomain domain = new ADDomain();
