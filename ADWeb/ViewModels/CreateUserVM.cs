@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ADWeb.ViewModels
 {
@@ -13,19 +14,14 @@ namespace ADWeb.ViewModels
     public class CreateUserVM
     {
         [Display(Name="Username")]
-        [Required(ErrorMessage="Username is required")]
+        [Remote("IsUsernameUnique", "Users", ErrorMessage="This username is already in use. Please type in a different username for this account.")]
         public string Username { get; set; }
 
+        [MinLength(8, ErrorMessage="The Password must be at least 8 Characters")]
         [Display(Name="Password")]
         [Required(ErrorMessage="Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        
-        [Display(Name="Confirm Password")]
-        [Compare("Password", ErrorMessage="Password and Confirm Password must be the same!")]
-        [Required(ErrorMessage="Confirm Password is required")]
-        [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
         
         [Display(Name="First name")] 
         [Required(ErrorMessage="First name is required.")]

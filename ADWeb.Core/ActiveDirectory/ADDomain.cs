@@ -644,5 +644,19 @@ using ADWeb.Core.Entities;
             
             return validatedGroups;
         }
+
+        /// <summary>
+        /// Checks to see if the given username is unique in the domain.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public bool IsUsernameUnique(string userName)
+        {
+            using(PrincipalContext userContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                var user = UserPrincipal.FindByIdentity(userContext, userName);
+                return (user == null);
+            }
+        }
     }
 }

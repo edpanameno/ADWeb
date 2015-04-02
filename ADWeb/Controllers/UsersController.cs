@@ -559,5 +559,19 @@ namespace ADWeb.Controllers
                 return RedirectToAction("ViewUser", new { userId = SamAccountName});
             }
         }
+
+        public ActionResult IsUsernameUnique(string userName)
+        {
+            if(!string.IsNullOrEmpty(userName))
+            {
+                ADDomain domain = new ADDomain();
+                bool isUserFound = domain.IsUsernameUnique(userName);
+                return Json(isUserFound, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
