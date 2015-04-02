@@ -141,22 +141,23 @@ using ADWeb.Core.Entities;
                     newUser.SetPassword(user.Password);
                     newUser.Save();
 
-                    // Now add the user to the groups associated with the user template
-                    foreach(var grp in userTemplateSettings.Groups)
+                    // Now now have to add the user to the groups associated with the user template.
+                    // Note: We are using RootDSE for now because we are looking at the whole domain.
+                    // This will need to be changed later on so that only certain OU's will be searched 
+                    // for groups
+                    using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
                     {
-                        // We are using RootDSE for now because we are looking at the
-                        // whole domain. This will need to be changed later on so that
-                        // only certain OU's will be searched for groups
-                        using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+                        foreach(var grp in userTemplateSettings.Groups)
                         {
-                            GroupPrincipal group = GroupPrincipal.FindByIdentity(groupContext, grp);
-                            if(group != null)
+                            using(GroupPrincipal group = GroupPrincipal.FindByIdentity(groupContext, grp))
                             {
-                                group.Members.Add(newUser);
-                                group.Save();
+                                if(group != null)
+                                {
+                                    group.Members.Add(newUser);
+                                    group.Save();
+                                }
                             }
                         }
-
                     }
                 }
             }
