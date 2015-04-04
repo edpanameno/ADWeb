@@ -97,5 +97,37 @@ namespace ADWeb.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
+
+        /// <summary>
+        /// This is called when a user trying to update the name of an existing
+        /// group. This will verify that the group name that they have typed is
+        /// unique to the domain.
+        /// </summary>
+        /// <param name="newGroupName"></param>
+        /// <returns></returns>
+        public ActionResult ValidateRenamingGroup(string GroupName, string oldGroupName)
+        {
+            // If both the GroupName (the current group name) and the old one are the
+            // same then the user is not tyring to rename the group when they hit the
+            // Update Group button
+            if(GroupName == oldGroupName)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            // If we get this far, then it means that the user has typed in 
+            // a different name then the old group name. we now have to check
+            // and make sure that the name is unique in the domain.
+            if(!string.IsNullOrEmpty(GroupName))
+            {
+                ADDomain domain = new ADDomain();
+                bool isGroupFound = domain.IsGroupnameUnique(GroupName);
+                return Json(isGroupFound, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

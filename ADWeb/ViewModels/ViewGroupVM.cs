@@ -6,6 +6,7 @@ using System.Web;
 
 namespace ADWeb.ViewModels
 {
+    using System.Web.Mvc;
     using ADWeb.Core.ActiveDirectory;
 
     public class ViewGroupVM
@@ -17,6 +18,7 @@ namespace ADWeb.ViewModels
 
         [Display(Name="Group Name")]
         [Required(ErrorMessage="Group Name is required")]
+        [Remote("ValidateRenamingGroup", "Groups", ErrorMessage="This group name is already in use. Please use a different group name.", AdditionalFields="OldGroupName")]
         public string GroupName { get; set; }
 
         /// <summary>
