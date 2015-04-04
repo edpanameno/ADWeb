@@ -53,5 +53,19 @@ namespace ADWeb.Controllers
 
             return View();
         }
+
+        public ActionResult IsGroupnameUnique(string groupName)
+        {
+            if(!string.IsNullOrEmpty(groupName))
+            {
+                ADDomain domain = new ADDomain();
+                bool isGroupFound = domain.IsGroupnameUnique(groupName);
+                return Json(isGroupFound, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

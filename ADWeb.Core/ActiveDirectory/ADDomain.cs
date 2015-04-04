@@ -659,5 +659,19 @@ using ADWeb.Core.Entities;
                 return (user == null);
             }
         }
+
+        /// <summary>
+        /// Checks to see if a give group name is unique in the domain.
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns></returns>
+        public bool IsGroupnameUnique(string groupName)
+        {
+            using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                var group = GroupPrincipal.FindByIdentity(groupContext, groupName);
+                return (group == null);
+            }
+        }
     }
 }
