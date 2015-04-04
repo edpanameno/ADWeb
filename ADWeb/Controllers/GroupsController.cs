@@ -75,7 +75,7 @@ namespace ADWeb.Controllers
                     domain.UpdateGroup(group);
                 }
                     
-                TempData["group_updated_successfully"] = groupId.GroupName + " has been successfully updated!";
+                TempData["group_updated_successfully"] = "The group '" + groupId.GroupName + "' has been successfully updated!";
                 return RedirectToAction("Index", "Groups");
             }
             else
