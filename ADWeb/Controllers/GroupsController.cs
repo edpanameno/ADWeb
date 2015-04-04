@@ -27,8 +27,10 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             ADGroup group = domain.GetGroupByName(groupId);
+            ViewGroupVM groupVM = Mapper.Map<ViewGroupVM>(group);
+            groupVM.OldGroupName = group.GroupName;
 
-            return View(group);
+            return View(groupVM);
         }
 
         public ActionResult CreateGroup()
@@ -52,6 +54,34 @@ namespace ADWeb.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGroup(ViewGroupVM groupId)
+        {
+            if(ModelState.IsValid)
+            {
+                ADGroup group = Mapper.Map<ADGroup>(groupId);
+                ADDomain domain = new ADDomain();
+
+                if(groupId.GroupName != groupId.OldGroupName)
+                {
+                    // The user has changed the group name 
+                    domain.UpdateGroup(group, groupId.OldGroupName);
+                }
+                else
+                {
+                    domain.UpdateGroup(group);
+                }
+                    
+                TempData["group_updated_successfully"] = groupId.GroupName + " has been successfully updated!";
+                return RedirectToAction("Index", "Groups");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult IsGroupnameUnique(string groupName)

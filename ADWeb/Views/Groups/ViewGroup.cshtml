@@ -1,4 +1,4 @@
-﻿@model ADWeb.Core.ActiveDirectory.ADGroup 
+﻿@model ADWeb.ViewModels.ViewGroupVM
 
 @{
     ViewBag.Title = @Model.GroupName;
@@ -29,29 +29,76 @@
     </div>
 }
     
-<h3>@Model.GroupName</h3>
-@if(Model.Members.Count > 0)
-{
-    <p>Below you will find the <b>@Model.Members.Count.ToString()</b> members of this group.</p>
-    <table class="table table-nonfluid table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var user in Model.Members)
-            {
-                <tr class="@(user.IsEnabled == true ? "enabled" : "disabled")">
-                    <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
-                    <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName}, null)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>This group currently has no users.</p>
-}
+<h3>@Model.GroupName Group</h3>
+<p>Below you will find information about this group.</p>
+<br />
+
+<ul class="nav nav-tabs nav-justified" role="tablist" id="userInfo">
+    <li role="presentation" class="active">
+        <a href="#group-info" role="tab" data-toggle="tab">Group Information</a>
+    </li>
+    <li role="presentation">
+        <a href="#group-members" role="tab" data-toggle="tab">Group Members</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="group-info">
+        <p>Below you will find the basic information about this group.</p>
+        @using(Html.BeginForm("UpdateGroup", "Groups", FormMethod.Post, new { @class="form-horizontal", role="role" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="col-sm-8">
+                <label for="GroupName">Group Name*</label>
+                    @Html.TextBoxFor(m => m.GroupName, new { @class="form-control", autofocus="autofocus" })
+                    @Html.ValidationMessageFor(m => m.GroupName)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-8">
+                <label for="GroupNotes">Description</label>
+                    @Html.TextAreaFor(m => m.Description, new { rows="8", cols="12", @class="form-control", autofocus="autofocus" })
+                    <span class="help-block">Enter a brief description of what the group will be used for.</span>
+                </div>
+            </div>
+            
+            @Html.HiddenFor(m => m.OldGroupName)
+            
+            <div class="form-group">
+                <div class="col-sm-8" >
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Update Group</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div role="tabpanel" class="tab-pane" id="group-members">
+        @if(Model.Members.Count > 0)
+        {
+            <p>Below you will find the <b>@Model.Members.Count.ToString()</b> members of this group.</p>
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var user in Model.Members)
+                    {
+                        <tr class="@(user.IsEnabled == true ? "enabled" : "disabled")">
+                            <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName }, null)</td>
+                            <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName }, null)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color: #900; font-weight: bold">This group currently has no users.</p>
+        }
+    </div>
+</div>
+

@@ -145,6 +145,7 @@
     <Compile Include="ViewModels\SearchUsersModel.cs" />
     <Compile Include="ViewModels\UserTemplateVM.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\ViewGroupVM.cs" />
     <Compile Include="ViewModels\ViewUsersVM.cs" />
     <Compile Include="ViewModels\ViewUserTemplateVM.cs" />
   </ItemGroup>

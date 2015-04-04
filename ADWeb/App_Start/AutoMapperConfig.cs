@@ -9,6 +9,7 @@ namespace ADWeb
     using ADWeb.ViewModels;
     using ADWeb.Core.Models;
     using ADWeb.Core.Entities;
+    using ADWeb.Core.ActiveDirectory;
 
     /// <summary>
     /// Used to setup the mappings of View Models to Model
@@ -21,6 +22,8 @@ namespace ADWeb
             Mapper.CreateMap<CreateGroupVM, Group>();
             Mapper.CreateMap<CreateUserVM, User>();
             Mapper.CreateMap<UserViewModel, User>();
+            Mapper.CreateMap<ADGroup, ViewGroupVM>();
+            Mapper.CreateMap<ViewGroupVM, ADGroup>();
         }
     }
 }

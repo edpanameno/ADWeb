@@ -9,14 +9,26 @@
 <h3>Domain Groups</h3>
 <p>Below you will find information about the groups stored in the domain.</p>
 <p><b>Tip:</b> Hover of the group name to view the description of the group.</p>
-@Html.ActionLink("Create New Group", "CreateGroup", null, new { @class="btn btn-primary pull-right"})
+
+@if(@TempData["group_updated_successfully"] != null)
+{
+    <div class="alert alert-info alert-dismissable fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>@TempData["group_updated_successfully"]</span>
+    </div>
+}
+
+@Html.ActionLink("Create New Group", "CreateGroup", null, new { @class="btn btn-primary"})
 <br />
 <br />
-<table class="table table-bordered table-condensed table-hover">
+<table class="table table-bordered table-condensed table-hover" style="width: 80%">
     <thead>
         <tr>
-            <th width="90%">Group name</th>
-            <th width="10%" style="text-align: center">User Count</th>
+            <th width="85%">Group name</th>
+            <th width="15%" style="text-align: center">User Count</th>
         </tr>
     </thead>
     @foreach(var group in @Model)

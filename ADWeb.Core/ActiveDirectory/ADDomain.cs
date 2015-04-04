@@ -364,6 +364,59 @@ using ADWeb.Core.Entities;
         }
 
         /// <summary>
+        /// Updates the specified group in the domain. If the oldGroupName parameter
+        /// is not null then it means that the name of the group has changed.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="oldGroupName"></param>
+        public void UpdateGroup(ADGroup group, string oldGroupName = null)
+        {
+            using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                if(!string.IsNullOrWhiteSpace(oldGroupName))
+                {
+                    using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(groupContext, oldGroupName))
+                    {
+                        if(adGroup != null)
+                        {
+                            // If we have gotten to this section, then it means that the name of the
+                            // group has been changed by the user. If so then we'll have to use the 
+                            // underlying DirectoryEntry objec to rename the account. Note: the format
+                            // for the new name has to start with 'cn=<new_group_name>' or else the 
+                            // code would throw an error message.
+                            var groupEntry = (DirectoryEntry)adGroup.GetUnderlyingObject();
+                            groupEntry.Rename("cn=" + group.GroupName);
+                            groupEntry.CommitChanges();
+
+                            // These are just two additioanl properties that also have
+                            // to change but we don't have to use the underlying object
+                            // to make the change.
+                            adGroup.SamAccountName = group.GroupName;
+                            adGroup.DisplayName = group.GroupName;
+                            
+                            // The user may have also changed the description, if so then
+                            // let's update this just in case so that nothing is lost.
+                            adGroup.Description = group.Description;
+                            adGroup.Save();
+                        }
+                    }
+                }
+                else
+                {
+                    // Only the description of the group will be changing
+                    using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(groupContext, group.GroupName))
+                    {
+                        if(adGroup != null)
+                        {
+                            adGroup.Description = group.Description;
+                            adGroup.Save();
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Searches users using the display name value of all users in 
         /// the domain.
         /// </summary>
@@ -516,6 +569,11 @@ using ADWeb.Core.Entities;
             return users;
         }
     
+        /// <summary>
+        /// Gets group information and members from the domain
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns></returns>
         public ADGroup GetGroupByName(string groupName)
         {
             ADGroup group = new ADGroup();
@@ -525,10 +583,14 @@ using ADWeb.Core.Entities;
                 using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName))
                 {
                     group.GroupName = adGroup.Name;
+                    group.Description = adGroup.Description;
+
                     group.Members = new List<ADUserQuickView>();
 
                     // We use the OfType<T> method to be able to get more information about
-                    // the members of this group. This will give us 
+                    // the members of this group. This will give us additional information 
+                    // about the user account that would not otherwise be available by 
+                    // not doing this.
                     var searchResults = adGroup.GetMembers().OfType<UserPrincipal>();
                     
                     foreach(var user in searchResults)
