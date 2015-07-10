@@ -24,6 +24,9 @@ namespace ADWeb
             Mapper.CreateMap<UserViewModel, User>();
             Mapper.CreateMap<ADGroup, ViewGroupVM>();
             Mapper.CreateMap<ViewGroupVM, ADGroup>();
+            
+            Mapper.CreateMap<CreateUserTemplateVM, UserTemplate>()
+                  .ForMember(x => x.Groups, opt => opt.Ignore());
         }
     }
 }

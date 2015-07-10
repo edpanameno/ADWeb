@@ -12,6 +12,7 @@ namespace ADWeb.Controllers
     using ADWeb.Core.ActiveDirectory;
     using ADWeb.ViewModels;
     using ADWeb.Core.Models;
+    using AutoMapper;
 
     [Authorize]
     public class AdminController : Controller
@@ -128,7 +129,7 @@ namespace ADWeb.Controllers
             {
                 CreateUserTemplateVM userTemplateVM = new CreateUserTemplateVM();
                 userTemplateVM.OrganizationalUnits = db.DomainOU.Where(o => o.Enabled == true).ToList();
-                userTemplateVM.UserTemplate.ExpirationRange = UserExpirationRange.Days;
+                userTemplateVM.ExpirationRange = UserExpirationRange.Days;
 
                 List<SelectListItem> ouItems = new List<SelectListItem>();
                 foreach(var ou in userTemplateVM.OrganizationalUnits)
@@ -148,16 +149,18 @@ namespace ADWeb.Controllers
         {
             if(ModelState.IsValid)
             {
+                var template = Mapper.Map<UserTemplate>(id);
+
                 using(var db = new ADWebDB())
                 {
-                    id.UserTemplate.Enabled = true;
+                    template.Enabled = true;
 
-                    if(string.IsNullOrEmpty(id.UserTemplate.Notes))
+                    if(string.IsNullOrEmpty(id.Notes))
                     {
-                        id.UserTemplate.Notes = "No Notes Entered for this User Template.";
+                        id.Notes = "No Notes Entered for this User Template.";
                     }
 
-                    db.UserTemplate.Add(id.UserTemplate);
+                    db.UserTemplate.Add(template);
                     db.SaveChanges();
 
                     // We now have to iterate thru the list of groups that
@@ -191,14 +194,14 @@ namespace ADWeb.Controllers
                                                             Enabled = true,
                                                             Name = group.GroupName,
                                                             DistinguishedName = group.DN,
-                                                            UserTemplateID = id.UserTemplate.UserTemplateID
+                                                            UserTemplateID = template.UserTemplateID
                                                         });
                                 db.SaveChanges();
                             }
                         }
                     }
 
-                    TempData["user_template_created"] = "The user template '" + id.UserTemplate.Name + "' has been created successfully!";
+                    TempData["user_template_created"] = "The user template '" + template.Name + "' has been created successfully!";
 
                     return RedirectToAction("UserTemplates");
                 }
@@ -345,6 +348,24 @@ namespace ADWeb.Controllers
                 {
                     group.Enabled = false;
                     db.SaveChanges();
+                }
+            }
+        }
+    
+        [HttpGet]
+        public JsonResult IsTemplateNameUnique(string TemplateName)
+        {
+            using(var db = new ADWebDB())
+            {
+                var userTemplate = db.UserTemplate.Where(t => t.Name.Equals(TemplateName));
+
+                if(userTemplate != null)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
         }
