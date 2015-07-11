@@ -25,7 +25,11 @@ namespace ADWeb
             Mapper.CreateMap<ADGroup, ViewGroupVM>();
             Mapper.CreateMap<ViewGroupVM, ADGroup>();
             
-            Mapper.CreateMap<CreateUserTemplateVM, UserTemplate>()
+            Mapper.CreateMap<UserTemplateVM, UserTemplate>()
+                  .ForMember(x => x.Groups, opt => opt.Ignore());
+
+            // Used when viewing a User Template
+            Mapper.CreateMap<UserTemplate, UserTemplateVM>()
                   .ForMember(x => x.Groups, opt => opt.Ignore());
         }
     }

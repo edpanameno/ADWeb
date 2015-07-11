@@ -18,8 +18,7 @@ namespace ADWeb.ViewModels
             Groups = new List<string>();
         }
 
-        
-        [Remote("IsTemplateNameUnique", "Admin", ErrorMessage="Template Name is not unique. Please enter a unique Template name.")]
+        /*[Remote("IsTemplateNameUnique", "Admin", ErrorMessage="Template Name is not unique. Please enter a unique Template name.")]
         public string Name { get; set; }
         public int DomainOUID { get; set; }
         
@@ -35,10 +34,10 @@ namespace ADWeb.ViewModels
         public string Notes { get; set; }
 
         public List<DomainOU> OrganizationalUnits { get; set; }
-        public List<string> Groups { get; set; }
+        public List<string> Groups { get; set; }*/
 
-        //public UserTemplate UserTemplate { get; set; }
-        //public List<DomainOU> OrganizationalUnits { get; set; }
-        //public List<string> Groups { get; set; }
+        public UserTemplate UserTemplate { get; set; }
+        public List<DomainOU> OrganizationalUnits { get; set; }
+        public List<string> Groups { get; set; }
     }
 }

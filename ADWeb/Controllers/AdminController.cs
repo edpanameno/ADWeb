@@ -115,11 +115,9 @@ namespace ADWeb.Controllers
         {
             using(var db = new ADWebDB())
             {
-                UserTemplateVM templateVM = new UserTemplateVM();
-                templateVM.ActiveUserTemplates = db.UserTemplate.Where(u => u.Enabled).ToList();
-                templateVM.DisabledUserTemplates = db.UserTemplate.Where(u => u.Enabled == false).ToList(); 
-                
-                return View(templateVM);
+                ViewBag.ActiveUserTemplates = db.UserTemplate.Where(u => u.Enabled).ToList();
+                ViewBag.DisabledUserTemplates = db.UserTemplate.Where(u => u.Enabled == false).ToList(); 
+                return View();
             }
         }
 
@@ -127,7 +125,7 @@ namespace ADWeb.Controllers
         {
             using(var db = new ADWebDB())
             {
-                CreateUserTemplateVM userTemplateVM = new CreateUserTemplateVM();
+                UserTemplateVM userTemplateVM = new UserTemplateVM();
                 userTemplateVM.OrganizationalUnits = db.DomainOU.Where(o => o.Enabled == true).ToList();
                 userTemplateVM.ExpirationRange = UserExpirationRange.Days;
 
@@ -145,7 +143,7 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUserTemplate(CreateUserTemplateVM id)
+        public ActionResult CreateUserTemplate(UserTemplateVM id)
         {
             if(ModelState.IsValid)
             {
@@ -217,8 +215,8 @@ namespace ADWeb.Controllers
             using(var db = new ADWebDB())
             {
                 ViewUserTemplateVM utVM = new ViewUserTemplateVM();
-
                 utVM.UserTemplate = db.UserTemplate.Where(ut => ut.UserTemplateID == id).FirstOrDefault();
+                
                 var ous = db.DomainOU.Where(ou => ou.Enabled == true).ToList();
                 
                 List<SelectListItem> ouItems = new List<SelectListItem>();

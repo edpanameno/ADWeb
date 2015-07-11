@@ -37,7 +37,8 @@ namespace ADWeb.Core.Entities
 
         public UserExpirationRange? ExpirationRange { get; set; }
         public int? ExpirationValue { get; set; }
-        
+       
+        [AllowHtml]
         public string Notes { get; set; }
 
         [ForeignKey("DomainOU")]

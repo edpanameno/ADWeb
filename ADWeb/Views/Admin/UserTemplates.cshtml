@@ -1,4 +1,5 @@
-﻿@model ADWeb.ViewModels.UserTemplateVM
+﻿@using ADWeb.Core.Entities
+@model ADWeb.ViewModels.UserTemplateVM
 
 @{
     ViewBag.Title = "User Templates";
@@ -54,7 +55,7 @@
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="active-user-templates">
-        @if(Model.ActiveUserTemplates.Count > 0)
+        @if(ViewBag.ActiveUserTemplates.Count > 0)
         {
             <p>Below you will find the active User Templates that are currently stored in the application. These User Templates will
             be available when creating a user account. To View the properties of a template, please click on the name of the template.</p>
@@ -65,7 +66,7 @@
                         <th width="75%">Notes</th>
                     </tr>
                 </thead>
-                @foreach(var template in Model.ActiveUserTemplates)
+                @foreach(var template in (ICollection<UserTemplate>)ViewBag.ActiveUserTemplates)
                 {
                     <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
@@ -79,7 +80,7 @@
         }
     </div>
     <div role="tabpanel" class="tab-pane" id="disabled-user-templates">
-        @if(Model.DisabledUserTemplates.Count > 0)
+        @if(ViewBag.DisabledUserTemplates.Count > 0)
         {
             <p>Below you will find the disabled user templates currently stored in the application. Disabled User Templates will not be available when creating
             a new user account.</p> 
@@ -90,7 +91,7 @@
                         <th width="75%">Notes</th>
                     </tr>
                 </thead>
-                @foreach(var template in Model.DisabledUserTemplates)
+                @foreach(var template in (ICollection<UserTemplate>)ViewBag.DisabledUserTemplates)
                 {
                     <tr>
                         <td>@Html.ActionLink(@template.Name, "ViewUserTemplate", new { id = @template.UserTemplateID })</td>
