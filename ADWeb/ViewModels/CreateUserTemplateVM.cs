@@ -15,7 +15,6 @@ namespace ADWeb.ViewModels
     {
         public CreateUserTemplateVM()
         {
-            //UserTemplate = new UserTemplate();
             Groups = new List<string>();
         }
 
@@ -33,8 +32,6 @@ namespace ADWeb.ViewModels
         
         [AllowHtml]
         public string Notes { get; set; }
-
-        //public UserTemplate UserTemplate { get; set; }
         public List<DomainOU> OrganizationalUnits { get; set; }
         public List<string> Groups { get; set; }
     }

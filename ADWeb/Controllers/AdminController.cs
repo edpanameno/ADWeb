@@ -352,20 +352,29 @@ namespace ADWeb.Controllers
             }
         }
     
+        /// <summary>
+        /// This method checks to see if the name of the template being created
+        /// is unique. If the name of the template already exists, then this wil.
+        /// return false and the user will not be able to create the template. 
+        /// If the name is unique, then the user will be able to continue creating
+        /// the template.
+        /// </summary>
+        /// <param name="TemplateName"></param>
+        /// <returns></returns>
         [HttpGet]
-        public JsonResult IsTemplateNameUnique(string TemplateName)
+        public JsonResult IsTemplateNameUnique(string Name)
         {
             using(var db = new ADWebDB())
             {
-                var userTemplate = db.UserTemplate.Where(t => t.Name.Equals(TemplateName));
-
-                if(userTemplate != null)
+                var doesTemplateExist = db.UserTemplate.Any(t => t.Name == Name);
+                
+                if(doesTemplateExist)
                 {
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
             }
         }
