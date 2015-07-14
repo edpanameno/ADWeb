@@ -143,7 +143,6 @@
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\OUViewModel.cs" />
     <Compile Include="ViewModels\SearchUsersModel.cs" />
-    <Compile Include="ViewModels\UserTemplateVM_old.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewGroupVM.cs" />
     <Compile Include="ViewModels\ViewUsersVM.cs" />
