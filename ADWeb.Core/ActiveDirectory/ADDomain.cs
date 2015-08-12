@@ -193,11 +193,11 @@ using ADWeb.Core.Entities;
             // By default, all groups will go into the GroupsOU
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, GroupsOU, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
-                using(GroupPrincipal newGroup = new GroupPrincipal(context))
+                using(GroupPrincipalEx newGroup = new GroupPrincipalEx(context))
                 {
                     newGroup.Name = group.GroupName;
                     newGroup.SamAccountName = group.GroupName;
-                    newGroup.Description = group.Description;
+                    newGroup.Info = group.Description;
                     newGroup.Save();
                 }
             }
@@ -375,7 +375,7 @@ using ADWeb.Core.Entities;
             {
                 if(!string.IsNullOrWhiteSpace(oldGroupName))
                 {
-                    using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(groupContext, oldGroupName))
+                    using(GroupPrincipalEx adGroup = GroupPrincipalEx.FindByIdentity(groupContext, oldGroupName))
                     {
                         if(adGroup != null)
                         {
@@ -396,7 +396,8 @@ using ADWeb.Core.Entities;
                             
                             // The user may have also changed the description, if so then
                             // let's update this just in case so that nothing is lost.
-                            adGroup.Description = group.Description;
+                            //adGroup.Description = group.Description;
+                            adGroup.Info = group.Description;
                             adGroup.Save();
                         }
                     }
@@ -404,11 +405,11 @@ using ADWeb.Core.Entities;
                 else
                 {
                     // Only the description of the group will be changing
-                    using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(groupContext, group.GroupName))
+                    using(GroupPrincipalEx adGroup = GroupPrincipalEx.FindByIdentity(groupContext, group.GroupName))
                     {
                         if(adGroup != null)
                         {
-                            adGroup.Description = group.Description;
+                            adGroup.Info = group.Description;
                             adGroup.Save();
                         }
                     }
@@ -580,10 +581,10 @@ using ADWeb.Core.Entities;
 
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
-                using(GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(context, groupName))
+                using(GroupPrincipalEx adGroup = GroupPrincipalEx.FindByIdentity(context, groupName))
                 {
                     group.GroupName = adGroup.Name;
-                    group.Description = adGroup.Description;
+                    group.Description = adGroup.Info;
 
                     group.Members = new List<ADUserQuickView>();
 

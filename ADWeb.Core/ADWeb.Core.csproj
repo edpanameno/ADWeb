@@ -58,6 +58,7 @@
     <Compile Include="ActiveDirectory\ADDomain.cs" />
     <Compile Include="ActiveDirectory\ADGroup.cs" />
     <Compile Include="ActiveDirectory\ADUser.cs" />
+    <Compile Include="ActiveDirectory\GroupPrincipalEx.cs" />
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="DAL\ADWebDB.cs" />
     <Compile Include="Entities\DomainUser.cs" />

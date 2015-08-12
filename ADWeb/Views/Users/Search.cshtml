@@ -20,18 +20,21 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <label for="SearchValue" class="col-sm-2 control-label">Value*</label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.SearchValue, new { @class="form-control", autofocus="autofocus" })
-                    @Html.ValidationMessageFor(m => m.SearchValue)
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="SearchField" class="col-sm-2 control-label">Field</label>
+                <label for="SearchField" class="col-sm-2 control-label">Field:</label>
                 <div class="col-sm-10">
                     @Html.EnumDropDownListFor(m => m.SearchField, htmlAttributes: new { @class = "form-control" })
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label for="SearchValue" class="col-sm-2 control-label">Value*</label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.SearchValue, new { @class="form-control", autofocus="autofocus" })
+                    @Html.ValidationMessageFor(m => m.SearchValue)
+                    <span class="help-block">Enter the value that will be used to search for users</span>
+                </div>
+            </div>
+             
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" id="btnSearch" class="btn btn-primary">
