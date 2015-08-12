@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace ADWeb.Core.ActiveDirectory
 {
+    /// <summary>
+    /// Custom GroupPrincipal object that will be used to interact with
+    /// and modify groups in the active directory domain
+    /// </summary>
     [DirectoryObjectClass("group")]
     [DirectoryRdnPrefix("CN")]
     public class GroupPrincipalEx : GroupPrincipal
@@ -20,7 +24,7 @@ namespace ADWeb.Core.ActiveDirectory
         /// for).
         /// </summary>
         [DirectoryProperty("info")]
-        public new string Info 
+        public string Info 
         {
             get
             {
@@ -39,8 +43,6 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
-        // The new keyword here hides the static method FindByIdentity of 
-        // the UserPrincipal class.
         public static new GroupPrincipalEx FindByIdentity(PrincipalContext context, string identityValue)
         {
             return (GroupPrincipalEx)FindByIdentityWithType(context, typeof(GroupPrincipalEx), identityValue);
