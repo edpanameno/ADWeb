@@ -15,7 +15,7 @@
         </thead>
         @foreach(var user in @Model)
         {
-            <tr>
+            <tr class="@(user.Enabled == false ? "disabled-user" : "")">
                 <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
                 <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
                 <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>

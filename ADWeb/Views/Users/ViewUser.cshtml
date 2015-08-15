@@ -142,6 +142,15 @@
     </div>
 }
 
+@if(!@Model.Enabled.GetValueOrDefault())
+{
+    <div class="alert alert-danger" role="alert">
+        <span>
+            Warning: This account is currently disabled.
+        </span>
+    </div>
+}
+
 <ul class="nav nav-tabs nav-justified" role="tablist" id="userInfo">
     <li role="presentation" class="active">
         <a href="#basic-info" role="tab" data-toggle="tab">Basic Info</a>
