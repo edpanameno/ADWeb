@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 
 namespace ADWeb.Controllers
 {
@@ -19,8 +19,7 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             List<ADGroup> groups = domain.GetAllActiveGroups();
-
-            return View(groups);
+            return View(groups.OrderByDescending(g => g.MemberCount).ToList());
         }
 
         public ActionResult ViewGroup(string groupId)
