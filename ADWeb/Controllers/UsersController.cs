@@ -53,14 +53,6 @@ namespace ADWeb.Controllers
                 // should have a value for this property.
                 viewModel.WhenCreated = user.WhenCreated;
                 
-                // The WhenChanged property comes straight from Active Directory
-                // I may have to come back to this and use data from the database
-                // to get the date when an account was last changed. The reason for
-                // this is because if a user logins, this value is updated to reflect
-                // this and it's not really a change in my mind. Any changes that are
-                // done on a user account (thru the application) should be the real 
-                // indicators when an account was changed (and also indicate what type
-                // of change happened).
                 viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
                 viewModel.LogonCount = user.LogonCount.ToString();
 
