@@ -285,6 +285,22 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        [DirectoryProperty("manager")]
+        public string Manager
+        {
+            get
+            {
+                if(ExtensionGet("manager").Length != 1)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (string)ExtensionGet("manager")[0];
+                }
+            }
+        }
+
         // The new keyword here hides the static method FindByIdentity of 
         // the UserPrincipal class.
         public static new ADUser FindByIdentity(PrincipalContext context, string identityValue)
