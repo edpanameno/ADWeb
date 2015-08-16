@@ -546,7 +546,7 @@ namespace ADWeb.Controllers
                 }
                 
                 TempData["groups_added_successfully"] = "Groups have been added successfully to this user!";
-                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+                return RedirectToAction("ViewUser", new { user = SamAccountName});
             }
         }
 

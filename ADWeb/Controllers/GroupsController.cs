@@ -22,12 +22,12 @@ namespace ADWeb.Controllers
             return View(groups.OrderByDescending(g => g.MemberCount).ToList());
         }
 
-        public ActionResult ViewGroup(string groupId)
+        public ActionResult ViewGroup(string group)
         {
             ADDomain domain = new ADDomain();
-            ADGroup group = domain.GetGroupByName(groupId);
-            ViewGroupVM groupVM = Mapper.Map<ViewGroupVM>(group);
-            groupVM.OldGroupName = group.GroupName;
+            ADGroup groupInfo = domain.GetGroupByName(group);
+            ViewGroupVM groupVM = Mapper.Map<ViewGroupVM>(groupInfo);
+            groupVM.OldGroupName = groupInfo.GroupName;
 
             return View(groupVM);
         }
@@ -39,17 +39,17 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateGroup(CreateGroupVM groupId)
+        public ActionResult CreateGroup(CreateGroupVM group)
         {
             if(ModelState.IsValid)
             {
-                Group newGroup = Mapper.Map<Group>(groupId);
+                Group newGroup = Mapper.Map<Group>(group);
 
                 ADDomain domain = new ADDomain();
                 domain.CreateGroup(newGroup);
                 
                 TempData["group_created_successfully"] = newGroup.GroupName + " has been created successfully!";
-                return RedirectToAction("ViewGroup", new { groupId = newGroup.GroupName });
+                return RedirectToAction("ViewGroup", new { group = newGroup.GroupName });
             }
 
             return View();
@@ -57,24 +57,24 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateGroup(ViewGroupVM groupId)
+        public ActionResult UpdateGroup(ViewGroupVM group)
         {
             if(ModelState.IsValid)
             {
-                ADGroup group = Mapper.Map<ADGroup>(groupId);
+                ADGroup groupInfo = Mapper.Map<ADGroup>(group);
                 ADDomain domain = new ADDomain();
 
-                if(groupId.GroupName != groupId.OldGroupName)
+                if(group.GroupName != group.OldGroupName)
                 {
                     // The user has changed the group name 
-                    domain.UpdateGroup(group, groupId.OldGroupName);
+                    domain.UpdateGroup(groupInfo, group.OldGroupName);
                 }
                 else
                 {
-                    domain.UpdateGroup(group);
+                    domain.UpdateGroup(groupInfo);
                 }
                     
-                TempData["group_updated_successfully"] = "The group '" + groupId.GroupName + "' has been successfully updated!";
+                TempData["group_updated_successfully"] = "The group '" + groupInfo.GroupName + "' has been successfully updated!";
                 return RedirectToAction("Index", "Groups");
             }
             else

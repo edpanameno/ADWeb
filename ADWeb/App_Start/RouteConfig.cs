@@ -31,8 +31,8 @@ namespace ADWeb
             
             routes.MapRoute(
                 name: "GroupsSection",
-                url: "Groups/{action}/{groupId}",
-                defaults: new { controller = "Groups", action = "Index", groupId = UrlParameter.Optional }
+                url: "Groups/{action}/{group}",
+                defaults: new { controller = "Groups", action = "Index", group = UrlParameter.Optional }
             );
             
             // Using static URL Segments. In the example below, the static segment
