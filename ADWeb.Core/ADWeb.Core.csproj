@@ -54,13 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="ActiveDirectory\ADDomain.cs" />
     <Compile Include="ActiveDirectory\ADGroup.cs" />
     <Compile Include="ActiveDirectory\ADUser.cs" />
     <Compile Include="ActiveDirectory\GroupPrincipalEx.cs" />
     <Compile Include="ActiveDirectory\MyAdvancedFilters.cs" />
     <Compile Include="DAL\ADWebDB.cs" />
+    <Compile Include="Entities\ADSetting.cs" />
     <Compile Include="Entities\DomainUser.cs" />
     <Compile Include="Entities\DomainOU.cs" />
     <Compile Include="Entities\UserTemplate.cs" />

@@ -19,6 +19,7 @@ namespace ADWeb.Core.DAL
         public DbSet<DomainOU> DomainOU { get; set; }
         public DbSet<UserTemplate> UserTemplate { get; set; }
         public DbSet<UserTemplateGroup> UserTemplateGroup { get; set; }
+        public DbSet<ADSetting> ADSetting { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

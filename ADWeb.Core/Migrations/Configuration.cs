@@ -31,6 +31,14 @@ namespace ADWeb.Core.Migrations
                 u => u.Name,
                 new UserTemplate { Name = "Default Template", Enabled = true, ChangePasswordAtNextLogon = false, UserCannotChangePassword = false, PasswordNeverExpires = false, AccountExpires = false, Notes = "The default User Template for the system", DomainOUID = 1 } 
             );
+
+            context.ADSetting.AddOrUpdate(
+                a => a.Name,
+                new ADSetting { Name = "server_name", Value = "192.168.1.108 " },
+                new ADSetting { Name = "temp_users", Value = "OU=Temp-Users,OU=Account - Resources,DC=test,DC=local" },
+                new ADSetting { Name = "groups_ou", Value = "OU=Groups,OU=Account - Resources,DC=test,DC=local" },
+                new ADSetting { Name = "upn_suffix", Value = "@test.local" }
+            );
         }
     }
 }

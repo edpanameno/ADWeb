@@ -7,12 +7,12 @@ using System.Data.Entity;
 
 namespace ADWeb.Controllers
 {
+    using AutoMapper;
     using ADWeb.Core.DAL;
-    using ADWeb.Core.Entities;
-    using ADWeb.Core.ActiveDirectory;
     using ADWeb.ViewModels;
     using ADWeb.Core.Models;
-    using AutoMapper;
+    using ADWeb.Core.Entities;
+    using ADWeb.Core.ActiveDirectory;
 
     [Authorize]
     public class AdminController : Controller

@@ -11,8 +11,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ADWeb.Core.ActiveDirectory
 {
+    using ADWeb.Core.DAL;
     using ADWeb.Core.Models;
-using ADWeb.Core.Entities;
+    using ADWeb.Core.Entities;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
@@ -71,12 +72,23 @@ using ADWeb.Core.Entities;
 
         public ADDomain()
         {
-            ServerName = WebConfigurationManager.AppSettings["server_name"];
-            ServiceUser = WebConfigurationManager.AppSettings["service_user"];
-            ServicePassword = WebConfigurationManager.AppSettings["service_password"];
+            using(var db = new ADWebDB())
+            {
+                ServerName = db.ADSetting.Where(a => a.Name == "server_name").Select(a => a.Value).SingleOrDefault();
+                TempUsers = db.ADSetting.Where(a => a.Name == "temp_users").Select(a => a.Value).SingleOrDefault();
+                GroupsOU = db.ADSetting.Where(a => a.Name == "groups_ou").Select(a => a.Value).SingleOrDefault();
+                UPNSuffix = db.ADSetting.Where(a => a.Name == "upn_suffix").Select(a => a.Value).SingleOrDefault();
+            }
+
+            /*ServerName = WebConfigurationManager.AppSettings["server_name"];
             TempUsers = WebConfigurationManager.AppSettings["temp_users"];
             UPNSuffix = WebConfigurationManager.AppSettings["upn_suffix"];
-            GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];
+            GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];*/
+           
+            // These will be stored in the web.config file for now, may be moved
+            // to the database on a later date if deemed necessary.
+            ServiceUser = WebConfigurationManager.AppSettings["service_user"];
+            ServicePassword = WebConfigurationManager.AppSettings["service_password"];
         }
 
         public void CreateUserWithTemplate(User user, UserTemplateSettings userTemplateSettings)
@@ -329,8 +341,14 @@ using ADWeb.Core.Entities;
                         {
                             continue;
                         }
+
+                        // Need to use the 'info' property of the group object to 
+                        // make this consistent when creating and editing a group 
+                        // object.
+                        var info = (DirectoryEntry)grp.GetUnderlyingObject();
+                        string notes = info.Properties["info"].Value.ToString();
                         
-                        groups.Add(grp.Name, grp.Description);
+                        groups.Add(grp.Name, notes);
                     }
                 }
             }
