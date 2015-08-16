@@ -7,12 +7,12 @@ using System.Text;
 
 namespace ADWeb.Controllers
 {
-    using ADWeb.Core.DAL;
-    using ADWeb.Core.Entities;
-    using ADWeb.Core.Models;
-    using ADWeb.Core.ActiveDirectory;
-    using ADWeb.ViewModels;
     using AutoMapper;
+    using ADWeb.Core.DAL;
+    using ADWeb.ViewModels;
+    using ADWeb.Core.Models;
+    using ADWeb.Core.Entities;
+    using ADWeb.Core.ActiveDirectory;
 
     [Authorize]
     public class UsersController : Controller
@@ -26,39 +26,39 @@ namespace ADWeb.Controllers
             return View(users);
         }
 
-        public ActionResult ViewUser(string userId)
+        public ActionResult ViewUser(string user)
         {
             ADDomain domain = new ADDomain();
-            ADUser user = domain.GetUserByID(userId);
+            ADUser userInfo = domain.GetUserByID(user);
             
-            if(user != null)
+            if(userInfo != null)
             {
                 UserViewModel viewModel = new UserViewModel();
-                viewModel.SamAccountName = user.SamAccountName;
-                viewModel.GivenName = user.GivenName;
-                viewModel.MiddleName = user.MiddleName;
-                viewModel.Surname = user.Surname;
-                viewModel.DisplayName = user.DisplayName;
-                viewModel.EmailAddress = user.EmailAddress;
-                viewModel.Title = user.Title;
-                viewModel.Department = user.Department;
-                viewModel.PhoneNumber = user.PhoneNumber;
-                viewModel.Company = user.Company;
-                viewModel.Notes = user.Notes;
-                viewModel.Enabled = user.Enabled;
-                viewModel.ExpirationDate = user.AccountExpirationDate;
+                viewModel.SamAccountName = userInfo.SamAccountName;
+                viewModel.GivenName = userInfo.GivenName;
+                viewModel.MiddleName = userInfo.MiddleName;
+                viewModel.Surname = userInfo.Surname;
+                viewModel.DisplayName = userInfo.DisplayName;
+                viewModel.EmailAddress = userInfo.EmailAddress;
+                viewModel.Title = userInfo.Title;
+                viewModel.Department = userInfo.Department;
+                viewModel.PhoneNumber = userInfo.PhoneNumber;
+                viewModel.Company = userInfo.Company;
+                viewModel.Notes = userInfo.Notes;
+                viewModel.Enabled = userInfo.Enabled;
+                viewModel.ExpirationDate = userInfo.AccountExpirationDate;
                 
                 // We are not using the WhenCreated field form the DomainUser
                 // table in the database because each user object in the domain
                 // should have a value for this property.
-                viewModel.WhenCreated = user.WhenCreated;
+                viewModel.WhenCreated = userInfo.WhenCreated;
                 
-                viewModel.WhenChanged = user.WhenChanged.ToLocalTime();
-                viewModel.LogonCount = user.LogonCount.ToString();
+                viewModel.WhenChanged = userInfo.WhenChanged.ToLocalTime();
+                viewModel.LogonCount = userInfo.LogonCount.ToString();
 
                 using(var db = new ADWebDB())
                 {
-                    var userDbInfo = db.DomainUsers.Where(u => u.Username == userId).FirstOrDefault();
+                    var userDbInfo = db.DomainUsers.Find(user);
 
                     if(userDbInfo != null)
                     {
@@ -76,9 +76,9 @@ namespace ADWeb.Controllers
                     }
                 }
                 
-                viewModel.UserGroups = domain.GetUserGroupsByUserId(userId);
+                viewModel.UserGroups = domain.GetUserGroupsByUserId(user);
 
-                user.Dispose();
+                userInfo.Dispose();
                 return View(viewModel);
             }
 
@@ -87,7 +87,7 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUser(UserViewModel userId)
+        public ActionResult UpdateUser(UserViewModel user)
         {
             if(ModelState.IsValid)
             {
@@ -100,87 +100,85 @@ namespace ADWeb.Controllers
                 // We first need to record what was changed on the user
                 // account by comparing what the user currently has on 
                 // Active Directory to what is being passed to this method
-                ADUser currentUser = domain.GetUserByID(userId.SamAccountName);
+                ADUser currentUser = domain.GetUserByID(user.SamAccountName);
                 
-                // Now we compare and record what has changed! Note:
-                // this method will not be used when a user's active
-                // directory account is updated. Because changing the
-                // username has to be done with caution, a new method
-                // just for that action will be created.
-                if(!currentUser.GivenName.Equals(userId.GivenName))
+                // Now we compare the values that are currently stored in the domain
+                // with what's being passed to this method. If there are any changes,
+                // then these are recorded and will be stored in the database.
+                if(!currentUser.GivenName.Equals(user.GivenName))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>First Name Changed from '" + currentUser.GivenName + "' to '" + userId.GivenName + "'</li>");
+                    msg.Append("<li>First Name Changed from '" + currentUser.GivenName + "' to '" + user.GivenName + "'</li>");
                 }
 
-                if(!currentUser.Surname.Equals(userId.Surname))
+                if(!currentUser.Surname.Equals(user.Surname))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Last Name Changed from '" + currentUser.Surname + "' to '" + userId.Surname + "'</li>");
+                    msg.Append("<li>Last Name Changed from '" + currentUser.Surname + "' to '" + user.Surname + "'</li>");
                 }
 
-                if(!currentUser.MiddleName.Equals(userId.MiddleName))
+                if(!currentUser.MiddleName.Equals(user.MiddleName))
                 {
-                    if(!String.IsNullOrEmpty(userId.MiddleName))
+                    if(!String.IsNullOrEmpty(user.MiddleName))
                     {
                         userInfoUpdate = true;
-                        msg.Append("<li>Middle Name Changed from '" + currentUser.MiddleName + "' to '" + userId.MiddleName + "'</li>");
+                        msg.Append("<li>Middle Name Changed from '" + currentUser.MiddleName + "' to '" + user.MiddleName + "'</li>");
                     }
                 }
 
-                if(!currentUser.DisplayName.Equals(userId.DisplayName))
+                if(!currentUser.DisplayName.Equals(user.DisplayName))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Display Name Changed from '" + currentUser.DisplayName + "' to '" + userId.DisplayName + "'</li>");
+                    msg.Append("<li>Display Name Changed from '" + currentUser.DisplayName + "' to '" + user.DisplayName + "'</li>");
                 }
                 
-                if(!currentUser.EmailAddress.Equals(userId.EmailAddress))
+                if(!currentUser.EmailAddress.Equals(user.EmailAddress))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Email Address Changed from '" + currentUser.EmailAddress + "' to '" + userId.EmailAddress + "'</li>");
+                    msg.Append("<li>Email Address Changed from '" + currentUser.EmailAddress + "' to '" + user.EmailAddress + "'</li>");
                 }
                 
-                if(!currentUser.PhoneNumber.Equals(userId.PhoneNumber))
+                if(!currentUser.PhoneNumber.Equals(user.PhoneNumber))
                 {
-                    if(!String.IsNullOrEmpty(userId.PhoneNumber))
+                    if(!String.IsNullOrEmpty(user.PhoneNumber))
                     {
                         userInfoUpdate = true;
-                        msg.Append("<li>Phone Number Changed from '" + currentUser.PhoneNumber + "' to '" + userId.PhoneNumber + "'</li>");
+                        msg.Append("<li>Phone Number Changed from '" + currentUser.PhoneNumber + "' to '" + user.PhoneNumber + "'</li>");
                     }
                 }
                 
-                if(!currentUser.Title.Equals(userId.Title))
+                if(!currentUser.Title.Equals(user.Title))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Title Changed from '" + currentUser.Title + "' to '" + userId.Title + "'</li>");
+                    msg.Append("<li>Title Changed from '" + currentUser.Title + "' to '" + user.Title + "'</li>");
                 }
                 
-                if(!currentUser.Company.Equals(userId.Company))
+                if(!currentUser.Company.Equals(user.Company))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Company Changed from '" + currentUser.Company + "' to '" + userId.Company + "'</li>");
+                    msg.Append("<li>Company Changed from '" + currentUser.Company + "' to '" + user.Company + "'</li>");
                 }
                 
-                if(!currentUser.Department.Equals(userId.Department))
+                if(!currentUser.Department.Equals(user.Department))
                 {
                     userInfoUpdate = true;
-                    msg.Append("<li>Department Changed from '" + currentUser.Department + "' to '" + userId.Department + "'</li>");
+                    msg.Append("<li>Department Changed from '" + currentUser.Department + "' to '" + user.Department + "'</li>");
                 }
                 
-                if(!currentUser.Notes.Equals(userId.Notes))
+                if(!currentUser.Notes.Equals(user.Notes))
                 {
-                    if(!String.IsNullOrEmpty(userId.Notes))
+                    if(!String.IsNullOrEmpty(user.Notes))
                     {
                         userInfoUpdate = true;
-                        msg.Append("<li>Notes Changed from '" + currentUser.Notes + "' to '" + userId.Notes + "'</li>");
+                        msg.Append("<li>Notes Changed from '" + currentUser.Notes + "' to '" + user.Notes + "'</li>");
                     }
                 }
 
                 msg.Append("</ul>");
 
-                ADWeb.Core.Models.User user = Mapper.Map<User>(userId);
+                ADWeb.Core.Models.User userModel = Mapper.Map<User>(user);
 
-                domain.UpdateUser(user);
+                domain.UpdateUser(userModel);
 
                 // There is a possiblity that a user may accidentally hit the update
                 // button but nothing has changed in the user's information. If this
@@ -196,21 +194,21 @@ namespace ADWeb.Controllers
                         // to check to see if this account has an entry in the DomainUsers
                         // table. If it doesn't then we'll go ahead and create one. If it does,
                         // then we'll just insert the update history to the table.
-                        var userDbInfo = db.DomainUsers.Where(u => u.Username == userId.SamAccountName).FirstOrDefault();
+                        var userDbInfo = db.DomainUsers.Find(user.SamAccountName);
                         
                         if(userDbInfo == null)
                         {
                             // If we have reached this part of the code then it means that
                             // we have come accross a user that was not created thru the 
                             // application and thus has no entry in the DomainUsers table.
-                            // We are going to be creating an entry into this table, but 
-                            // we are not going to use the currently logged in user who is 
+                            // We are going to be creating an entry into the DomainUser table, 
+                            // but we are not going to use the currently logged in user who is 
                             // viewing this account as the person that created the account.
                             // The reason I don't want to store the username is because the 
-                            // entry was not created by the user, instead it was created by
-                            // the system. I am going to be making this a unique value just
-                            // in case we need to use this later on for reports.
-                            string createdBy = "System Generated";
+                            // entry was not created by the user, instead it was created 
+                            // outside the application. I am going to be making this a unique 
+                            // value just in case we need to use this later on for reports.
+                            string createdBy = "Outside of Application";
 
                             DomainUser newUser = new DomainUser();
                             newUser.CreatedBy = createdBy;
@@ -221,7 +219,7 @@ namespace ADWeb.Controllers
                             // an entry to the DomainUsers table for.
                             UserUpdateHistory newUserHistory = new UserUpdateHistory();
                             newUserHistory.UpdatedBy = createdBy;
-                            newUserHistory.Username = userId.SamAccountName;
+                            newUserHistory.Username = user.SamAccountName;
                             newUserHistory.UpdateType = UserUpdateType.CreatedDBEntry;
                             newUserHistory.DateUpdated = DateTime.Now;
                             newUserHistory.Notes = "<ul class=\"update-details\"><li>New User Added to table by the system.</li></ul>";
@@ -231,7 +229,7 @@ namespace ADWeb.Controllers
                             // this request.
                             UserUpdateHistory userChange = new UserUpdateHistory();
                             userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
-                            userChange.Username = userId.SamAccountName;
+                            userChange.Username = user.SamAccountName;
                             userChange.UpdateType = UserUpdateType.UserInfo;
 
                             // I am adding 10 milli seconds to this value so that when we 
@@ -250,7 +248,7 @@ namespace ADWeb.Controllers
                         {
                             UserUpdateHistory userChange = new UserUpdateHistory();
                             userChange.UpdatedBy = loggedInUser.GivenName + " " + loggedInUser.Surname;
-                            userChange.Username = userId.SamAccountName;
+                            userChange.Username = user.SamAccountName;
                             userChange.UpdateType = UserUpdateType.UserInfo;
                             userChange.DateUpdated = DateTime.Now;
                             userChange.Notes = msg.ToString();
@@ -261,20 +259,20 @@ namespace ADWeb.Controllers
                         db.SaveChanges();
                     }
                     
-                    TempData["user_updated_successfully"] = userId.GivenName + " " + userId.Surname + "'s account has been successfully updated!";
+                    TempData["user_updated_successfully"] = user.GivenName + " " + user.Surname + "'s account has been successfully updated!";
                 }
                 else
                 {
-                    TempData["user_updated_successfully"] = "No updates were done for " + userId.GivenName + " " + userId.Surname + "'s account.";
+                    TempData["user_updated_successfully"] = "No updates were done for " + user.GivenName + " " + user.Surname + "'s account.";
                 }
 
-                return RedirectToAction("ViewUser", new { userId = userId.SamAccountName });
+                return RedirectToAction("ViewUser", new { user = user.SamAccountName });
             }
 
             return View();
         }
     
-        public ActionResult RenameUser(string userId)
+        public ActionResult RenameUser(string user)
         {
             return View();
         }
@@ -299,18 +297,18 @@ namespace ADWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUser(CreateUserVM userId)
+        public ActionResult CreateUser(CreateUserVM user)
         {
             if(ModelState.IsValid)
             {
                 using(var db = new ADWebDB())
                 {
-                    ADWeb.Core.Models.User newUser = Mapper.Map<User>(userId);
+                    ADWeb.Core.Models.User newUser = Mapper.Map<User>(user);
                     ADDomain domain = new ADDomain();
 
                     // Get User Template Settings so that we can use it to create
                     // the user.
-                    UserTemplate userTemplate = db.UserTemplate.Find(userId.UserTemplateID);
+                    UserTemplate userTemplate = db.UserTemplate.Find(user.UserTemplateID);
                     
                     UserTemplateSettings userTemplateSettings = new UserTemplateSettings();
                     userTemplateSettings.ChangePasswordAtNextLogon = userTemplate.ChangePasswordAtNextLogon;
@@ -347,7 +345,7 @@ namespace ADWeb.Controllers
                     db.SaveChanges();
                     
                     TempData["user_created_successfully"] = newUser.FirstName + " " + newUser.LastName + " has been created successfully!";
-                    return RedirectToAction("ViewUser", new { userId = userId.Username });
+                    return RedirectToAction("ViewUser", new { user = user.Username });
                 }
 
             }

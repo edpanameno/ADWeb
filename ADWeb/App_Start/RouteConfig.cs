@@ -39,8 +39,8 @@ namespace ADWeb
             // is 'Users'
             routes.MapRoute(
                 name: "UsersSection",
-                url: "Users/{action}/{userId}",
-                defaults: new { controller = "Users", action = "Index", userId = UrlParameter.Optional }
+                url: "Users/{action}/{user}",
+                defaults: new { controller = "Users", action = "Index", user = UrlParameter.Optional }
             );
             
             routes.MapRoute(

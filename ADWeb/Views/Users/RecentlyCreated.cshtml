@@ -49,11 +49,11 @@
         @foreach(var user in @Model)
         {
             <tr>
-                <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { userId = @user.SamAccountName})</td>
-                <td>@Html.ActionLink(@user.Surname, "ViewUser", new { userId = @user.SamAccountName})</td>
-                <td>@Html.ActionLink(@user.Title, "ViewUser", new { userId = @user.SamAccountName} )</td>
-                <td>@Html.ActionLink(@user.Department, "ViewUser", new { userId = @user.SamAccountName})</td>
-                <td>@Html.ActionLink(@user.WhenCreated.ToLocalTime().ToString(), "ViewUser", new { userId = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.GivenName, "ViewUser", new { user = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Surname, "ViewUser", new { user = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.Title, "ViewUser", new { user = @user.SamAccountName} )</td>
+                <td>@Html.ActionLink(@user.Department, "ViewUser", new { user = @user.SamAccountName})</td>
+                <td>@Html.ActionLink(@user.WhenCreated.ToLocalTime().ToString(), "ViewUser", new { user = @user.SamAccountName})</td>
             </tr>
         }
     </table>

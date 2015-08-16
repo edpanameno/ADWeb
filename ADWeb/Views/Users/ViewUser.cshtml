@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Users.cshtml";
-    ViewBag.Title = Model.GivenName + " " + Model.Initial + " " + Model.Surname;
+    ViewBag.Title = Model.Surname + ", " + Model.GivenName;
 }
 
 @section headSection {
@@ -84,7 +84,7 @@
     </script>
 }
 
-<h2>@Model.GivenName @Model.Surname</h2>
+<h2>@Model.Surname, @Model.GivenName</h2>
 <p>Click on the tabs below to view the information for this user.</p>
 
 @if(@TempData["user_created_successfully"] != null)

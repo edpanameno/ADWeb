@@ -177,7 +177,7 @@ using ADWeb.Core.Entities;
                     newUser.PhoneNumber = user.PhoneNumber;
                     newUser.Title = user.Title;
                     newUser.Department = user.Department;
-                    newUser.Notes = "created by ADWeb on " + DateTime.Now.ToString();
+                    newUser.Notes = "Created by ADWeb on " + DateTime.Now.ToString();
                     newUser.DisplayName = user.LastName + ", " + user.FirstName + " " + user.Initials;
                     newUser.UserPrincipalName = user.Username + UPNSuffix;
                     newUser.Enabled = true;
