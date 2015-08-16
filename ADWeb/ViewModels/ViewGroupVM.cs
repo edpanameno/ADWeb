@@ -13,7 +13,7 @@ namespace ADWeb.ViewModels
     {
         public ViewGroupVM()
         {
-            Members = new List<ADUserQuickView>();
+            Members = new Dictionary<string, string>();
         }
 
         [Display(Name="Group Name")]
@@ -36,6 +36,6 @@ namespace ADWeb.ViewModels
         /// </summary>
         public int MemberCount { get; set; }
         public string DN { get; set; }
-        public List<ADUserQuickView> Members{ get; set; }
+        public Dictionary<string, string> Members{ get; set; }
     }
 }

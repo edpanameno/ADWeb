@@ -58,8 +58,8 @@ else
                         @foreach(var user in (List<ADUser>)ViewBag.UsersChanged)
                         {
                             <tr>
-                                <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
-                                <td>@Html.ActionLink(@user.Title, "ViewUser", "Users", new { userId = @user.SamAccountName } , null)</td>
+                                <td>@Html.ActionLink(@user.GivenName + " " + @user.Surname, "ViewUser", "Users", new { user = @user.SamAccountName } , null)</td>
+                                <td>@Html.ActionLink(@user.Title, "ViewUser", "Users", new { user = @user.SamAccountName } , null)</td>
                             </tr>
                         }
                     </table>

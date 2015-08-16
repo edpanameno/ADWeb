@@ -10,10 +10,6 @@
         .table-nonfluid {
             width: 50%;
         }
-
-        .disabled {
-            font-style: italic;
-        }
     </style>
 }
 
@@ -77,19 +73,17 @@
         @if(Model.Members.Count > 0)
         {
             <p>Below you will find the <b>@Model.Members.Count.ToString()</b> members of this group.</p>
-            <table class="table table-condensed table-bordered table-hover">
+            <table class="table table-condensed table-bordered table-hover" style="width: 60%">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Users</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach(var user in Model.Members)
                     {
-                        <tr class="@(user.IsEnabled == true ? "enabled" : "disabled")">
-                            <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { user = @user.UserName }, null)</td>
-                            <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { user = @user.UserName }, null)</td>
+                        <tr>
+                            <td>@Html.ActionLink(@user.Value, "ViewUser", "Users", new { user = @user.Key }, null)</td>
                         </tr>
                     }
                 </tbody>

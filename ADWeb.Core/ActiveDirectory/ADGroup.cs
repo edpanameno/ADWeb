@@ -28,6 +28,7 @@ namespace ADWeb.Core.ActiveDirectory
         public string DN { get; set; }
         public string Description { get; set; }
         public int MemberCount { get; set; }
-        public List<ADUserQuickView> Members { get; set; }
+        //public List<ADUserQuickView> Members { get; set; }
+        public Dictionary<string, string> Members { get; set; }
     }
 }

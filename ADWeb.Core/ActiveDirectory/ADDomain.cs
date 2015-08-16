@@ -79,11 +79,6 @@ namespace ADWeb.Core.ActiveDirectory
                 GroupsOU = db.ADSetting.Where(a => a.Name == "groups_ou").Select(a => a.Value).SingleOrDefault();
                 UPNSuffix = db.ADSetting.Where(a => a.Name == "upn_suffix").Select(a => a.Value).SingleOrDefault();
             }
-
-            /*ServerName = WebConfigurationManager.AppSettings["server_name"];
-            TempUsers = WebConfigurationManager.AppSettings["temp_users"];
-            UPNSuffix = WebConfigurationManager.AppSettings["upn_suffix"];
-            GroupsOU = WebConfigurationManager.AppSettings["groups_ou"];*/
            
             // These will be stored in the web.config file for now, may be moved
             // to the database on a later date if deemed necessary.
@@ -346,7 +341,7 @@ namespace ADWeb.Core.ActiveDirectory
                         // make this consistent when creating and editing a group 
                         // object.
                         var info = (DirectoryEntry)grp.GetUnderlyingObject();
-                        string notes = info.Properties["info"].Value.ToString();
+                        string notes = info.Properties["info"].Value == null ? string.Empty : info.Properties["info"].Value.ToString();
                         
                         groups.Add(grp.Name, notes);
                     }
@@ -602,9 +597,18 @@ namespace ADWeb.Core.ActiveDirectory
                 using(GroupPrincipalEx adGroup = GroupPrincipalEx.FindByIdentity(context, groupName))
                 {
                     group.GroupName = adGroup.Name;
-                    group.Description = adGroup.Info;
 
-                    group.Members = new List<ADUserQuickView>();
+                    if(string.IsNullOrWhiteSpace(adGroup.Info))
+                    {
+                        group.Description = "No description for group.";
+                    }
+                    else
+                    {
+                        group.Description = adGroup.Info;
+                    }
+
+                    //group.Members = new List<ADUserQuickView>();
+                    group.Members = new Dictionary<string,string>();
 
                     // We use the OfType<T> method to be able to get more information about
                     // the members of this group. This will give us additional information 
@@ -616,11 +620,13 @@ namespace ADWeb.Core.ActiveDirectory
                     {
                         if(!String.IsNullOrEmpty(user.DisplayName))
                         {
-                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.GivenName, LastName = user.Surname, IsEnabled = user.Enabled } );
+                            //group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.GivenName, LastName = user.Surname, IsEnabled = user.Enabled } );
+                            group.Members.Add(user.SamAccountName, user.DisplayName);
                         }
                         else
                         {
-                            group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.SamAccountName + " (username)", LastName = user.SamAccountName + "(username)", IsEnabled = user.Enabled });
+                            //group.Members.Add(new ADUserQuickView() { UserName = user.SamAccountName, FirstName = user.SamAccountName + " (username)", LastName = user.SamAccountName + "(username)", IsEnabled = user.Enabled });
+                            group.Members.Add(user.SamAccountName, user.SamAccountName);
                         }
                     }
 
