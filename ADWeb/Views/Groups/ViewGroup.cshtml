@@ -88,8 +88,8 @@
                     @foreach(var user in Model.Members)
                     {
                         <tr class="@(user.IsEnabled == true ? "enabled" : "disabled")">
-                            <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { userId = @user.UserName }, null)</td>
-                            <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { userId = @user.UserName }, null)</td>
+                            <td>@Html.ActionLink(@user.FirstName, "ViewUser", "Users", new { user = @user.UserName }, null)</td>
+                            <td>@Html.ActionLink(@user.LastName, "ViewUser", "Users", new { user = @user.UserName }, null)</td>
                         </tr>
                     }
                 </tbody>
