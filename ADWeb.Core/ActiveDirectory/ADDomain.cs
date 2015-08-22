@@ -161,8 +161,15 @@ namespace ADWeb.Core.ActiveDirectory
                             {
                                 if(group != null)
                                 {
-                                    group.Members.Add(newUser);
-                                    group.Save();
+                                    // This is being done to address Github Issue #79. For now we are using
+                                    // the underlying DirectoryEntry object so that the application can be 
+                                    // hosted on a machine that is not part of the domain.
+                                    DirectoryEntry groupDE = (DirectoryEntry)group.GetUnderlyingObject();
+                                    groupDE.Invoke("Add", new object[] { "LDAP://" + ServerName + "/" + newUser.DistinguishedName });
+                                    groupDE.Close();
+                                    
+                                    //group.Members.Add(newUser);
+                                    //group.Save();
                                 }
                             }
                         }
