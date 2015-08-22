@@ -14,6 +14,7 @@ namespace ADWeb.Core.ActiveDirectory
     using ADWeb.Core.DAL;
     using ADWeb.Core.Models;
     using ADWeb.Core.Entities;
+    using System.Collections;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
@@ -288,8 +289,15 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 using(ADUser user = ADUser.FindByIdentity(context, userId))
                 {
-                    foreach(var grp in user.GetAuthorizationGroups())
+                    
+                    var userDirectoryEntry = (DirectoryEntry)user.GetUnderlyingObject();
+                    var userGroups = userDirectoryEntry.Invoke("Groups", null);
+                    DirectoryEntry objGrpEntry = null;
+
+                    foreach(var userGroup in (IEnumerable)userGroups)
                     {
+                        objGrpEntry = new DirectoryEntry(userGroup);
+                        
                         // Note: We are not doing any filtering on groups 
                         // (i.e. we are not filtering out Domain Users 
                         // and other builtin groups). The reason why we
@@ -299,7 +307,7 @@ namespace ADWeb.Core.ActiveDirectory
                         // make sure that we don't try to add the user back 
                         // to this same group. I don't want those nasty error
                         // messages showing up for the users!
-                        groups.Add(grp.Name);
+                        groups.Add(objGrpEntry.Properties["name"].Value.ToString());
                     }
                 }
             }
@@ -328,7 +336,29 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 using(ADUser user = ADUser.FindByIdentity(context, userId))
                 {
-                    foreach(var grp in user.GetAuthorizationGroups())
+                    var userDirectoryEntry = (DirectoryEntry)user.GetUnderlyingObject();
+                    var userGroups = userDirectoryEntry.Invoke("Groups", null);
+                    DirectoryEntry objGrpEntry = null;
+
+                    foreach(var userGroup in (IEnumerable)userGroups)
+                    {
+                        objGrpEntry = new DirectoryEntry(userGroup);
+                        groups.Add(objGrpEntry.Properties["name"].Value.ToString(), 
+                                   objGrpEntry.Properties["info"].Value == null ? string.Empty : objGrpEntry.Properties["info"].Value.ToString());
+                    }
+
+                    // This code is commented out because it will not work in my current
+                    // setup at home where I have my main workstation and a virtual machine
+                    // that hosts a windows 2008 domain controller. Without this code here,
+                    // I would have to update the local network settings on my main computer 
+                    // and add the IP address of the windows 2008 domain controller. I don't 
+                    // want to have to continue doing this and I found the solution in the 
+                    // lines above. If this ever moves to a production environment, then I'll 
+                    // have to uncomment out this code and remove the code above.
+                    // See Issue #79 on the project page of this application in 
+                    // https://github.com/edpanameno/adweb/issues
+
+                    /*foreach(var grp in user.GetAuthorizationGroups())
                     {
                         // We don't want to show the Users and Domain Users groups
                         // to the users of the application.
@@ -344,7 +374,7 @@ namespace ADWeb.Core.ActiveDirectory
                         string notes = info.Properties["info"].Value == null ? string.Empty : info.Properties["info"].Value.ToString();
                         
                         groups.Add(grp.Name, notes);
-                    }
+                    }*/
                 }
             }
 
@@ -694,7 +724,13 @@ namespace ADWeb.Core.ActiveDirectory
                             
                             if(group != null)
                             {
-                                if(!user.IsMemberOf(group))
+                                // Github Issue #79 causes an error when this code runs
+                                // when running on a computer that's not part of the domain.
+                                // To get this to work property, I have to add the IP address
+                                // of the domain controller which I don't want to do. I'll have
+                                // to re-write this part of the application so that it uses 
+                                //if(!user.IsMemberOf(group))
+                                if(!group.GetMembers().Contains(user))
                                 {
                                     group.Members.Add(user);
                                     group.Save();
