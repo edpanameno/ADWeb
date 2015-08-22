@@ -449,7 +449,7 @@ namespace ADWeb.Controllers
             {
                 TempData["invalid_groups"] = @"Invalid Group Names. The group(s) you tried to add are not valid group name. 
                                                Please check the name of the group and try again.";
-                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+                return RedirectToAction("ViewUser", new { user = SamAccountName});
             }
 
             // There is the posibility that a group that the user already belongs
@@ -477,7 +477,7 @@ namespace ADWeb.Controllers
             if(newGroupsToAdd.Count == 0)
             {
                 TempData["no_groups_added"] = "No Groups have been added to this user as the user already is part of the groups submitted.";
-                return RedirectToAction("ViewUser", new { userId = SamAccountName});
+                return RedirectToAction("ViewUser", new { user = SamAccountName});
             }
 
             // At this time we have filtered out the groups so that only 

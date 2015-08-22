@@ -345,7 +345,11 @@ namespace ADWeb.Core.ActiveDirectory
                         objGrpEntry = new DirectoryEntry(userGroup);
                         groups.Add(objGrpEntry.Properties["name"].Value.ToString(), 
                                    objGrpEntry.Properties["info"].Value == null ? string.Empty : objGrpEntry.Properties["info"].Value.ToString());
+
+                        objGrpEntry.Close();
                     }
+
+                    userDirectoryEntry.Close();
 
                     // This code is commented out because it will not work in my current
                     // setup at home where I have my main workstation and a virtual machine
@@ -720,9 +724,31 @@ namespace ADWeb.Core.ActiveDirectory
                     {
                         using(PrincipalContext groupContext = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
                         {
+                            // This is the 'hack' I have implemented to get this application to
+                            // run on a machine that is not part of the domain. We are basically
+                            // bypassing the built in Group objects and relying on the good old
+                            // DirectoryEntry objects to manipulate groups (i.e. adding users if
+                            // needed). This is highly inefficient, but I'll just have to live
+                            // with this for now while I work on this small application. If this
+                            // were ever to go live on a server (or a machine that's on the domain)
+                            // then the code you see below would need to be commented out and uncomment
+                            // out the code where I am uysing a group principal object instead.
+                            //
+                            // See Github Issue #79 for more information on this issue and
+                            // why I have employed this hack to get this application working on
+                            // my machines at home.
                             GroupPrincipal group = GroupPrincipal.FindByIdentity(groupContext, grp);
+                            DirectoryEntry groupDE = (DirectoryEntry)group.GetUnderlyingObject();
+                            var isUserMember = (bool)groupDE.Invoke("IsMember", new object[] { "LDAP://" + ServerName + "/" + user.DistinguishedName });
+
+                            if(!isUserMember)
+                            {
+                                groupDE.Invoke("Add", new object[] { "LDAP://" + ServerName + "/" + user.DistinguishedName });
+                            }
+
+                            groupDE.Close();
                             
-                            if(group != null)
+                            /*if(group != null)
                             {
                                 // Github Issue #79 causes an error when this code runs
                                 // when running on a computer that's not part of the domain.
@@ -735,7 +761,7 @@ namespace ADWeb.Core.ActiveDirectory
                                     group.Members.Add(user);
                                     group.Save();
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
