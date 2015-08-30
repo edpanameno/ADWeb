@@ -563,5 +563,13 @@ namespace ADWeb.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
+    
+        public ActionResult ExpiringUsers()
+        {
+            ADDomain domain = new ADDomain();
+            List<ADUser> users = domain.GetAllUsersWithExpirationDate();
+            
+            return View(users);
+        }
     }
 }

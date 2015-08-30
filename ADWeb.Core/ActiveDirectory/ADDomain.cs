@@ -829,5 +829,32 @@ namespace ADWeb.Core.ActiveDirectory
                 return (group == null);
             }
         }
+    
+        public List<ADUser> GetAllUsersWithExpirationDate()
+        {
+            List<ADUser> users = new List<ADUser>();
+            using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
+            {
+                ADUser userFilter = new ADUser(context);
+
+                // This will get all users that have an expiration date of now or in the
+                // future.
+                userFilter.MyAdvancedFilters.AccountExpirationDate(DateTime.Now, MatchType.GreaterThanOrEquals);
+
+                using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
+                {
+                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
+                    var searchResults = searcher.FindAll().ToList();
+
+                    foreach(Principal user in searchResults)
+                    {
+                        ADUser usr = user as ADUser;
+                        users.Add(usr);
+                    }
+                }
+            }
+
+            return users;
+        }
     }
 }
