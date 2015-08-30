@@ -12,7 +12,7 @@ namespace ADWeb.Controllers
     using ADWeb.Core.ActiveDirectory;
     using ADWeb.Core.Models;
 
-    [Authorize]
+    [Authorize(Roles="ADWeb_Users")]
     public class GroupsController : Controller
     {
         public ActionResult Index()

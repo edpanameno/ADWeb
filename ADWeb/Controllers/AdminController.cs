@@ -14,7 +14,7 @@ namespace ADWeb.Controllers
     using ADWeb.Core.Entities;
     using ADWeb.Core.ActiveDirectory;
 
-    [Authorize]
+    [Authorize(Roles="ADWeb_Users")]
     public class AdminController : Controller
     {
         public ActionResult Index()
