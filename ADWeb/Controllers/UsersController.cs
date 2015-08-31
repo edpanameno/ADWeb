@@ -564,7 +564,7 @@ namespace ADWeb.Controllers
             }
         }
     
-        public ActionResult ExpiringUsers()
+        public ActionResult ExpiredUsers()
         {
             ADDomain domain = new ADDomain();
             List<ADUser> users = domain.GetAllUsersWithExpirationDate();

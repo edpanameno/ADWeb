@@ -494,7 +494,7 @@
     <Content Include="Views\Admin\UserTemplates.cshtml" />
     <Content Include="Views\Admin\CreateUserTemplate.cshtml" />
     <Content Include="Views\Admin\ViewUserTemplate.cshtml" />
-    <Content Include="Views\Users\ExpiringUsers.cshtml" />
+    <Content Include="Views\Users\ExpiredUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

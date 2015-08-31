@@ -1,19 +1,26 @@
 ﻿@model IEnumerable<ADWeb.Core.ActiveDirectory.ADUser>
 
 @{
-    ViewBag.Title = "ExpiringUsers";
+    ViewBag.Title = "Expired Users";
     Layout = "~/Views/Shared/_Users.cshtml";
 }
 
-<h3>Expiring Users</h3>
-<p>Below you will find the list of users who will be expiring in the domain.</p>
+@section head {
+    <style type="text/css">
 
-<table class="table table-condensed table-hover">
+    </style>
+}
+
+<h3>Expired Users</h3>
+<p>Below you will find the domain users who have expired.</p>
+
+<table class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
             <th>Name</th>
             <th>Title</th>
             <th>Department</th>
+            <th>Expiration Date</th>
         </tr>
     </thead>
     @foreach(var user in @Model)
@@ -22,6 +29,7 @@
             <td>@Html.ActionLink(@user.Surname + ", " + @user.GivenName, "ViewUser", new { user = @user.SamAccountName })</td>
             <td>@Html.ActionLink(@user.Title, "ViewUser", new { user = @user.SamAccountName })</td>
             <td>@Html.ActionLink(@user.Department, "ViewUser", new { user = @user.SamAccountName })</td>
+            <td>@Html.ActionLink(@user.AccountExpirationDate.ToString(), "ViewUser", new { user = @user.SamAccountName })</td@(if>
         </tr>
     }
 </table>

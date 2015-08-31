@@ -833,14 +833,13 @@ namespace ADWeb.Core.ActiveDirectory
         public List<ADUser> GetAllUsersWithExpirationDate()
         {
             List<ADUser> users = new List<ADUser>();
+
+            // Note: we are searching all of the users in the domain which is why
+            // we are searching from the RootDSE.
             using(PrincipalContext context = new PrincipalContext(ContextType.Domain, ServerName, null, ContextOptions.Negotiate, ServiceUser, ServicePassword))
             {
                 ADUser userFilter = new ADUser(context);
-
-                // This will get all users that have an expiration date of now or in the
-                // future.
-                userFilter.MyAdvancedFilters.AccountExpirationDate(DateTime.Now, MatchType.GreaterThanOrEquals);
-
+                
                 using(PrincipalSearcher searcher = new PrincipalSearcher(userFilter))
                 {
                     ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = 1000;
@@ -849,12 +848,15 @@ namespace ADWeb.Core.ActiveDirectory
                     foreach(Principal user in searchResults)
                     {
                         ADUser usr = user as ADUser;
-                        users.Add(usr);
+                        if(usr.AccountExpirationDate.HasValue)
+                        {
+                            users.Add(usr);
+                        }
                     }
                 }
-            }
 
-            return users;
+                return users;
+            }
         }
     }
 }

@@ -37,5 +37,11 @@ namespace ADWeb.Core.ActiveDirectory
             var formattedDateTime = date.ToString("yyyyMMddHHmmss.0Z");
             AdvancedFilterSet("whenCreated", formattedDateTime, typeof(string), matchType);
         }
+
+        public void UserWithExpirationDate()
+        {
+            var formattedDateTime = DateTime.Now.ToString("yyyyMMddHHmmss.0Z");
+            AdvancedFilterSet("accountExpires", formattedDateTime, typeof(DateTime), MatchType.LessThan);
+        }
     }
 }
