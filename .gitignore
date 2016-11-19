@@ -186,3 +186,5 @@ FakesAssemblies/
 # Entity Framework
 Migrations/
 
+# VS2015 folder
+*.vs
