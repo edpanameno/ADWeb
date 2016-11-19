@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 
@@ -10,7 +8,6 @@ namespace ADWeb.Controllers
     using AutoMapper;
     using ADWeb.Core.DAL;
     using ADWeb.ViewModels;
-    using ADWeb.Core.Models;
     using ADWeb.Core.Entities;
     using ADWeb.Core.ActiveDirectory;
 
@@ -341,7 +338,7 @@ namespace ADWeb.Controllers
         {
             using(var db =  new ADWebDB())
             {
-                UserTemplateGroup group = db.UserTemplateGroup.Find(Int32.Parse(groupID));
+                UserTemplateGroup group = db.UserTemplateGroup.Find(int.Parse(groupID));
                 if(group != null)
                 {
                     group.Enabled = false;
