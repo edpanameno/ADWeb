@@ -59,7 +59,8 @@ namespace ADWeb.Controllers
                 }
             }
 
-            return View();        }
+            return View();
+        }
 
         public ActionResult LogOff()
         {

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
 using System.Web.Configuration;
-using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 namespace ADWeb.Core.ActiveDirectory
 {
     using ADWeb.Core.DAL;
-    using ADWeb.Core.Models;
     using ADWeb.Core.Entities;
-    using System.Collections;
+    using ADWeb.Core.Models;
 
     /// <summary>
     /// Fields that can be used when searching for users. 
@@ -296,7 +293,6 @@ namespace ADWeb.Core.ActiveDirectory
             {
                 using(ADUser user = ADUser.FindByIdentity(context, userId))
                 {
-                    
                     var userDirectoryEntry = (DirectoryEntry)user.GetUnderlyingObject();
                     var userGroups = userDirectoryEntry.Invoke("Groups", null);
                     DirectoryEntry objGrpEntry = null;
