@@ -301,6 +301,26 @@ namespace ADWeb.Core.ActiveDirectory
             }
         }
 
+        [DirectoryProperty("cn")]
+        public string CN
+        {
+            get
+            {
+                if(ExtensionGet("cn").Length != 1)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (string)ExtensionGet("cn")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("cn", value);
+            }
+        }
+
         // The new keyword here hides the static method FindByIdentity of 
         // the UserPrincipal class.
         public static new ADUser FindByIdentity(PrincipalContext context, string identityValue)

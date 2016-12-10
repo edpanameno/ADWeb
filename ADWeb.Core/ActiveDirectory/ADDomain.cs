@@ -99,7 +99,8 @@ namespace ADWeb.Core.ActiveDirectory
                     newUser.Title = user.Title;
                     newUser.Department = user.Department;
                     newUser.Notes = "Created by ADWeb on " + DateTime.Now.ToString() + ".";
-                    newUser.DisplayName = user.LastName + ", " + user.FirstName + " " + user.Initials;
+                    newUser.DisplayName = user.LastName + ", " + user.FirstName;
+                    newUser.CN = user.LastName + ", " + user.FirstName;
                     newUser.UserPrincipalName = user.Username + UPNSuffix;
                     newUser.Enabled = true;
 
