@@ -34,7 +34,7 @@ namespace ADWeb.Core.Migrations
 
             context.ADSetting.AddOrUpdate(
                 a => a.Name,
-                new ADSetting { Name = "server_name", Value = "192.168.1.108 " },
+                new ADSetting { Name = "server_name", Value = "dc01" },
                 new ADSetting { Name = "temp_users", Value = "OU=Temp-Users,OU=Account - Resources,DC=test,DC=local" },
                 new ADSetting { Name = "groups_ou", Value = "OU=Groups,OU=Account - Resources,DC=test,DC=local" },
                 new ADSetting { Name = "upn_suffix", Value = "@test.local" }

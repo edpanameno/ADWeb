@@ -66,6 +66,10 @@
     <Compile Include="Entities\UserTemplate.cs" />
     <Compile Include="Entities\UserTemplateGroup.cs" />
     <Compile Include="Entities\UserUpdateHistory.cs" />
+    <Compile Include="Migrations\201612101705208_init-db.cs" />
+    <Compile Include="Migrations\201612101705208_init-db.Designer.cs">
+      <DependentUpon>201612101705208_init-db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\User.cs" />
@@ -75,6 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612101705208_init-db.resx">
+      <DependentUpon>201612101705208_init-db.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

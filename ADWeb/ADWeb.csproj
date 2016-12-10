@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -495,6 +496,7 @@
     <Content Include="Views\Admin\CreateUserTemplate.cshtml" />
     <Content Include="Views\Admin\ViewUserTemplate.cshtml" />
     <Content Include="Views\Users\ExpiredUsers.cshtml" />
+    <None Include="Properties\PublishProfiles\TestDeploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
