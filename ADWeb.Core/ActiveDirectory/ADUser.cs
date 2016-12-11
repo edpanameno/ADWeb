@@ -302,7 +302,7 @@ namespace ADWeb.Core.ActiveDirectory
         }
 
         [DirectoryProperty("cn")]
-        public string CN
+        public string CommonName 
         {
             get
             {
@@ -318,6 +318,26 @@ namespace ADWeb.Core.ActiveDirectory
             set
             {
                 ExtensionSet("cn", value);
+            }
+        }
+
+        [DirectoryProperty("name")]
+        public string Name 
+        {
+            get
+            {
+                if(ExtensionGet("name").Length != 1)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (string)ExtensionGet("name")[0];
+                }
+            }
+            set
+            {
+                ExtensionSet("name", value);
             }
         }
 
