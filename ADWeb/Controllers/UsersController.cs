@@ -33,28 +33,29 @@ namespace ADWeb.Controllers
             
             if(userInfo != null)
             {
-                UserViewModel viewModel = new UserViewModel();
-                viewModel.SamAccountName = userInfo.SamAccountName;
-                viewModel.GivenName = userInfo.GivenName;
-                viewModel.MiddleName = userInfo.MiddleName;
-                viewModel.Surname = userInfo.Surname;
-                viewModel.DisplayName = userInfo.DisplayName;
-                viewModel.EmailAddress = userInfo.EmailAddress;
-                viewModel.Title = userInfo.Title;
-                viewModel.Department = userInfo.Department;
-                viewModel.PhoneNumber = userInfo.PhoneNumber;
-                viewModel.Company = userInfo.Company;
-                viewModel.Notes = userInfo.Notes;
-                viewModel.Enabled = userInfo.Enabled;
-                viewModel.ExpirationDate = userInfo.AccountExpirationDate;
+                // this is a good candidate to use Automapper on!
+                UserViewModel userInfoVM = new UserViewModel();
+                userInfoVM.SamAccountName = userInfo.SamAccountName;
+                userInfoVM.GivenName = userInfo.GivenName;
+                userInfoVM.MiddleName = userInfo.MiddleName;
+                userInfoVM.Surname = userInfo.Surname;
+                userInfoVM.DisplayName = userInfo.DisplayName;
+                userInfoVM.EmailAddress = userInfo.EmailAddress;
+                userInfoVM.Title = userInfo.Title;
+                userInfoVM.Department = userInfo.Department;
+                userInfoVM.PhoneNumber = userInfo.PhoneNumber;
+                userInfoVM.Company = userInfo.Company;
+                userInfoVM.Notes = userInfo.Notes;
+                userInfoVM.Enabled = userInfo.Enabled;
+                userInfoVM.ExpirationDate = userInfo.AccountExpirationDate;
                 
                 // We are not using the WhenCreated field form the DomainUser
                 // table in the database because each user object in the domain
                 // should have a value for this property.
-                viewModel.WhenCreated = userInfo.WhenCreated;
+                userInfoVM.WhenCreated = userInfo.WhenCreated;
                 
-                viewModel.WhenChanged = userInfo.WhenChanged.ToLocalTime();
-                viewModel.LogonCount = userInfo.LogonCount.ToString();
+                userInfoVM.WhenChanged = userInfo.WhenChanged.ToLocalTime();
+                userInfoVM.LogonCount = userInfo.LogonCount.ToString();
 
                 using(var db = new ADWebDB())
                 {
@@ -66,20 +67,20 @@ namespace ADWeb.Controllers
                         // currently being viewed is was created inside of the application and
                         // thus has an entry in the DomainUsers table.
                         var domainUser = domain.GetUserByID(userDbInfo.CreatedBy);
-                        viewModel.DBInfo.Createdby = userDbInfo.CreatedBy;
-                        viewModel.DBInfo.WhenCreated = userDbInfo.DateCreated;
-                        viewModel.UserHistory = userDbInfo.UpdateHistory.OrderByDescending(u => u.DateUpdated).ToList();
+                        userInfoVM.DBInfo.Createdby = userDbInfo.CreatedBy;
+                        userInfoVM.DBInfo.WhenCreated = userDbInfo.DateCreated;
+                        userInfoVM.UserHistory = userDbInfo.UpdateHistory.OrderByDescending(u => u.DateUpdated).ToList();
                     }
                     else
                     {
-                        viewModel.DBInfo.Createdby = "Unknown";
+                        userInfoVM.DBInfo.Createdby = "Unknown";
                     }
                 }
                 
-                viewModel.UserGroups = domain.GetUserGroupsByUserId(user);
+                userInfoVM.UserGroups = domain.GetUserGroupsByUserId(user);
 
                 userInfo.Dispose();
-                return View(viewModel);
+                return View(userInfoVM);
             }
 
             return View();

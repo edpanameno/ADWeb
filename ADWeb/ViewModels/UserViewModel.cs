@@ -68,7 +68,7 @@ namespace ADWeb.ViewModels
 
     /// <summary>
     /// This class will be used to store information about the user
-    /// that is stored in the database.
+    /// that is stored in the database and not in the database
     /// </summary>
     public class UserDBInfo
     {
