@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Text;
+using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace ADWeb.Controllers
 {
@@ -21,7 +20,12 @@ namespace ADWeb.Controllers
         {
             ADDomain domain = new ADDomain();
             ViewUsersVM users = new ViewUsersVM();
-            users.RecentlyCreated = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7)).Take(10).ToList();
+            
+            // by default, we will take up to 10 of the recently created users
+            // should this be a db setting?
+            users.RecentlyCreated = domain.GetUsersByCriteria(AdvancedSearchFilter.DateCreated, DateTime.Now.AddDays(-7))
+                                          .Take(10)
+                                          .ToList();
 
             return View(users);
         }
@@ -33,7 +37,7 @@ namespace ADWeb.Controllers
             
             if(userInfo != null)
             {
-                // this is a good candidate to use Automapper on!
+                // This is a good candidate to use Automapper on!
                 UserViewModel userInfoVM = new UserViewModel();
                 userInfoVM.SamAccountName = userInfo.SamAccountName;
                 userInfoVM.GivenName = userInfo.GivenName;
@@ -64,7 +68,7 @@ namespace ADWeb.Controllers
                     if(userDbInfo != null)
                     {
                         // If this part of the code is reached, then it means that the user
-                        // currently being viewed is was created inside of the application and
+                        // currently being viewed is was created outside of the application and
                         // thus has an entry in the DomainUsers table.
                         var domainUser = domain.GetUserByID(userDbInfo.CreatedBy);
                         userInfoVM.DBInfo.Createdby = userDbInfo.CreatedBy;
@@ -184,7 +188,7 @@ namespace ADWeb.Controllers
                 // There is a possiblity that a user may accidentally hit the update
                 // button but nothing has changed in the user's information. If this
                 // happens, we don't want anything to be written to the database. The
-                // following if condition checks for this scenario.
+                // following condition checks for this scenario.
                 if(userInfoUpdate)
                 {
                     using(var db = new ADWebDB())
@@ -284,7 +288,11 @@ namespace ADWeb.Controllers
             {
                 List<SelectListItem> userTemplates = new List<SelectListItem>();
                 
-                var templates = db.UserTemplate.Where(u => u.Enabled).ToList();
+                var templates = db.UserTemplate
+                                  .AsNoTracking()
+                                  .Where(u => u.Enabled)
+                                  .ToList();
+
                 foreach(var template in templates)
                 {
                     userTemplates.Add(new SelectListItem() { Value = template.UserTemplateID.ToString(), Text = template.Name});
@@ -309,7 +317,8 @@ namespace ADWeb.Controllers
 
                     // Get User Template Settings so that we can use it to create
                     // the user.
-                    UserTemplate userTemplate = db.UserTemplate.Find(user.UserTemplateID);
+                    UserTemplate userTemplate = db.UserTemplate
+                                                  .Find(user.UserTemplateID);
                     
                     UserTemplateSettings userTemplateSettings = new UserTemplateSettings();
                     userTemplateSettings.ChangePasswordAtNextLogon = userTemplate.ChangePasswordAtNextLogon;
@@ -371,8 +380,7 @@ namespace ADWeb.Controllers
             {
                 if(i == 14)
                 {
-                    // We are selecting the default number of days to 
-                    // look for users recently created.
+                    // We are selecting the default number of days to look for users recently created
                     days.Add(new SelectListItem() { Text = i.ToString() + " days", Value = i.ToString(), Selected = true });
                 }
                 else
